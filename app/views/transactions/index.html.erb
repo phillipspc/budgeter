@@ -1,8 +1,9 @@
 <section class="section">
   <div class="container">
-    <div class="content">
-      <h1 class="title">Transactions</h1>
-    </div>
+    <h1 class="title">
+      Transactions
+      <%= link_to "New Transaction", new_transaction_path, class: "button is-link is-pulled-right" %>
+    </h1>
 
     <table class="table is-fullwidth is-hoverable is-striped is-narrow">
       <thead>
@@ -12,6 +13,8 @@
           <th>Amount</th>
           <th>Category</th>
           <th>SubCategory</th>
+          <th>Date</th>
+          <th class="has-text-centered">Actions</th>
         </tr>
       </thead>
 
@@ -23,6 +26,22 @@
             <td><%= transaction.amount %></td>
             <td><%= transaction.category.name %></td>
             <td><%= transaction.sub_category&.name %></td>
+            <td><%= transaction.date %></td>
+            <td class="has-text-centered">
+              <%= link_to edit_transaction_path(transaction) do %>
+                <span class="icon">
+                  <i class="far fa-edit"></i>
+                </span>
+              <% end %>
+              <%= link_to transaction_path(transaction), method: :delete, data: {
+                    controller: "link", action: "link#confirm",
+                    "link-confirm-message" => "Are you sure you wish to delete this transaction?"
+                  } do %>
+                <span class="icon">
+                  <i class="far fa-trash-alt"></i>
+                </span>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>
