@@ -18,9 +18,18 @@
       <div class="control">
         <%= f.label :category_id, class: 'label' %>
         <div class="select is-fullwidth">
-          <%= f.select :category_id, Category.all.pluck(:name, :id) %>
+          <%= f.select :category_id, Category.all.pluck(:name, :id), include_blank: true %>
         </div>
       </div>
+    </div>
+
+    <div class="field column">
+      <div class="control">
+        <%= f.label :date, class: "label" %>
+        <%= f.text_field :date, class: "input", value: Date.today,
+              data: { controller: "datepicker" } %>
+      </div>
+
     </div>
   </div>
 
