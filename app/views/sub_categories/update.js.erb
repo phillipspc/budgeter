@@ -1,9 +1,7 @@
 (function() {
   document.querySelector("[data-container-for='modal'] .modal").classList.remove("is-active")
 
-  let rowCount = document.querySelectorAll(".table[data-category-id='<%= @category.id %>'] tbody tr").length
-  console.log(rowCount);
-  let row = document.querySelector(".table[data-category-id='<%= @category.id %>'] tbody").insertRow(rowCount - 1)
+  let row = document.querySelector(".table[data-category-id='<%= @category.id %>'] tbody tr[data-sub-category-id='<%= @sub_category.id %>']")
   row.innerHTML = "<%= j render 'sub_category', category: @category, sub_category: @sub_category %>"
 })()
 
