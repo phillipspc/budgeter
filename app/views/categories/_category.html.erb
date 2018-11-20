@@ -1,0 +1,42 @@
+<table class="table is-fullwidth m-b-lg">
+  <thead>
+    <tr class="has-hoverable-actions">
+      <th><%= category.name %></th>
+      <th class="has-text-centered">
+        <%= link_to edit_category_path(category), remote: true,
+              class: "hoverable-action" do %>
+          <span class="icon">
+            <i class="far fa-edit"></i>
+          </span>
+        <% end %>
+        <%= link_to category_path(category),
+              method: :delete, remote: true, class: "hoverable-action",
+              data: { controller: "link", action: "link#confirm",
+                      "link-confirm-message" => "Are you sure you wish to delete this Category?" } do %>
+          <span class="icon">
+            <i class="far fa-trash-alt"></i>
+          </span>
+        <% end %>
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% category.sub_categories.each do |sub_category| %>
+      <%= render sub_category %>
+    <% end %>
+
+    <tr>
+      <td>
+        <%= link_to new_category_sub_category_path(category),
+              class: "button is-link is-small", remote: true do %>
+          <span class="icon">
+            <i class="fas fa-plus"></i>
+          </span>
+          <span>New Sub Category</span>
+        <% end %>
+      </td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>

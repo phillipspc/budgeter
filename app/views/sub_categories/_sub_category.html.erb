@@ -1,13 +1,14 @@
-<tr data-sub-category-id="<%= sub_category.id%>">
+<tr data-sub-category-id="<%= sub_category.id%>" class="has-hoverable-actions">
   <td><%= sub_category.name %></td>
   <td class="has-text-centered">
-    <%= link_to edit_category_sub_category_path(category, sub_category), remote: true do %>
+    <%= link_to edit_category_sub_category_path(sub_category.category, sub_category), remote: true,
+          class: "hoverable-action" do %>
       <span class="icon">
         <i class="far fa-edit"></i>
       </span>
     <% end %>
-    <%= link_to category_sub_category_path(category, sub_category),
-          method: :delete, remote: true,
+    <%= link_to category_sub_category_path(sub_category.category, sub_category),
+          method: :delete, remote: true, class: "hoverable-action",
           data: { controller: "link", action: "link#confirm",
                   "link-confirm-message" => "Are you sure you wish to delete this Sub Category?" } do %>
       <span class="icon">

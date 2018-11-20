@@ -1,0 +1,8 @@
+(function() {
+  <% if @category_id %>
+    let div = document.querySelector("[data-category-id='<%= @category_id %>']")
+    div.parentNode.removeChild(div)
+  <% end %>
+})()
+
+<%= render 'application/flash_messages', format: :js %>

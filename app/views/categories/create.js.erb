@@ -1,0 +1,14 @@
+(function() {
+  document.querySelector("[data-container-for='modal'] .modal").classList.remove("is-active")
+
+  let newCategory = document.createElement("div")
+  newCategory.dataset["categoryId"] = "<%= @category.id %>"
+
+  let referenceNode = document.querySelector("[data-category-id]:last-child")
+  referenceNode.parentNode.insertBefore(newCategory, referenceNode.nextSibling)
+
+  newCategory.innerHTML = "<%= j render @category %>"
+})()
+
+
+<%= render 'application/flash_messages', format: :js %>

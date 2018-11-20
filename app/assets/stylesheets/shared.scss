@@ -1,0 +1,8 @@
+tr.has-hoverable-actions {
+  .hoverable-action {
+    visibility: hidden;
+  }
+  &:hover .hoverable-action {
+    visibility: visible;
+  }
+}

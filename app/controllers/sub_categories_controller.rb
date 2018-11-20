@@ -32,7 +32,7 @@ class SubCategoriesController < ApplicationController
     sub_category = category.sub_categories.where(id: params[:id]).first
     @sub_category_id = sub_category&.id
     unless sub_category && sub_category.destroy
-      flash.now[:alert] = "Unable to delete the requrested Sub Category"
+      flash.now[:alert] = "Unable to delete the requested Sub Category"
     end
   end
 
