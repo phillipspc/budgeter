@@ -1,9 +1,8 @@
 (function() {
   document.querySelector("[data-container-for='modal'] .modal").classList.remove("is-active")
 
-  let row = document.querySelector(".table[data-category-id='<%= @category.id %>'] tbody tr[data-sub-category-id='<%= @sub_category.id %>']")
+  let row = document.querySelector("tr[data-sub-category-id='<%= @sub_category.id %>']")
   row.innerHTML = "<%= j render 'sub_category', category: @category, sub_category: @sub_category %>"
 })()
-
 
 <%= render 'application/flash_messages', format: :js %>
