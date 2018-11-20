@@ -1,42 +1,54 @@
-<table class="table is-fullwidth m-b-lg">
-  <thead>
-    <tr class="has-hoverable-actions">
-      <th><%= category.name %></th>
-      <th class="has-text-centered">
-        <%= link_to edit_category_path(category), remote: true,
-              class: "hoverable-action" do %>
-          <span class="icon">
-            <i class="far fa-edit"></i>
-          </span>
-        <% end %>
-        <%= link_to category_path(category),
-              method: :delete, remote: true, class: "hoverable-action",
-              data: { controller: "link", action: "link#confirm",
-                      "link-confirm-message" => "Are you sure you wish to delete this Category?" } do %>
-          <span class="icon">
-            <i class="far fa-trash-alt"></i>
-          </span>
-        <% end %>
-      </th>
-    </tr>
-  </thead>
+<thead>
+  <tr class="has-hoverable-actions">
+    <th>
+      <span data-action="click->accordion#toggle" class="is-clickable"><%= category.name %></span>
+    </th>
+    <th class="has-text-right">
+      <%= link_to edit_category_path(category), remote: true,
+            class: "hoverable-action" do %>
+        <span class="icon">
+          <i class="far fa-edit"></i>
+        </span>
+      <% end %>
+      <%= link_to category_path(category),
+            method: :delete, remote: true, class: "hoverable-action",
+            data: { controller: "link", action: "link#confirm",
+                    "link-confirm-message" => "Are you sure you wish to delete this Category?" } do %>
+        <span class="icon">
+          <i class="far fa-trash-alt"></i>
+        </span>
+      <% end %>
 
-  <tbody>
-    <% category.sub_categories.each do |sub_category| %>
+      <span class="icon is-clickable has-text-link" data-action="click->accordion#toggle" data-target="accordion.icon">
+        <% if local_assigns[:first] %>
+          <i class="fas fa-angle-down"></i>
+        <% else %>
+          <i class="fas fa-angle-up"></i>
+        <% end %>
+      </span>
+    </th>
+  </tr>
+</thead>
+
+<% is_collapsed = local_assigns[:collapsed].nil? ? true : local_assigns[:collapsed] %>
+
+<tbody class="<%= 'collapsed' if is_collapsed %>" data-target="accordion.content">
+  <% category.sub_categories.each do |sub_category| %>
+    <tr data-sub-category-id="<%= sub_category.id %>" class="has-hoverable-actions">
       <%= render sub_category %>
-    <% end %>
-
-    <tr>
-      <td>
-        <%= link_to new_category_sub_category_path(category),
-              class: "button is-link is-small", remote: true do %>
-          <span class="icon">
-            <i class="fas fa-plus"></i>
-          </span>
-          <span>New Sub Category</span>
-        <% end %>
-      </td>
-      <td></td>
     </tr>
-  </tbody>
-</table>
+  <% end %>
+
+  <tr>
+    <td>
+      <%= link_to new_category_sub_category_path(category),
+            class: "button is-link is-small", remote: true do %>
+        <span class="icon">
+          <i class="fas fa-plus"></i>
+        </span>
+        <span>New Sub Category</span>
+      <% end %>
+    </td>
+    <td></td>
+  </tr>
+</tbody>

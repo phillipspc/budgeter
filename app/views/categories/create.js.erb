@@ -1,10 +1,12 @@
 (function() {
   document.querySelector("[data-container-for='modal'] .modal").classList.remove("is-active")
 
-  let newCategory = document.createElement("div")
+  let newCategory = document.createElement("table")
   newCategory.dataset["categoryId"] = "<%= @category.id %>"
+  newCategory.dataset["controller"] = "accordion"
+  newCategory.classList.add("table", "is-hoverable", "is-fullwidth", "m-b-lg")
 
-  let referenceNode = document.querySelector("[data-category-id]:last-child")
+  let referenceNode = document.querySelector("table[data-category-id]:last-child")
   referenceNode.parentNode.insertBefore(newCategory, referenceNode.nextSibling)
 
   newCategory.innerHTML = "<%= j render @category %>"

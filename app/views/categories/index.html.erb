@@ -5,15 +5,13 @@
       <%= link_to "New Category", new_category_path, class: "button is-link is-pulled-right", remote: true %>
     </h1>
 
-    <div class="columns">
-      <div class="column is-6 is-offset-3">
-        <% @categories.each do |category| %>
-          <div data-category-id="<%= category.id %>">
-            <%= render category %>
-          </div>
-        <% end %>
-      </div>
-    </div>
+    <% @categories.each_with_index do |category, i| %>
+      <table class="table is-hoverable is-fullwidth m-b-lg" data-controller="accordion"
+        data-category-id="<%= category.id %>">
+        <%= render category, collapsed: (i != 0) %>
+      </table>
+    <% end %>
+
   </div>
 </section>
 

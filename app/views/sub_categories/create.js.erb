@@ -1,10 +1,13 @@
 (function() {
   document.querySelector("[data-container-for='modal'] .modal").classList.remove("is-active")
 
-  let rowCount = document.querySelectorAll(".table[data-category-id='<%= @category.id %>'] tbody tr").length
-  console.log(rowCount);
-  let row = document.querySelector(".table[data-category-id='<%= @category.id %>'] tbody").insertRow(rowCount - 1)
-  row.innerHTML = "<%= j render @sub_category  %>"
+  let newSubCategory = document.createElement("tr")
+  newSubCategory.dataset["subCategoryId"] = "<%= @sub_category.id %>"
+
+  let referenceNode = document.querySelector("[data-category-id='<%= @category.id %>'] tbody tr:last-child")
+  referenceNode.parentNode.insertBefore(newSubCategory, referenceNode)
+
+  newSubCategory.innerHTML = "<%= j render @sub_category %>"
 })()
 
 

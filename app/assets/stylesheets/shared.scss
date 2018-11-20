@@ -6,3 +6,15 @@ tr.has-hoverable-actions {
     visibility: visible;
   }
 }
+
+tbody.collapsed {
+  display: none;
+}
+
+.is-clickable {
+  cursor: pointer;
+}
+
+.indented {
+  margin-right: 28px;
+}
