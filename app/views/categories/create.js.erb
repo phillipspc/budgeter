@@ -9,7 +9,7 @@
   let referenceNode = document.querySelector("table[data-category-id]:last-child")
   referenceNode.parentNode.insertBefore(newCategory, referenceNode.nextSibling)
 
-  newCategory.innerHTML = "<%= j render @category %>"
+  newCategory.innerHTML = "<%= j render @category, collapsed: false %>"
 })()
 
 
