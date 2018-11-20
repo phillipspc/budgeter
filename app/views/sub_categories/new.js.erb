@@ -1,0 +1,4 @@
+document.querySelector("[data-container-for='modal']").
+  innerHTML = "<%= j render 'modal', category: @category, sub_category: @sub_category %>"
+
+document.querySelector("[data-container-for='modal'] .modal").classList.add("is-active")

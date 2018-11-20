@@ -1,0 +1,14 @@
+<% flash.each do |key, value| %>
+  <div data-controller='flash' data-flash-type='<%= key %>'>
+    <div data-target='flash.message'>
+      <div class="notices is-top">
+        <div class="snackbar is-top" data-target='flash.style'>
+          <%= simple_format(value, class: 'text') %>
+          <div class="action" data-target='flash.style'>
+            <button class="button is-dark is-size-6" data-action="flash#close">close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

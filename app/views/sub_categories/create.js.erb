@@ -1,0 +1,5 @@
+document.querySelector("[data-container-for='modal'] .modal").classList.remove("is-active")
+
+document.querySelector(".table[data-category-id='<%= @category.id %>']").classList.add("has-text-red")
+
+<%= render 'application/flash_messages', format: :js %>

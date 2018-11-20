@@ -14,11 +14,11 @@
               <td><%= sub_category.name %></td>
             </tr>
           <% end %>
-          
+
           <tr>
             <td>
               <%= link_to new_category_sub_category_path(category),
-                    class: "button is-link is-small" do %>
+                    class: "button is-link is-small", remote: true do %>
                 <span class="icon">
                   <i class="fas fa-plus"></i>
                 </span>
@@ -32,3 +32,5 @@
     <% end %>
   </div>
 </section>
+
+<div data-container-for='modal'></div>
