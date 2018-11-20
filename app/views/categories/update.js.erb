@@ -1,0 +1,12 @@
+(function() {
+  document.querySelector("[data-container-for='modal'] .modal").classList.remove("is-active")
+
+  const div = document.querySelector("[data-category-id='<%= @category.id %>']")
+  if (div.querySelector("tbody.collapsed")) {
+    div.innerHTML = "<%= j render @category, collapsed: true %>"
+  } else {
+    div.innerHTML = "<%= j render @category, collapsed: false %>"
+  }
+})()
+
+<%= render 'application/flash_messages', format: :js %>

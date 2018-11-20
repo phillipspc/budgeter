@@ -1,0 +1,20 @@
+tr.has-hoverable-actions {
+  .hoverable-action {
+    visibility: hidden;
+  }
+  &:hover .hoverable-action {
+    visibility: visible;
+  }
+}
+
+tbody.collapsed {
+  display: none;
+}
+
+.is-clickable {
+  cursor: pointer;
+}
+
+.indented {
+  margin-right: 28px;
+}

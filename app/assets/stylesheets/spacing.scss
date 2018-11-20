@@ -1,0 +1,51 @@
+// spacing helper, stolen from https://github.com/jgthms/bulma/issues/451
+// generates classes like
+//   .m-t-sm { margin-top: 0.5rem; }
+//   .p-l-xl { padding-left: 4rem; }
+
+$sizes: (
+  ("none", 0),
+  ("xxs", 0.125),
+  ("xs", 0.25),
+  ("sm", 0.5),
+  ("threefourths", 0.75),
+  ("md", 1),
+  ("lg", 2),
+  ("xl", 4),
+  ("xxl", 8)
+);
+$positions: (("t", "top"), ("r", "right"), ("b", "bottom"), ("l", "left"));
+
+@function sizeValue($key, $value) {
+  @return if($key == "none", 0, $value + rem);
+}
+
+@each $size in $sizes {
+  $sizeKey: nth($size, 1);
+  $sizeValue: nth($size, 2);
+  .m-#{$sizeKey} {
+    margin: sizeValue($sizeKey, $sizeValue);
+  }
+  .p-#{$sizeKey} {
+    padding: sizeValue($sizeKey, $sizeValue);
+  }
+  @each $position in $positions {
+    $posKey: nth($position, 1);
+    $posValue: nth($position, 2);
+    .m-#{$posKey}-#{$sizeKey} {
+      margin-#{$posValue}: sizeValue($sizeKey, $sizeValue) !important;
+    }
+    .p-#{$posKey}-#{$sizeKey} {
+      padding-#{$posValue}: sizeValue($sizeKey, $sizeValue) !important;
+    }
+  }
+}
+
+// Adds a border helper for top/bottom/left/right borders.
+@each $position in $positions {
+  $posKey: nth($position, 1);
+  $posValue: nth($position, 2);
+  .border-#{$posKey} {
+    border-#{$posValue}: 1px solid $dark;
+  }
+}

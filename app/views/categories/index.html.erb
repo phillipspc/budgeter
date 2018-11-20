@@ -1,0 +1,18 @@
+<section class="section">
+  <div class="container">
+    <h1 class="title">
+      Categories
+      <%= link_to "New Category", new_category_path, class: "button is-link is-pulled-right", remote: true %>
+    </h1>
+
+    <% @categories.each_with_index do |category, i| %>
+      <table class="table is-hoverable is-fullwidth m-b-lg" data-controller="accordion"
+        data-category-id="<%= category.id %>">
+        <%= render category, collapsed: (i != 0) %>
+      </table>
+    <% end %>
+
+  </div>
+</section>
+
+<div data-container-for='modal'></div>

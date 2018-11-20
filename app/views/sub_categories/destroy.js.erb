@@ -1,0 +1,8 @@
+(function() {
+  <% if @sub_category_id %>
+    let row = document.querySelector("tr[data-sub-category-id='<%= @sub_category_id %>']")
+    row.parentNode.removeChild(row)
+  <% end %>
+})()
+
+<%= render 'application/flash_messages', format: :js %>
