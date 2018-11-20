@@ -1,5 +1,11 @@
-document.querySelector("[data-container-for='modal'] .modal").classList.remove("is-active")
+(function() {
+  document.querySelector("[data-container-for='modal'] .modal").classList.remove("is-active")
 
-document.querySelector(".table[data-category-id='<%= @category.id %>']").classList.add("has-text-red")
+  let rowCount = document.querySelectorAll(".table[data-category-id='<%= @category.id %>'] tbody tr").length
+  console.log(rowCount);
+  let row = document.querySelector(".table[data-category-id='<%= @category.id %>'] tbody").insertRow(rowCount - 1)
+  row.innerHTML = "<td><%= @sub_category.name %></td>"
+})()
+
 
 <%= render 'application/flash_messages', format: :js %>
