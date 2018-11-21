@@ -1,7 +1,7 @@
 <thead>
   <tr class="has-hoverable-actions">
     <th>
-      <span data-action="click->accordion#toggle" class="is-clickable">
+      <span data-action="click->accordion#toggle" class="is-clickable is-size-5">
         <%= "#{category.name} (#{category.sub_categories.size})" %>
       </span>
     </th>
@@ -44,7 +44,7 @@
   <tr>
     <td>
       <%= link_to new_category_sub_category_path(category),
-            class: "button is-link is-small", remote: true do %>
+            class: "button is-primary is-small", remote: true do %>
         <span class="icon">
           <i class="fas fa-plus"></i>
         </span>

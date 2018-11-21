@@ -18,7 +18,7 @@ export default class extends Controller {
     if (type === "notice") {
       return "is-success"
     } else if (type === "alert") {
-      return "is-danger"
+      return "is-link"
     }
   }
 }

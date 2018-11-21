@@ -43,6 +43,12 @@
     </div>
   </div>
 
-  <%= f.submit "Save", class: "button is-success" %>
+  <%= f.submit "Save", class: "button is-primary" %>
+  <%= link_to transactions_path, class: "button is-link is-outlined is-pulled-right" do %>
+    <span class="icon">
+      <i class="fas fa-ban"></i>
+    </span>
+    <span>Cancel</span>
+  <% end %>
 
 <% end %>
