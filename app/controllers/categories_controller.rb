@@ -15,6 +15,11 @@ class CategoriesController < ApplicationController
     end
   end
 
+  def show
+    @category = Category.find(params[:id])
+    render json: @category.sub_categories
+  end
+
   def edit
     @category = Category.find(params[:id])
     @url = category_path(@category)

@@ -1,4 +1,4 @@
-<%= form_with model: @transaction do |f| %>
+<%= form_with model: @transaction, data: { controller: "categories" } do |f| %>
   <div class="columns">
     <div class="field column">
       <div class="control">
@@ -18,7 +18,8 @@
       <div class="control">
         <%= f.label :category_id, class: 'label' %>
         <div class="select is-fullwidth">
-          <%= f.select :category_id, Category.all.pluck(:name, :id), include_blank: true %>
+          <%= f.select :category_id, Category.all.pluck(:name, :id), { include_blank: true },
+                { data: { action: "categories#updateOptions", target: "categories.category" } } %>
         </div>
       </div>
     </div>
@@ -27,7 +28,7 @@
       <div class="control">
         <%= f.label :sub_category_id, class: 'label' %>
         <div class="select is-fullwidth">
-          <%= f.select :sub_category_id, SubCategory.all.pluck(:name, :id), include_blank: true %>
+          <%= f.select :sub_category_id, SubCategory.all.pluck(:name, :id), { include_blank: true }, { disabled: true, data: { target: "categories.subCategory" } } %>
         </div>
       </div>
     </div>
