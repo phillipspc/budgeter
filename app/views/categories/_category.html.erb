@@ -1,7 +1,9 @@
 <thead>
   <tr class="has-hoverable-actions">
     <th>
-      <span data-action="click->accordion#toggle" class="is-clickable"><%= category.name %></span>
+      <span data-action="click->accordion#toggle" class="is-clickable">
+        <%= "#{category.name} (#{category.sub_categories.size})" %>
+      </span>
     </th>
     <th class="has-text-right">
       <%= link_to edit_category_path(category), remote: true,
