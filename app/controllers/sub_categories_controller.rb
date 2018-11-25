@@ -41,6 +41,6 @@ class SubCategoriesController < ApplicationController
   private
 
     def sub_category_params
-      params.require(:sub_category).permit(:name)
+      params.require(:sub_category).permit(:name, :budget)
     end
 end

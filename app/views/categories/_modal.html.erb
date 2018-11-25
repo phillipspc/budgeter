@@ -21,15 +21,7 @@
         </div>
       </section>
       <footer class="modal-card-foot">
-        <%= link_to "javascript:void(0)", class: 'button is-link is-outlined',
-              data: { action: "modal#close" } do %>
-          <span class="icon">
-            <i class="fas fa-ban"></i>
-          </span>
-          <span>Cancel</span>
-        <% end %>
-
-        <%= f.submit "Save", class: "button is-primary is-pulled-right" %>
+        <%= f.submit "Save", class: "button is-primary" %>
       </footer>
     <% end %>
   </div>

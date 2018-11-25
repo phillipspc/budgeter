@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_25_022954) do
+ActiveRecord::Schema.define(version: 2018_11_25_031439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 2018_11_25_022954) do
   create_table "sub_categories", force: :cascade do |t|
     t.bigint "category_id"
     t.string "name"
+    t.decimal "budget"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id", "name"], name: "index_sub_categories_on_category_id_and_name", unique: true

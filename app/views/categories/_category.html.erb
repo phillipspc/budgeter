@@ -5,6 +5,9 @@
         <%= "#{category.name} (#{category.sub_categories.size})" %>
       </span>
     </th>
+    <th>
+      <%= number_to_currency category.budget %>
+    </th>
     <th class="has-text-right">
       <%= link_to edit_category_path(category), remote: true,
             class: "hoverable-action" do %>

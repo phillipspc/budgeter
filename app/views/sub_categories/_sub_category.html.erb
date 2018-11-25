@@ -1,4 +1,5 @@
 <td><%= sub_category.name %></td>
+<td><%= number_to_currency sub_category.budget %></td>
 <td class="has-text-right">
   <%= link_to edit_category_sub_category_path(sub_category.category, sub_category), remote: true,
         class: "hoverable-action" do %>
