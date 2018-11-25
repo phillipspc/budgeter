@@ -6,7 +6,9 @@
   newCategory.dataset["controller"] = "accordion"
   newCategory.classList.add("table", "is-hoverable", "is-fullwidth", "m-b-lg")
 
-  let referenceNode = document.querySelector("table[data-category-id]:last-child")
+  let referenceNode = document.querySelector("table[data-category-id]:last-child") ||
+    document.querySelector("h1.title")
+
   referenceNode.parentNode.insertBefore(newCategory, referenceNode.nextSibling)
 
   newCategory.innerHTML = "<%= j render @category, collapsed: false %>"

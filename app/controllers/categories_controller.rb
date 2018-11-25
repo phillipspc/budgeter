@@ -1,6 +1,8 @@
 class CategoriesController < ApplicationController
+  before_action :authenticate_user!
+
   def index
-    @categories = Category.all.includes(:sub_categories).order(:created_at)
+    @categories = @manager.categories.includes(:sub_categories).order(:created_at)
   end
 
   def new
@@ -10,7 +12,7 @@ class CategoriesController < ApplicationController
 
   def create
     @category = Category.new
-    unless @category.update_attributes(category_params)
+    unless @category.update_attributes(category_params.merge(user: @manager))
       flash.now[:alert] = @category.errors.full_messages.join(", ")
     end
   end
@@ -27,7 +29,7 @@ class CategoriesController < ApplicationController
 
   def update
     @category = Category.find(params[:id])
-    unless @category.update_attributes(category_params)
+    unless @category.update_attributes(category_params.merge(user: @manager))
       flash.now[:alert] = @category.errors.full_messages.join(", ")
     end
   end

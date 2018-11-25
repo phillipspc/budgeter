@@ -42,13 +42,14 @@
 
     </div>
   </div>
-
-  <%= f.submit "Save", class: "button is-primary" %>
-  <%= link_to transactions_path, class: "button is-link is-outlined is-pulled-right" do %>
+  
+  <%= link_to transactions_path, class: "button is-link is-outlined" do %>
     <span class="icon">
       <i class="fas fa-ban"></i>
     </span>
     <span>Cancel</span>
   <% end %>
+
+  <%= f.submit "Save", class: "button is-primary is-pulled-right" %>
 
 <% end %>

@@ -22,10 +22,10 @@
       <% end %>
 
       <span class="icon is-clickable has-text-link" data-action="click->accordion#toggle" data-target="accordion.icon">
-        <% if local_assigns[:first] %>
-          <i class="fas fa-angle-down"></i>
-        <% else %>
+        <% if collapsed %>
           <i class="fas fa-angle-up"></i>
+        <% else %>
+          <i class="fas fa-angle-down"></i>
         <% end %>
       </span>
     </th>

@@ -1,4 +1,6 @@
 class SubCategoriesController < ApplicationController
+  before_action :authenticate_user!
+
   def new
     @category = Category.find(params[:category_id])
     @sub_category = SubCategory.new

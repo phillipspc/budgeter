@@ -1,7 +1,9 @@
 class CreateCategories < ActiveRecord::Migration[5.2]
   def change
     create_table :categories do |t|
-      t.string :name, index: { unique: true }
+      t.string :name
+      t.references :user
+      t.index [:user_id, :name], unique: true
 
       t.timestamps
     end
