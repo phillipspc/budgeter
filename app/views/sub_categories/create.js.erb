@@ -8,6 +8,9 @@
   referenceNode.parentNode.insertBefore(newSubCategory, referenceNode)
 
   newSubCategory.innerHTML = "<%= j render @sub_category %>"
+
+  document.querySelector("[data-category-id='<%= @category.id %>'] .category-budget").
+    innerHTML = "<%= number_to_currency @category.budget %>"
 })()
 
 
