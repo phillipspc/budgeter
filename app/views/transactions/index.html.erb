@@ -19,7 +19,7 @@
     </div>
 
     <div class="columns">
-      <div class="column is-7">
+      <div class="column is-6">
         <div class="box" data-controller="tabs">
           <div class="tabs is-centered">
             <ul>
@@ -39,7 +39,10 @@
           </div>
 
           <div data-target="tabs.content" data-content="categories">
-            categories
+            <canvas data-controller="chart"
+              data-chart-data="<%= categories_chart_data(@categories, @month) %>"
+              data-chart-labels="<%= categories_chart_labels(@categories, @month) %>">
+            </canvas>
           </div>
           <div class="is-hidden" data-target="tabs.content" data-content="sub_categories">
             sub categories
@@ -49,7 +52,7 @@
           </div>
         </div>
       </div>
-      <div class="column is-5">
+      <div class="column is-6">
       </div>
     </div>
 

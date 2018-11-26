@@ -22,4 +22,13 @@ module ApplicationHelper
     "</span></h3>" \
     "<progress class='progress #{klass}' value='#{progress}' max='#{total}'></progress>".html_safe
   end
+
+  def categories_chart_data(categories, month)
+    categories.map { |cat|  cat.spending_for_month(month).to_i }.sort
+  end
+
+  def categories_chart_labels(categories, month)
+    categories.sort_by { |cat|  cat.spending_for_month(month).to_i }.map(&:name)
+  end
+
 end

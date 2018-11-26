@@ -4,9 +4,9 @@ export default class extends Controller {
   static targets = ["button", "content"]
 
   connect() {
-    let active = this.buttonTargets.find(el => {return el.classList.contains("is-active")})
+    let active = this.buttonTargets.find(el => { return el.closest("li").classList.contains("is-active") })
     if (active) {
-      updateTab(active)
+      this.updateTab(active)
     }
   }
 
