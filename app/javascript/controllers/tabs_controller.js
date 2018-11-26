@@ -5,7 +5,9 @@ export default class extends Controller {
 
   connect() {
     let active = this.buttonTargets.find(el => {return el.classList.contains("is-active")})
-    console.log(active)
+    if (active) {
+      updateTab(active)
+    }
   }
 
   update(e) {
@@ -15,17 +17,17 @@ export default class extends Controller {
   updateTab(tab) {
     this.buttonTargets.forEach(el => {
       if (el === tab) {
-        el.classList.add("is-active")
+        el.closest("li").classList.add("is-active")
       } else {
-        el.classList.remove("is-active")
+        el.closest("li").classList.remove("is-active")
       }
     })
 
     this.contentTargets.forEach(el => {
-      if (el === tab) {
-        el.classList.add("is-active")
+      if (el.dataset["content"] === tab.dataset["tabFor"]) {
+        el.classList.remove("is-hidden")
       } else {
-        el.classList.remove("is-active")
+        el.classList.add("is-hidden")
       }
     })
   }
