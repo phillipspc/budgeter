@@ -15,3 +15,4 @@ const context = require.context("controllers", true, /.js$/)
 application.load(definitionsFromContext(context))
 
 import flatpickr from "flatpickr"
+import Chart from 'chart.js'
