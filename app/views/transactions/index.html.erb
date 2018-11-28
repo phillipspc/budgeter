@@ -66,7 +66,7 @@
           </div>
           <div>
             <strong>Largest Category:</strong>
-            <%= @categories.sort_by { |cat| cat.spending_for_month(@month).to_i }.last.name %>
+            <%= @categories.sort_by { |cat| cat.spending_for_month(@month).to_i }.last&.name %>
           </div>
           <div>
             <strong>Biggest Spender:</strong>
@@ -115,7 +115,7 @@
               <td><%= transaction.user.email %></td>
               <td><%= transaction.name %></td>
               <td><%= number_to_currency transaction.amount %></td>
-              <td><%= transaction.category.name %></td>
+              <td><%= transaction.category&.name %></td>
               <td><%= transaction.sub_category&.name %></td>
               <td><%= transaction.date %></td>
               <td class="has-text-centered">
