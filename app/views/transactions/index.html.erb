@@ -1,11 +1,81 @@
 <section class="section">
   <div class="container">
-    <h1 class="title">
-      Transactions
-      <%= link_to "New Transaction", new_transaction_path, class: "button is-primary is-pulled-right" %>
-    </h1>
+    <div id="month_picker">
+      <span class="p-sm">
+        <%= link_to transactions_path(month: previous_month_for(@month)) do  %>
+          <span class="icon">
+            <i class="fas fa-arrow-circle-left"></i>
+          </span>
+        <% end %>
+      </span>
+      <span class="has-text-weight-bold is-size-5 p-sm"><%= @month %></span>
+      <span class="p-sm">
+        <%= link_to transactions_path(month: next_month_for(@month)) do  %>
+          <span class="icon">
+            <i class="fas fa-arrow-circle-right"></i>
+          </span>
+        <% end %>
+      </span>
+    </div>
+
+    <div class="columns">
+      <div class="column is-6">
+        <div class="box" data-controller="tabs">
+          <div class="tabs is-centered">
+            <ul>
+              <li class="is-active">
+                <%= link_to "Categories", "javascript:void(0)",
+                      data: { target: "tabs.button", action: "tabs#update", tab_for: "categories" } %>
+              </li>
+              <li>
+                <%= link_to "Sub Categories", "javascript:void(0)",
+                      data: { target: "tabs.button", action: "tabs#update", tab_for: "sub_categories" } %>
+              </li>
+              <li>
+                <%= link_to "Users", "javascript:void(0)",
+                      data: { target: "tabs.button", action: "tabs#update", tab_for: "users" } %>
+              </li>
+            </ul>
+          </div>
+
+          <div data-target="tabs.content" data-content="categories">
+            <canvas data-controller="chart"
+              data-chart-data="<%= categories_chart_data(@categories, @month) %>"
+              data-chart-labels="<%= categories_chart_labels(@categories, @month) %>">
+            </canvas>
+          </div>
+          <div class="is-hidden" data-target="tabs.content" data-content="sub_categories">
+            sub categories
+          </div>
+          <div class="is-hidden" data-target="tabs.content" data-content="users">
+            users
+          </div>
+        </div>
+      </div>
+      <div class="column is-6">
+      </div>
+    </div>
 
     <div class="box">
+      <h1 class="title is-size-4">
+        Budgets
+      </h1>
+
+      <%= budget_bar(title: "Overall", progress: @transactions.sum(:amount),
+            total: @categories.sum(&:budget)) %>
+      <% @categories.each do |category| %>
+        <%= budget_bar(title: category.name,
+                       progress: category.transactions_for_month(@month).sum(:amount),
+                       total: category.budget) %>
+      <% end %>
+    </div>
+
+    <div class="box">
+      <h1 class="title is-size-4">
+        Transactions
+        <%= link_to "New Transaction", new_transaction_path,
+              class: "button is-primary is-pulled-right" %>
+      </h1>
       <table class="table is-fullwidth is-narrow">
         <thead>
           <tr>
@@ -24,7 +94,7 @@
             <tr>
               <td><%= transaction.user.email %></td>
               <td><%= transaction.name %></td>
-              <td><%= transaction.amount %></td>
+              <td><%= number_to_currency transaction.amount %></td>
               <td><%= transaction.category.name %></td>
               <td><%= transaction.sub_category&.name %></td>
               <td><%= transaction.date %></td>
