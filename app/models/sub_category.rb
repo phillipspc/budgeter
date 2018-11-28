@@ -1,4 +1,5 @@
 class SubCategory < ApplicationRecord
+  include Transactionable
   belongs_to :category
   has_many :transactions
 

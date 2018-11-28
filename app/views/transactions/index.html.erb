@@ -1,4 +1,4 @@
-<section class="section">
+<section class="section p-t-md">
   <div class="container">
     <div id="month_picker">
       <span class="p-sm">
@@ -40,19 +40,39 @@
 
           <div data-target="tabs.content" data-content="categories">
             <canvas data-controller="chart"
-              data-chart-data="<%= categories_chart_data(@categories, @month) %>"
-              data-chart-labels="<%= categories_chart_labels(@categories, @month) %>">
+              data-chart-data="<%= @chart_service.categories_data %>"
+              data-chart-labels="<%= @chart_service.categories_labels %>">
             </canvas>
           </div>
           <div class="is-hidden" data-target="tabs.content" data-content="sub_categories">
-            sub categories
+            <canvas data-controller="chart"
+              data-chart-data="<%= @chart_service.sub_categories_data %>"
+              data-chart-labels="<%= @chart_service.sub_categories_labels %>">
+            </canvas>
           </div>
           <div class="is-hidden" data-target="tabs.content" data-content="users">
-            users
+            <canvas data-controller="chart"
+              data-chart-data="<%= @chart_service.users_data %>"
+              data-chart-labels="<%= @chart_service.users_labels %>">
+            </canvas>
           </div>
         </div>
       </div>
+
       <div class="column is-6">
+        <div class="box">
+          <div>
+            <strong>Total Spent:</strong> <%= number_to_currency @transactions.sum(:amount) %>
+          </div>
+          <div>
+            <strong>Largest Category:</strong>
+            <%= @categories.sort_by { |cat| cat.spending_for_month(@month).to_i }.last.name %>
+          </div>
+          <div>
+            <strong>Biggest Spender:</strong>
+            <%= @manager.group_users.sort_by { |user| user.spending_for_month(@month).to_i }.last.email %>
+          </div>
+        </div>
       </div>
     </div>
 
