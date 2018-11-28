@@ -58,7 +58,21 @@
           </div>
         </div>
       </div>
+
       <div class="column is-6">
+        <div class="box">
+          <div>
+            <strong>Total Spent:</strong> <%= number_to_currency @transactions.sum(:amount) %>
+          </div>
+          <div>
+            <strong>Largest Category:</strong>
+            <%= @categories.sort_by { |cat| cat.spending_for_month(@month).to_i }.last.name %>
+          </div>
+          <div>
+            <strong>Biggest Spender:</strong>
+            <%= @manager.group_users.sort_by { |user| user.spending_for_month(@month).to_i }.last.email %>
+          </div>
+        </div>
       </div>
     </div>
 
