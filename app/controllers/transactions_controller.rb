@@ -7,6 +7,11 @@ class TransactionsController < ApplicationController
       where(created_at: @month.to_date..@month.to_date.end_of_month)
 
     @categories = @manager.categories.includes(:sub_categories, :transactions)
+
+    @chart_service = ChartService.new(transactions: @transactions,
+                                      categories: @categories,
+                                      month: @month,
+                                      manager: @manager)
   end
 
   def new

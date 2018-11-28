@@ -8,11 +8,9 @@
     </div>
 
     <div class="navbar-end">
-      <%= link_to "Transactions", transactions_path, class: "navbar-item" %>
-
-      <%= link_to "Categories", categories_path, class: "navbar-item" %>
-
       <% if current_user %>
+        <%= link_to "Categories & Budgets", categories_path, class: "navbar-item" %>
+
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">
             <%= current_user.email %>
