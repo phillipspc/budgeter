@@ -4,7 +4,7 @@ class TransactionsController < ApplicationController
 
   def index
     @transactions = Transaction.includes(:category, :sub_category).
-      where(created_at: @month.to_date..@month.to_date.end_of_month,
+      where(created_at: @month.to_datetime..@month.to_datetime.end_of_month,
             user: @manager.group_users)
 
     @categories = @manager.categories.includes(:sub_categories, :transactions)
