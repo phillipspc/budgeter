@@ -4,6 +4,7 @@ class User < ApplicationRecord
          :confirmable
 
   has_many :categories
+  has_many :sub_categories, through: :categories
   has_many :transactions
   belongs_to :manager, class_name: "User", optional: true
   has_many :users, class_name: "User", foreign_key: "manager_id", inverse_of: :manager

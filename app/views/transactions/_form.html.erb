@@ -10,7 +10,7 @@
     <div class="field column">
       <div class="control">
         <%= f.label :amount, class: "label" %>
-        <%= f.number_field :amount, class: "input", step: :any %>
+        <%= f.number_field :amount, class: "input", step: 0.01 %>
       </div>
     </div>
 
@@ -50,6 +50,7 @@
     <span>Cancel</span>
   <% end %>
 
-  <%= f.submit "Save", class: "button is-primary is-pulled-right" %>
+  <%= f.submit "Save and Add More", class: "button is-primary is-pulled-right" %>
+  <%= f.submit "Save", class: "button is-primary is-pulled-right m-r-md" %>
 
 <% end %>

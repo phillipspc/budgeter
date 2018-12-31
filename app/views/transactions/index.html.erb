@@ -66,11 +66,11 @@
           </div>
           <div>
             <strong>Largest Category:</strong>
-            <%= @categories.sort_by { |cat| cat.spending_for_month(@month).to_i }.last&.name %>
+            <%= @chart_service.largest_category %>
           </div>
           <div>
-            <strong>Biggest Spender:</strong>
-            <%= @manager.group_users.sort_by { |user| user.spending_for_month(@month).to_i }.last.email %>
+            <strong>Largest Sub Category:</strong>
+            <%= @chart_service.largest_sub_category %>
           </div>
         </div>
       </div>
