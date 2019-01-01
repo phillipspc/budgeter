@@ -3,11 +3,11 @@ class TransactionsController < ApplicationController
   before_action :set_month, only: :index
 
   def index
-    @transactions = Transaction.includes(:category, :sub_category).by_month(@month).
+    @transactions = Transaction.includes(:user, :category, :sub_category).by_month(@month).
       where(user: @manager.group_users)
 
-    @categories = @manager.categories.includes(:sub_categories, :transactions)
-    @sub_categories = @manager.sub_categories.includes(:transactions)
+    @categories = @manager.categories_with_budget_and_spending_for_month(@month)
+    @sub_categories = @manager.sub_categories_with_spending_for_month(@month)
 
     @chart_service = ChartService.new(transactions: @transactions,
                                       categories: @categories,
