@@ -26,7 +26,8 @@ class CategoriesController < ApplicationController
         unless @category.user == @manager
           redirect_to categories_path, alert: "You do not have permission to access this page."
         end
-        @transactions = @category.transactions.by_month(@month)
+        @transactions = @category.transactions.by_month(@month).order("date desc")
+        @chart_service = CategoryChartService.new(category: @category, month: @month)
       end
       format.json do
         if @category.user == @manager

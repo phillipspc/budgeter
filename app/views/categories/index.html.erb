@@ -7,7 +7,7 @@
 
     <% @categories.each_with_index do |category, i| %>
       <div class="box">
-        <table class="table is-fullwidth m-b-lg" data-controller="accordion"
+        <table class="table is-fullwidth" data-controller="accordion"
           data-category-id="<%= category.id %>">
           <%= render category, collapsed: (i != 0) %>
         </table>

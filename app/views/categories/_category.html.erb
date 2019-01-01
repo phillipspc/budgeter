@@ -6,7 +6,7 @@
       </span>
     </th>
     <th class="category-budget">
-      <%= number_to_currency category.budget %>
+      <%= number_to_currency category.sub_categories.sum(:budget) %>
     </th>
     <th class="has-text-right">
       <%= link_to edit_category_path(category), remote: true,
