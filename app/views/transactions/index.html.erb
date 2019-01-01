@@ -31,10 +31,6 @@
                 <%= link_to "Sub Categories", "javascript:void(0)",
                       data: { target: "tabs.button", action: "tabs#update", tab_for: "sub_categories" } %>
               </li>
-              <li>
-                <%= link_to "Users", "javascript:void(0)",
-                      data: { target: "tabs.button", action: "tabs#update", tab_for: "users" } %>
-              </li>
             </ul>
           </div>
 
@@ -48,12 +44,6 @@
             <canvas data-controller="chart"
               data-chart-data="<%= @chart_service.sub_categories_data %>"
               data-chart-labels="<%= @chart_service.sub_categories_labels %>">
-            </canvas>
-          </div>
-          <div class="is-hidden" data-target="tabs.content" data-content="users">
-            <canvas data-controller="chart"
-              data-chart-data="<%= @chart_service.users_data %>"
-              data-chart-labels="<%= @chart_service.users_labels %>">
             </canvas>
           </div>
         </div>
