@@ -5,5 +5,5 @@ class Transaction < ApplicationRecord
 
   validates_presence_of :name, :amount
 
-  scope :by_month, -> (month) { where(created_at: month.to_datetime..month.to_datetime.end_of_month) }
+  scope :by_month, -> (month) { where(date: month.to_datetime..month.to_datetime.end_of_month) }
 end

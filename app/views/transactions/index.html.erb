@@ -76,17 +76,23 @@
       </div>
     </div>
 
+    <h1 class="title is-size-4">
+      Budgets
+    </h1>
     <div class="box">
-      <h1 class="title is-size-4">
-        Budgets
-      </h1>
-
       <%= budget_bar(title: "Overall", progress: @transactions.sum(:amount),
             total: @categories.sum(&:budget)) %>
+    </div>
+
+    <div class="columns is-multiline">
       <% @categories.each do |category| %>
-        <%= budget_bar(title: category.name,
-                       progress: category.transactions_for_month(@month).sum(:amount),
-                       total: category.budget) %>
+        <div class="column is-4">
+          <div class="box">
+            <%= budget_bar(title: category.name,
+                           progress: category.transactions_for_month(@month).sum(:amount),
+                           total: category.budget) %>
+          </div>
+        </div>
       <% end %>
     </div>
 

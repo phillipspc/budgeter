@@ -10,22 +10,19 @@ class ChartService
   end
 
   def sorted_categories
-    @_sorted_categories ||= categories.map do |cat|
-      amount = cat.spending_for_month(month).to_d
-      [amount, cat.name] unless amount == 0.0
-    end.compact.sort.reverse
+    @_sorted_categories ||= categories.order("spending")
   end
 
   def categories_data
-    sorted_categories.map(&:first)
+    sorted_categories.map(&:spending)
   end
 
   def categories_labels
-    sorted_categories.map(&:last)
+    sorted_categories.pluck(:name)
   end
 
   def largest_category
-    sorted_categories.first&.last
+    sorted_categories.first&.name
   end
 
   def sorted_sub_categories

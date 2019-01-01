@@ -16,4 +16,22 @@ class User < ApplicationRecord
       manager.group_users
     end
   end
+
+  def categories_with_budget_and_spending_for_month(month)
+    categories.
+      joins(
+        <<-SQL.squish
+          LEFT JOIN transactions ON
+            transactions.category_id = categories.id AND
+            transactions.date >= '#{month.to_date}' AND
+            transactions.date <= '#{month.to_date.end_of_month}'
+        SQL
+      ).select(
+        <<-SQL.squish
+          categories.name,
+          categories.id,
+          coalesce(SUM(transactions.amount), 0.0) AS spending
+        SQL
+      ).group("categories.name, categories.id")
+  end
 end
