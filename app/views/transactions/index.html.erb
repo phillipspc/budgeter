@@ -1,5 +1,11 @@
 <section class="section p-t-md">
   <div class="container">
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul class="is-size-4">
+        <li class="is-active"><a href="#">All Transactions</a></li>
+      </ul>
+    </nav>
+
     <div id="month_picker">
       <span class="p-sm">
         <%= link_to transactions_path(month: previous_month_for(@month)) do  %>

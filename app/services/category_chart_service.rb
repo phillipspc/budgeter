@@ -12,11 +12,11 @@ class CategoryChartService
   end
 
   def sub_categories_data
-    @_sub_categories_data ||= sorted_sub_categories.map(&:spending)
+    sorted_sub_categories.map(&:spending)
   end
 
   def sub_categories_labels
-    @_sub_categories_labels ||= sorted_sub_categories.pluck(:name)
+    sorted_sub_categories.pluck(:name)
   end
 
   def last_six_months
