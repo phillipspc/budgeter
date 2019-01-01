@@ -8,10 +8,6 @@ class Category < ApplicationRecord
 
   validate :belongs_to_manager
 
-  def budget
-    sub_categories.sum(:budget)
-  end
-
   private
 
     def belongs_to_manager

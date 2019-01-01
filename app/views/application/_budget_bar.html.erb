@@ -1,0 +1,8 @@
+<% size = local_assigns[:size] || 5 %>
+<h3 class='is-size-<%= size %>'><%= title %> -
+  <span class='is-size-<%= size+1 %>'>
+    <strong><%= number_to_currency(progress) %></strong> of <strong><%= number_to_currency(total) %></strong>
+  </span>
+</h3>
+<progress class='progress <%= budget_bar_klass(progress: progress, total: total) %>'
+  value='<%= progress %>' max='<%= total %>'></progress>
