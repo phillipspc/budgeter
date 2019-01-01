@@ -28,7 +28,8 @@
       <div class="control">
         <%= f.label :sub_category_id, class: 'label' %>
         <div class="select is-fullwidth">
-          <%= f.select :sub_category_id, SubCategory.all.pluck(:name, :id), { include_blank: true }, { disabled: true, data: { target: "categories.subCategory" } } %>
+          <%= f.select :sub_category_id, SubCategory.all.pluck(:name, :id), { include_blank: true },
+                { disabled: true, data: { target: "categories.subCategory" } } %>
         </div>
       </div>
     </div>

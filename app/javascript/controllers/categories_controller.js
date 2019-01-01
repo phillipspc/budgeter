@@ -8,7 +8,7 @@ export default class extends Controller {
     const id = this.categoryTarget.value
 
     if (id) {
-      fetch(`/categories/${id}`)
+      fetch(`/categories/${id}.json`)
       .then((response) => {
         return response.json()
       })
@@ -16,7 +16,6 @@ export default class extends Controller {
         let mapped = json.map(el => {
           return `<option value='${el.id}'>${el.name}</option>`
         })
-        mapped.unshift("<option></option>")
         controller.subCategoryTarget.innerHTML = mapped.join('')
         controller.subCategoryTarget.disabled = false
       })

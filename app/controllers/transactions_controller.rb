@@ -1,11 +1,10 @@
 class TransactionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_month
+  before_action :set_month, only: :index
 
   def index
-    @transactions = Transaction.includes(:category, :sub_category).
-      where(created_at: @month.to_datetime..@month.to_datetime.end_of_month,
-            user: @manager.group_users)
+    @transactions = Transaction.includes(:category, :sub_category).by_month(@month).
+      where(user: @manager.group_users)
 
     @categories = @manager.categories.includes(:sub_categories, :transactions)
     @sub_categories = @manager.sub_categories.includes(:transactions)
@@ -58,10 +57,6 @@ class TransactionsController < ApplicationController
   end
 
   private
-
-    def set_month
-      @month = params[:month] || Time.now.strftime("%B %Y")
-    end
 
     def transaction_params
       params.require(:transaction).permit(:name, :amount, :date, :category_id, :sub_category_id)

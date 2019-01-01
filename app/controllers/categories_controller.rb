@@ -1,5 +1,7 @@
 class CategoriesController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_category_and_confirm_ownership, only: [:edit, :update, :destroy]
+  before_action :set_month, only: :show
 
   def index
     @categories = @manager.categories.includes(:sub_categories).order(:created_at)
@@ -18,26 +20,35 @@ class CategoriesController < ApplicationController
   end
 
   def show
-    @category = Category.find(params[:id])
-    render json: @category.sub_categories
+    @category = Category.includes(:sub_categories).find(params[:id])
+    respond_to do |format|
+      format.html do
+        unless @category.user == @manager
+          redirect_to categories_path, alert: "You do not have permission to access this page."
+        end
+        @transactions = @category.transactions.by_month(@month)
+      end
+      format.json do
+        if @category.user == @manager
+          render json: @category.sub_categories
+        end
+      end
+    end
   end
 
   def edit
-    @category = Category.find(params[:id])
     @url = category_path(@category)
   end
 
   def update
-    @category = Category.find(params[:id])
     unless @category.update_attributes(category_params.merge(user: @manager))
       flash.now[:alert] = @category.errors.full_messages.join(", ")
     end
   end
 
   def destroy
-    category = Category.find(params[:id])
-    @category_id = category.id
-    unless category.destroy
+    @category_id = @category.id
+    unless @category.destroy
       flash.now[:alert] = "Unable to delete the requested Category"
     end
   end
@@ -46,5 +57,12 @@ class CategoriesController < ApplicationController
 
     def category_params
       params.require(:category).permit(:name)
+    end
+
+    def set_category_and_confirm_ownership
+      @category = Category.find(params[:id])
+      unless @category.user == @manager
+        redirect_to categories_path, alert: "You do not have permission to access this page."
+      end
     end
 end
