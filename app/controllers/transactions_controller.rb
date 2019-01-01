@@ -1,18 +1,17 @@
 class TransactionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_month
+  before_action :set_month, only: :index
 
   def index
-    @transactions = Transaction.includes(:category, :sub_category).
-      where(created_at: @month.to_date..@month.to_date.end_of_month,
-            user: @manager.group_users)
+    @transactions = Transaction.includes(:user, :category, :sub_category).by_month(@month).
+      where(user: @manager.group_users)
 
-    @categories = @manager.categories.includes(:sub_categories, :transactions)
+    @categories = @manager.categories_with_budget_and_spending_for_month(@month)
+    @sub_categories = @manager.sub_categories_with_spending_for_month(@month)
 
     @chart_service = ChartService.new(transactions: @transactions,
                                       categories: @categories,
-                                      month: @month,
-                                      manager: @manager)
+                                      sub_categories: @sub_categories)
   end
 
   def new
@@ -23,9 +22,14 @@ class TransactionsController < ApplicationController
     @transaction = current_user.transactions.build
 
     if @transaction.update_attributes(transaction_params)
-      redirect_to transactions_path
+      if params[:commit] == "Save and Add More"
+        redirect_to new_transaction_path, notice: "Successfully created Transaction"
+      else
+        redirect_to transactions_path, notice: "Successfully created Transaction"
+      end
     else
-      render :new
+      flash.now[:alert] = @transaction.errors.full_messages.join(", ")
+      render partial: 'application/flash_messages', formats: [:js]
     end
   end
 
@@ -39,7 +43,8 @@ class TransactionsController < ApplicationController
     if @transaction.update_attributes(transaction_params)
       redirect_to transactions_path
     else
-      render :new
+      flash.now[:alert] = @transaction.errors.full_messages.join(", ")
+      render partial: 'application/flash_messages', formats: [:js]
     end
   end
 
@@ -50,10 +55,6 @@ class TransactionsController < ApplicationController
   end
 
   private
-
-    def set_month
-      @month = params[:month] || Time.now.strftime("%B %Y")
-    end
 
     def transaction_params
       params.require(:transaction).permit(:name, :amount, :date, :category_id, :sub_category_id)

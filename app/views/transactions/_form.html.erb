@@ -10,7 +10,7 @@
     <div class="field column">
       <div class="control">
         <%= f.label :amount, class: "label" %>
-        <%= f.number_field :amount, class: "input" %>
+        <%= f.number_field :amount, class: "input", step: 0.01 %>
       </div>
     </div>
 
@@ -28,7 +28,8 @@
       <div class="control">
         <%= f.label :sub_category_id, class: 'label' %>
         <div class="select is-fullwidth">
-          <%= f.select :sub_category_id, SubCategory.all.pluck(:name, :id), { include_blank: true }, { disabled: true, data: { target: "categories.subCategory" } } %>
+          <%= f.select :sub_category_id, SubCategory.all.pluck(:name, :id), { include_blank: true },
+                { disabled: true, data: { target: "categories.subCategory" } } %>
         </div>
       </div>
     </div>
@@ -42,7 +43,7 @@
 
     </div>
   </div>
-  
+
   <%= link_to transactions_path, class: "button is-link is-outlined" do %>
     <span class="icon">
       <i class="fas fa-ban"></i>
@@ -50,6 +51,7 @@
     <span>Cancel</span>
   <% end %>
 
-  <%= f.submit "Save", class: "button is-primary is-pulled-right" %>
+  <%= f.submit "Save and Add More", class: "button is-primary is-pulled-right" %>
+  <%= f.submit "Save", class: "button is-primary is-pulled-right m-r-md" %>
 
 <% end %>

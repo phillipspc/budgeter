@@ -1,5 +1,4 @@
 class Category < ApplicationRecord
-  include Transactionable
   belongs_to :user
   has_many :sub_categories, dependent: :destroy
   has_many :transactions
@@ -7,10 +6,6 @@ class Category < ApplicationRecord
   validates_uniqueness_of :name, scope: :user_id
 
   validate :belongs_to_manager
-
-  def budget
-    sub_categories.sum(:budget)
-  end
 
   private
 

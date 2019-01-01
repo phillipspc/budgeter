@@ -1,0 +1,73 @@
+<section class="section p-t-md">
+  <div class="container">
+    <div id="month_picker">
+      <span class="p-sm">
+        <%= link_to category_path(@category, month: previous_month_for(@month)) do  %>
+          <span class="icon">
+            <i class="fas fa-arrow-circle-left"></i>
+          </span>
+        <% end %>
+      </span>
+      <span class="has-text-weight-bold is-size-5 p-sm"><%= @month %></span>
+      <span class="p-sm">
+        <%= link_to category_path(@category, month: next_month_for(@month)) do  %>
+          <span class="icon">
+            <i class="fas fa-arrow-circle-right"></i>
+          </span>
+        <% end %>
+      </span>
+    </div>
+
+    <div class="box">
+      <% if @transactions.any? %>
+        <h1 class="title is-size-4">
+          Transactions
+        </h1>
+        <table class="table is-fullwidth is-narrow">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Name</th>
+              <th>Amount</th>
+              <th>SubCategory</th>
+              <th>Date</th>
+              <th class="has-text-centered">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @transactions.each do |transaction| %>
+              <tr>
+                <td><%= transaction.user.email %></td>
+                <td><%= transaction.name %></td>
+                <td><%= number_to_currency transaction.amount %></td>
+                <td><%= transaction.sub_category&.name %></td>
+                <td><%= transaction.date %></td>
+                <td class="has-text-centered">
+                  <%= link_to edit_transaction_path(transaction) do %>
+                    <span class="icon">
+                      <i class="far fa-edit"></i>
+                    </span>
+                  <% end %>
+                  <%= link_to transaction_path(transaction), method: :delete, data: {
+                        controller: "link", action: "link#confirm",
+                        "link-confirm-message" => "Are you sure you wish to delete this transaction?"
+                      } do %>
+                    <span class="icon">
+                      <i class="far fa-trash-alt"></i>
+                    </span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <h1 class="subtitle is-size-4">
+          No Transactions found for this month.
+          <%= link_to "New Transaction", new_transaction_path, class: "button is-primary is-pulled-right" %>
+        </h1>
+      <% end %>
+    </div>
+  </div>
+</section>

@@ -1,35 +1,41 @@
 class ChartService
-  attr_accessor :transactions, :categories, :sub_categories, :month, :manager
+  attr_accessor :transactions, :categories, :sub_categories
 
-  def initialize(transactions:, categories:, month:, manager:)
+  def initialize(transactions:, categories:, sub_categories:)
     self.transactions = transactions
     self.categories = categories
-    self.sub_categories = SubCategory.where(category: categories)
-    self.month = month
-    self.manager = manager
+    self.sub_categories = sub_categories
+  end
+
+  def sorted_categories
+    @_sorted_categories ||= categories.having("SUM(transactions.amount) > 0").order("spending DESC")
   end
 
   def categories_data
-    categories.map { |cat| cat.spending_for_month(month).to_i }.sort
+    @_categories_data ||= sorted_categories.map(&:spending)
   end
 
   def categories_labels
-    categories.sort_by { |cat| cat.spending_for_month(month).to_i }.map(&:name)
+    @_categories_labels ||= sorted_categories.pluck(:name)
+  end
+
+  def largest_category
+    @_largest_category ||= sorted_categories.first&.name
+  end
+
+  def sorted_sub_categories
+    @_sorted_sub_categories ||= sub_categories.having("SUM(transactions.amount) > 0").order("spending DESC")
   end
 
   def sub_categories_data
-    sub_categories.map { |sub_cat| sub_cat.spending_for_month(month).to_i }.sort
+    @_sub_categories_data ||= sorted_sub_categories.map(&:spending)
   end
 
   def sub_categories_labels
-    sub_categories.sort_by { |sub_cat| sub_cat.spending_for_month(month).to_i }.map(&:name)
+    @_sub_categories_labels ||= sorted_sub_categories.pluck(:name)
   end
 
-  def users_data
-    manager.group_users.map { |user| user.spending_for_month(month).to_i }.sort
-  end
-
-  def users_labels
-    manager.group_users.sort_by { |user| user.spending_for_month(month).to_i }.map(&:email)
+  def largest_sub_category
+    @_largest_sub_category ||= sorted_sub_categories.first&.name
   end
 end

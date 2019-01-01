@@ -1,6 +1,6 @@
 class InitialMigration < ActiveRecord::Migration[5.2]
   def change
-    add_column :users, :is_manager, :boolean, default: false
+    add_column :users, :is_manager, :boolean, default: true
     add_column :users, :manager_id, :integer
 
     create_table :categories do |t|
