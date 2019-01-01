@@ -10,7 +10,7 @@
   newSubCategory.innerHTML = "<%= j render @sub_category %>"
 
   document.querySelector("[data-category-id='<%= @category.id %>'] .category-budget").
-    innerHTML = "<%= number_to_currency @category.budget %>"
+    innerHTML = "<%= number_to_currency @category.sub_categories.sum(:budget) %>"
 })()
 
 

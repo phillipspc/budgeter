@@ -3,6 +3,9 @@
     let row = document.querySelector("tr[data-sub-category-id='<%= @sub_category_id %>']")
     row.parentNode.removeChild(row)
   <% end %>
+
+  document.querySelector("[data-category-id='<%= @category.id %>'] .category-budget").
+    innerHTML = "<%= number_to_currency @category.sub_categories.sum(:budget) %>"
 })()
 
 <%= render 'application/flash_messages', format: :js %>

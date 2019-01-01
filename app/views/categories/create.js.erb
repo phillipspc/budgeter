@@ -4,12 +4,13 @@
   let newCategory = document.createElement("table")
   newCategory.dataset["categoryId"] = "<%= @category.id %>"
   newCategory.dataset["controller"] = "accordion"
-  newCategory.classList.add("table", "is-hoverable", "is-fullwidth", "m-b-lg")
+  newCategory.classList.add("table", "is-hoverable", "is-fullwidth")
 
-  let referenceNode = document.querySelector("table[data-category-id]:last-child") ||
-    document.querySelector("h1.title")
+  let box = document.createElement("div")
+  box.classList.add("box")
 
-  referenceNode.parentNode.insertBefore(newCategory, referenceNode.nextSibling)
+  document.querySelector(".container").appendChild(box)
+  document.querySelector(".container .box:last-child").appendChild(newCategory)
 
   newCategory.innerHTML = "<%= j render @category, collapsed: false %>"
 })()
