@@ -5,16 +5,33 @@ export default class extends Controller {
     const chartData = JSON.parse(this.data.get("data"))
     const chartLabels = JSON.parse(this.data.get("labels"))
     let ctx = this.element
-    let myChart = new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: chartLabels,
-        datasets: [{
-          data: chartData,
-          backgroundColor: this.colors(chartData.length)
-        }]
-      }
-    });
+
+    if (this.data.has("type") && this.data.get("type") == "line") {
+      let myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: chartLabels,
+          datasets: [{
+            label: 'Spending',
+            backgroundColor: this.colors(1),
+            borderColor: this.colors(1),
+            data: chartData,
+            fill: false
+          }]
+        }
+      })
+    } else {
+      let myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: chartLabels,
+          datasets: [{
+            data: chartData,
+            backgroundColor: this.colors(chartData.length)
+          }]
+        }
+      })
+    }
   }
 
   colors(num) {
