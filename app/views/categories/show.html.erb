@@ -63,8 +63,9 @@
           </tbody>
         </table>
       <% else %>
-        <h1 class="subtitle">
+        <h1 class="subtitle is-size-4">
           No Transactions found for this month.
+          <%= link_to "New Transaction", new_transaction_path, class: "button is-primary is-pulled-right" %>
         </h1>
       <% end %>
     </div>
