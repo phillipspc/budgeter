@@ -11,9 +11,7 @@ class TransactionsController < ApplicationController
 
     @chart_service = ChartService.new(transactions: @transactions,
                                       categories: @categories,
-                                      sub_categories: @sub_categories,
-                                      month: @month,
-                                      manager: @manager)
+                                      sub_categories: @sub_categories)
   end
 
   def new

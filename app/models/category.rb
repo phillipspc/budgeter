@@ -1,5 +1,4 @@
 class Category < ApplicationRecord
-  include Transactionable
   belongs_to :user
   has_many :sub_categories, dependent: :destroy
   has_many :transactions

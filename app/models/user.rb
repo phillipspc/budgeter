@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  include Transactionable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,
          :confirmable
 
