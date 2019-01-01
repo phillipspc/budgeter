@@ -1,4 +1,4 @@
-class ChartService
+class DashboardChartService
   attr_accessor :transactions, :categories, :sub_categories
 
   def initialize(transactions:, categories:, sub_categories:)

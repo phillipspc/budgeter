@@ -18,10 +18,28 @@
       </span>
     </div>
 
+    <div class="columns">
+      <div class="column is-6">
+        <div class="box">
+          <canvas data-controller="chart"
+            data-chart-data="<%= @chart_service.sub_categories_data %>"
+            data-chart-labels="<%= @chart_service.sub_categories_labels %>">
+          </canvas>
+        </div>
+      </div>
+
+      <div class="column is-6">
+        <div class="box">
+        </div>
+      </div>
+    </div>
+
     <div class="box">
       <% if @transactions.any? %>
         <h1 class="title is-size-4">
           Transactions
+          <%= link_to "New Transaction", new_transaction_path,
+                class: "button is-primary is-pulled-right" %>
         </h1>
         <table class="table is-fullwidth is-narrow">
           <thead>

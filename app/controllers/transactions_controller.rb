@@ -4,14 +4,15 @@ class TransactionsController < ApplicationController
 
   def index
     @transactions = Transaction.includes(:user, :category, :sub_category).by_month(@month).
-      where(user: @manager.group_users)
+      where(user: @manager.group_users).
+      order("date desc")
 
     @categories = @manager.categories_with_budget_and_spending_for_month(@month)
     @sub_categories = @manager.sub_categories_with_spending_for_month(@month)
 
-    @chart_service = ChartService.new(transactions: @transactions,
-                                      categories: @categories,
-                                      sub_categories: @sub_categories)
+    @chart_service = DashboardChartService.new(transactions: @transactions,
+                                               categories: @categories,
+                                               sub_categories: @sub_categories)
   end
 
   def new

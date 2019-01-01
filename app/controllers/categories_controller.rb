@@ -27,6 +27,8 @@ class CategoriesController < ApplicationController
           redirect_to categories_path, alert: "You do not have permission to access this page."
         end
         @transactions = @category.transactions.by_month(@month)
+        @sub_categories = @category.sub_categories_with_spending_for_month(@month)
+        @chart_service = CategoryChartService.new(sub_categories: @sub_categories)
       end
       format.json do
         if @category.user == @manager

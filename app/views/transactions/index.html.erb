@@ -117,8 +117,8 @@
                 <td><%= transaction.user.email %></td>
                 <td><%= transaction.name %></td>
                 <td><%= number_to_currency transaction.amount %></td>
-                <td><%= transaction.category&.name %></td>
-                <td><%= transaction.sub_category&.name %></td>
+                <td><%= link_to transaction.category.name, category_path(transaction.category, month: @month) %></td>
+                <td><%= transaction.sub_category.name %></td>
                 <td><%= transaction.date %></td>
                 <td class="has-text-centered">
                   <%= link_to edit_transaction_path(transaction) do %>
