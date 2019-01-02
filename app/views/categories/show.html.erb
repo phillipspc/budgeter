@@ -75,7 +75,8 @@
                 <td><%= transaction.sub_category&.name %></td>
                 <td><%= transaction.date %></td>
                 <td class="has-text-centered">
-                  <%= link_to edit_transaction_path(transaction) do %>
+                  <%= link_to edit_transaction_path(transaction, redirect_url: category_path(@category, month: @month)),
+                        remote: true do %>
                     <span class="icon">
                       <i class="far fa-edit"></i>
                     </span>
