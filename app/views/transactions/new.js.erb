@@ -1,0 +1,4 @@
+document.querySelector("[data-container-for='modal']").
+  innerHTML = "<%= j render 'modal', transaction: @transaction, category: @category, redirect_url: @redirect_url %>"
+
+document.querySelector("[data-container-for='modal'] .modal").classList.add("is-active")

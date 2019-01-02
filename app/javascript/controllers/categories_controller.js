@@ -3,6 +3,12 @@ import { Controller } from "stimulus"
 export default class extends Controller {
   static targets = ["category", "subCategory"]
 
+  connect() {
+    if (this.data.get("updateOnConnect") === true) {
+      this.updateOptions()
+    }
+  }
+
   updateOptions() {
     const controller = this
     const id = this.categoryTarget.value

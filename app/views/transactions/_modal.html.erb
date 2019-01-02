@@ -1,0 +1,89 @@
+<div class="modal" data-controller="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">
+        <% if transaction.persisted? %>
+          <%= "Edit Transaction" %>
+        <% else %>
+          <%= "New Transaction" %>
+        <% end %>
+      </p>
+      <button class="delete" data-action="modal#close"></button>
+    </header>
+
+    <%# On the category page, we preselect the corresponding category. We'll also tell the stimulus
+        controller to update on connect to grab the corresponding sub categories %>
+    <%= form_with model: transaction,
+          data: { controller: "categories", "categories-update-on-connect" => (!!local_assigns[:category]).to_s } do |f| %>
+      <%= hidden_field_tag :redirect_url, redirect_url %>
+      <section class="modal-card-body">
+          <div class="field">
+            <div class="control">
+              <%= f.label :name, class: "label" %>
+              <%= f.text_field :name, class: "input" %>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="control">
+              <%= f.label :amount, class: "label" %>
+              <%= f.number_field :amount, class: "input", step: 0.01 %>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="control">
+              <%= f.label :category_id, class: 'label' %>
+              <div class="select is-fullwidth">
+                <%# pre-select category from transaction when editing. preselect category if provided (category page) %>
+                <%= f.select :category_id,
+                      options_for_select(@manager.categories.pluck(:name, :id), transaction.category_id || category),
+                      { include_blank: true },
+                      { data: { action: "categories#updateOptions", target: "categories.category" } } %>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="control">
+              <%= f.label :sub_category_id, class: 'label' %>
+              <div class="select is-fullwidth">
+                <% if transaction.persisted? %>
+                  <%# pre-select sub_category from transaction when editing %>
+                  <%= f.select :sub_category_id,
+                        options_for_select(transaction.category.sub_categories.pluck(:name, :id), transaction.sub_category.id),
+                        {}, { data: { target: "categories.subCategory" } } %>
+                <% else %>
+                  <%# if its a new transaction, we'll leave this select blank and disabled initially %>
+                  <%= f.select :sub_category_id, [], { include_blank: true },
+                        { disabled: true, data: { target: "categories.subCategory" } } %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="control">
+              <%= f.label :date, class: "label" %>
+              <%= f.text_field :date, class: "input", value: transaction.date || Date.today,
+                    data: { controller: "datepicker" } %>
+            </div>
+
+          </div>
+      </section>
+
+      <footer class="modal-card-foot">
+        <button class="button is-link is-outlined" data-action="modal#close">
+          <span class="icon">
+            <i class="fas fa-ban"></i>
+          </span>
+          <span>Cancel</span>
+        </button>
+
+        <%= f.submit "Save", class: "button is-primary is-pulled-right" %>
+      </footer>
+    <% end %>
+  </div>
+  <button class="modal-close is-large" data-action="modal#close"></button>
+</div>

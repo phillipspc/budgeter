@@ -17,17 +17,17 @@ class TransactionsController < ApplicationController
 
   def new
     @transaction = current_user.transactions.build
+    # keep track of redirect url so that we can go to the proper place after saving
+    @redirect_url = params[:redirect_url]
+    # if we're coming from a category page, we'll pre-select that category in the form
+    @category = params[:category]
   end
 
   def create
     @transaction = current_user.transactions.build
 
     if @transaction.update_attributes(transaction_params)
-      if params[:commit] == "Save and Add More"
-        redirect_to new_transaction_path, notice: "Successfully created Transaction"
-      else
-        redirect_to transactions_path, notice: "Successfully created Transaction"
-      end
+      redirect_to params[:redirect_url], notice: "Successfully created Transaction"
     else
       flash.now[:alert] = @transaction.errors.full_messages.join(", ")
       render partial: 'application/flash_messages', formats: [:js]
@@ -36,13 +36,15 @@ class TransactionsController < ApplicationController
 
   def edit
     @transaction = Transaction.find(params[:id])
+    # keep track of redirect url so that we can go to the proper place after saving
+    @redirect_url = params[:redirect_url]
   end
 
   def update
     @transaction = Transaction.find(params[:id])
 
     if @transaction.update_attributes(transaction_params)
-      redirect_to transactions_path
+      redirect_to params[:redirect_url], notice: "Successfully updated Transaction"
     else
       flash.now[:alert] = @transaction.errors.full_messages.join(", ")
       render partial: 'application/flash_messages', formats: [:js]

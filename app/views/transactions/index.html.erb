@@ -101,8 +101,9 @@
       <% if @transactions.any? %>
         <h1 class="title is-size-4">
           Transactions
-          <%= link_to "New Transaction", new_transaction_path,
-                class: "button is-primary is-pulled-right" %>
+          <%= link_to "New Transaction",
+                new_transaction_path(redirect_url: transactions_path(month: @month)),
+                remote: true, class: "button is-primary is-pulled-right" %>
         </h1>
         <table class="table is-fullwidth is-narrow">
           <thead>
@@ -127,7 +128,8 @@
                 <td><%= transaction.sub_category.name %></td>
                 <td><%= transaction.date %></td>
                 <td class="has-text-centered">
-                  <%= link_to edit_transaction_path(transaction) do %>
+                  <%= link_to edit_transaction_path(transaction, redirect_url: transactions_path(month: @month)),
+                        remote: true do %>
                     <span class="icon">
                       <i class="far fa-edit"></i>
                     </span>
@@ -148,7 +150,9 @@
       <% else %>
         <h1 class="subtitle is-size-4">
           No Transactions found for this month.
-          <%= link_to "New Transaction", new_transaction_path, class: "button is-primary is-pulled-right" %>
+          <%= link_to "New Transaction",
+                new_transaction_path(redirect_url: transactions_path(month: @month)),
+                remote: true, class: "button is-primary is-pulled-right" %>
         </h1>
       <% end %>
     </div>
