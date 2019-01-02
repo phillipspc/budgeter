@@ -17,17 +17,15 @@ class TransactionsController < ApplicationController
 
   def new
     @transaction = current_user.transactions.build
+    @redirect_url = params[:redirect_url]
+    @category = params[:category]
   end
 
   def create
     @transaction = current_user.transactions.build
 
     if @transaction.update_attributes(transaction_params)
-      if params[:commit] == "Save and Add More"
-        redirect_to new_transaction_path, notice: "Successfully created Transaction"
-      else
-        redirect_to transactions_path, notice: "Successfully created Transaction"
-      end
+      redirect_to params[:redirect_url], notice: "Successfully created Transaction"
     else
       flash.now[:alert] = @transaction.errors.full_messages.join(", ")
       render partial: 'application/flash_messages', formats: [:js]

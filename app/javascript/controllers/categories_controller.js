@@ -3,6 +3,10 @@ import { Controller } from "stimulus"
 export default class extends Controller {
   static targets = ["category", "subCategory"]
 
+  connect() {
+    this.updateOptions()
+  }
+
   updateOptions() {
     const controller = this
     const id = this.categoryTarget.value

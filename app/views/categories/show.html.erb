@@ -50,8 +50,9 @@
       <% if @transactions.any? %>
         <h1 class="title is-size-4">
           Transactions
-          <%= link_to "New Transaction", new_transaction_path,
-                class: "button is-primary is-pulled-right" %>
+          <%= link_to "New Transaction",
+                new_transaction_path(category: @category, redirect_url: category_path(@category, month: @month)),
+                remote: true, class: "button is-primary is-pulled-right" %>
         </h1>
         <table class="table is-fullwidth is-narrow">
           <thead>
@@ -95,7 +96,9 @@
       <% else %>
         <h1 class="subtitle is-size-4">
           No Transactions found for this month.
-          <%= link_to "New Transaction", new_transaction_path, class: "button is-primary is-pulled-right" %>
+          <%= link_to "New Transaction",
+                new_transaction_path(category: @category, redirect_url: category_path(@category, month: @month)),
+                remote: true, class: "button is-primary is-pulled-right" %>
         </h1>
       <% end %>
     </div>
