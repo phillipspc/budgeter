@@ -4,7 +4,7 @@ export default class extends Controller {
   static targets = ["category", "subCategory"]
 
   connect() {
-    if (this.data.get("updateOnConnect") === true) {
+    if (this.data.get("updateOnConnect") === 'true') {
       this.updateOptions()
     }
   }
