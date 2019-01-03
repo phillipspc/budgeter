@@ -60,6 +60,6 @@ class TransactionsController < ApplicationController
   private
 
     def transaction_params
-      params.require(:transaction).permit(:name, :amount, :date, :category_id, :sub_category_id)
+      params.require(:transaction).permit(:name, :amount, :date, :category_id, :sub_category_id, :recurring)
     end
 end

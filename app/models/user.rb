@@ -22,8 +22,8 @@ class User < ApplicationRecord
         <<-SQL.squish
           LEFT JOIN transactions ON
             transactions.category_id = categories.id AND
-            transactions.date >= '#{month.to_date}' AND
-            transactions.date <= '#{month.to_date.end_of_month}'
+            (transactions.date >= '#{month.to_date}' AND transactions.date <= '#{month.to_date.end_of_month}' OR
+            transactions.recurring = true)
           LEFT JOIN sub_categories ON
             sub_categories.category_id = categories.id
         SQL
@@ -43,8 +43,8 @@ class User < ApplicationRecord
         <<-SQL.squish
           LEFT JOIN transactions ON
             transactions.sub_category_id = sub_categories.id AND
-            transactions.date >= '#{month.to_date}' AND
-            transactions.date <= '#{month.to_date.end_of_month}'
+            (transactions.date >= '#{month.to_date}' AND transactions.date <= '#{month.to_date.end_of_month}' OR
+            transactions.recurring = true)
         SQL
       ).select(
         <<-SQL.squish
