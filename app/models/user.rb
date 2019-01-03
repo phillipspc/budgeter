@@ -22,19 +22,25 @@ class User < ApplicationRecord
         <<-SQL.squish
           LEFT JOIN transactions ON
             transactions.category_id = categories.id AND
-            (transactions.date >= '#{month.to_date}' AND transactions.date <= '#{month.to_date.end_of_month}' OR
-            transactions.recurring = true)
-          LEFT JOIN sub_categories ON
-            sub_categories.category_id = categories.id
+            ((transactions.date >= '#{month.to_date}' AND transactions.date <= '#{month.to_date.end_of_month}') OR
+             transactions.recurring = true)
+        SQL
+      ).joins(
+        <<-SQL.squish
+          LEFT JOIN (
+            SELECT sub_categories.category_id, SUM(sub_categories.budget) AS total_budget
+            FROM sub_categories
+            GROUP BY sub_categories.category_id
+          ) AS budgets_from_sub_categories ON budgets_from_sub_categories.category_id = categories.id
         SQL
       ).select(
         <<-SQL.squish
           categories.name,
           categories.id,
-          coalesce(SUM(DISTINCT transactions.amount), 0.0) AS spending,
-          coalesce(SUM(DISTINCT sub_categories.budget), 0.0) AS budget
+          coalesce(SUM(transactions.amount), 0.0) AS spending,
+          coalesce(budgets_from_sub_categories.total_budget, 0.0) AS budget
         SQL
-      ).group("categories.name, categories.id")
+      ).group("categories.name, categories.id, budgets_from_sub_categories.total_budget")
   end
 
   def sub_categories_with_spending_for_month(month)
