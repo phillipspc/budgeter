@@ -76,7 +76,7 @@
       Budgets
     </h1>
     <div class="box">
-      <% progress = @transactions.sum(:amount) %>
+      <% progress = @categories.sum(&:spending) %>
       <% total = @categories.sum(&:budget) %>
       <h3 class='is-size-5'>Overall -
         <span class='is-size-6'>

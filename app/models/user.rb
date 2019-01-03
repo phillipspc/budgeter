@@ -49,15 +49,15 @@ class User < ApplicationRecord
         <<-SQL.squish
           LEFT JOIN transactions ON
             transactions.sub_category_id = sub_categories.id AND
-            (transactions.date >= '#{month.to_date}' AND transactions.date <= '#{month.to_date.end_of_month}' OR
-            transactions.recurring = true)
+            ((transactions.date >= '#{month.to_date}' AND transactions.date <= '#{month.to_date.end_of_month}') OR
+             transactions.recurring = true)
         SQL
       ).select(
         <<-SQL.squish
           sub_categories.name,
           sub_categories.id,
           sub_categories.budget,
-          coalesce(SUM(DISTINCT transactions.amount), 0.0) AS spending
+          coalesce(SUM(transactions.amount), 0.0) AS spending
         SQL
       ).group("sub_categories.name, sub_categories.id, sub_categories.budget")
   end
