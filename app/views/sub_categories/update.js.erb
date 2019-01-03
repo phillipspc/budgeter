@@ -5,7 +5,7 @@
   row.innerHTML = "<%= j render @sub_category %>"
 
   document.querySelector("[data-category-id='<%= @sub_category.category.id %>'] .category-budget").
-    innerHTML = "<%= number_to_currency @sub_category.category.budget %>"
+    innerHTML = "<%= number_to_currency @sub_category.category.sub_categories.sum(:budget) %>"
 })()
 
 <%= render 'application/flash_messages', format: :js %>
