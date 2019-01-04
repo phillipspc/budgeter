@@ -9,6 +9,7 @@
 
     <div class="navbar-end">
       <% if current_user %>
+        <%= link_to "Recurring Transactions", recurring_path, class: "navbar-item" %>
         <%= link_to "Categories & Budgets", categories_path, class: "navbar-item" %>
 
         <div class="navbar-item has-dropdown is-hoverable">

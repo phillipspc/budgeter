@@ -15,6 +15,12 @@ class TransactionsController < ApplicationController
                                                sub_categories: @sub_categories)
   end
 
+  def recurring
+    @transactions = Transaction.recurring.includes(:user, :category, :sub_category).
+      where(user: @manager.group_users).
+      order("date desc")
+  end
+
   def new
     @transaction = current_user.transactions.build
     # keep track of redirect url so that we can go to the proper place after saving
@@ -27,7 +33,8 @@ class TransactionsController < ApplicationController
     @transaction = current_user.transactions.build
 
     if @transaction.update_attributes(transaction_params)
-      redirect_to params[:redirect_url], notice: "Successfully created Transaction"
+      redirect_to @transaction.recurring? ? recurring_path : params[:redirect_url],
+        notice: "Successfully created Transaction"
     else
       flash.now[:alert] = @transaction.errors.full_messages.join(", ")
       render partial: 'application/flash_messages', formats: [:js]
@@ -44,7 +51,8 @@ class TransactionsController < ApplicationController
     @transaction = Transaction.find(params[:id])
 
     if @transaction.update_attributes(transaction_params)
-      redirect_to params[:redirect_url], notice: "Successfully updated Transaction"
+      redirect_to @transaction.recurring? ? recurring_path : params[:redirect_url],
+        notice: "Successfully updated Transaction"
     else
       flash.now[:alert] = @transaction.errors.full_messages.join(", ")
       render partial: 'application/flash_messages', formats: [:js]
