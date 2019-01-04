@@ -1,0 +1,88 @@
+<section class="section p-t-md">
+  <div class="container">
+
+    <div class="level">
+      <div class="level-left">
+        <div class="level-item">
+          <%= link_to "All Transactions", transactions_path, class: "is-size-4" %>
+        </div>
+        <div class="level-item">
+          -
+        </div>
+        <div class="level-item">
+          <span class="is-size-4">Recurring</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="box">
+      <% if @transactions.any? %>
+        <h1 class="title is-size-4">
+          Recurring Transactions
+          <%= link_to new_transaction_path(redirect_url: recurring_path),
+                remote: true, class: "button is-primary is-pulled-right" do %>
+            <span class="icon">
+              <i class="fas fa-plus"></i>
+            </span>
+            <span>New Transaction</span>
+          <% end %>
+        </h1>
+        <p>
+          These transactions will automatically be included in each month's spending and budget data.
+        </p>
+        <br>
+        <table class="table is-fullwidth is-narrow">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Name</th>
+              <th>Amount</th>
+              <th>Category</th>
+              <th>SubCategory</th>
+              <th class="has-text-centered">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @transactions.each do |transaction| %>
+              <tr>
+                <td><%= transaction.user.email %></td>
+                <td><%= transaction.name %></td>
+                <td><%= number_to_currency transaction.amount %></td>
+                <td><%= link_to transaction.category.name, category_path(transaction.category) %></td>
+                <td><%= transaction.sub_category.name %></td>
+                <td class="has-text-centered">
+                  <%= link_to edit_transaction_path(transaction, redirect_url: recurring_path),
+                        remote: true do %>
+                    <span class="icon">
+                      <i class="far fa-edit"></i>
+                    </span>
+                  <% end %>
+                  <%= link_to transaction_path(transaction), method: :delete, data: {
+                        controller: "link", action: "link#confirm",
+                        "link-confirm-message" => "Are you sure you wish to delete this transaction?"
+                      } do %>
+                    <span class="icon">
+                      <i class="far fa-trash-alt"></i>
+                    </span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <h1 class="subtitle is-size-4">
+          You have no Recurring Transactions.
+          <%= link_to new_transaction_path(redirect_url: recurring_path),
+                remote: true, class: "button is-primary is-pulled-right" do %>
+            <span class="icon">
+              <i class="fas fa-plus"></i>
+            </span>
+            <span>New Transaction</span>
+          <% end %>
+        </h1>
+      <% end %>
+    </div>
+  </div>
+</section>
