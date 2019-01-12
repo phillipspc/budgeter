@@ -3,7 +3,7 @@ class CategoryChartService
 
   def initialize(category:, month:)
     self.category = category
-    self.sub_categories = category.sub_categories_with_spending_for_month(month)
+    self.sub_categories = category.sub_categories.with_spending_for_month(month)
     self.month = month
   end
 

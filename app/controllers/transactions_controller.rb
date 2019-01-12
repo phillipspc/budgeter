@@ -7,8 +7,8 @@ class TransactionsController < ApplicationController
       where(user: @manager.group_users).
       order("date desc")
 
-    @categories = @manager.categories_with_budget_and_spending_for_month(@month)
-    @sub_categories = @manager.sub_categories_with_spending_for_month(@month)
+    @categories = @manager.categories.with_budget_and_spending_for_month(@month)
+    @sub_categories = @manager.sub_categories.with_spending_for_month(@month)
 
     @chart_service = DashboardChartService.new(transactions: @transactions,
                                                categories: @categories,
