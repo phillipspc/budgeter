@@ -1,0 +1,67 @@
+# this month ----------------------------------------
+ellwoods:
+  name: Ellwood Thompsons
+  category: food
+  sub_category: groceries
+  amount: 100.00
+  date: <%= Time.now.to_date %>
+  user: stepha
+
+laura_lees:
+  name: Laura Lees
+  category: food
+  sub_category: eating_out
+  amount: 75.00
+  date: <%= Time.now.to_date %>
+  user: peter
+
+coat_rack:
+  name: Coat Rack
+  category: purchases
+  sub_category: household_supplies
+  amount: 50.00
+  date: <%= Time.now.to_date %>
+  user: peter
+
+shirt:
+  name: shirt
+  category: purchases
+  sub_category: clothes
+  amount: 30.00
+  date: <%= Time.now.to_date %>
+  user: stepha
+
+# last month --------------------------------------------
+
+publix:
+  name: Publix
+  category: food
+  sub_category: groceries
+  amount: 100.00
+  date: <%= (Time.now - 1.month).to_date %>
+  user: stepha
+
+
+brenner_pass:
+  name: Brenner Pass
+  category: food
+  sub_category: eating_out
+  amount: 70.00
+  date: <%= (Time.now - 1.month).to_date %>
+  user: peter
+
+mouse_traps:
+  name: Mouse Traps
+  category: purchases
+  sub_category: household_supplies
+  amount: 25.00
+  date: <%= (Time.now - 1.month).to_date %>
+  user: peter
+
+shoes:
+  name: shoes
+  category: purchases
+  sub_category: clothes
+  amount: 40.00
+  date: <%= (Time.now - 1.month).to_date %>
+  user: peter

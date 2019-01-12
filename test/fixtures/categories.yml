@@ -1,0 +1,7 @@
+food:
+  user: peter
+  name: Food
+
+purchases:
+  user: peter
+  name: puchases

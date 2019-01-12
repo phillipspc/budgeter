@@ -1,0 +1,19 @@
+groceries:
+  name: groceries
+  category: food
+  budget: 300
+
+eating_out:
+  name: eating_out
+  category: food
+  budget: 300
+
+household_supplies:
+  name: household_supplies
+  category: purchases
+  budget: 150
+
+clothes:
+  name: clothes
+  category: purchases
+  budget: 50
