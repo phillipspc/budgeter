@@ -1,0 +1,46 @@
+<div class="overflowable">
+  <table class="table is-fullwidth is-narrow visible-tablet-portrait-up">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <% unless local_assigns[:hide_category] %>
+          <th>Category</th>
+        <% end %>
+        <th>SubCategory</th>
+        <th>Date</th>
+        <th>Amount</th>
+        <th class="has-text-centered">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @transactions.each do |transaction| %>
+        <tr>
+          <td><%= transaction.name %></td>
+          <% unless local_assigns[:hide_category] %>
+            <td><%= link_to transaction.category.name, category_path(transaction.category, month: @month) %></td>
+          <% end %>
+          <td><%= transaction.sub_category.name %></td>
+          <td><%= transaction.date %></td>
+          <td><%= number_to_currency transaction.amount %></td>
+          <td class="has-text-centered">
+            <%= link_to edit_transaction_path(transaction, redirect_url: redirect_url),
+                  remote: true do %>
+              <span class="icon">
+                <i class="far fa-edit"></i>
+              </span>
+            <% end %>
+            <%= link_to transaction_path(transaction), method: :delete, data: {
+                  controller: "link", action: "link#confirm",
+                  "link-confirm-message" => "Are you sure you wish to delete this transaction?"
+                } do %>
+              <span class="icon">
+                <i class="far fa-trash-alt"></i>
+              </span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

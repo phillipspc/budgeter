@@ -123,50 +123,9 @@
           <% end %>
         </h1>
 
-        <div class="overflowable">
-          <table class="table is-fullwidth is-narrow">
-            <thead>
-              <tr>
-                <th>User</th>
-                <th>Name</th>
-                <th>Amount</th>
-                <th>Category</th>
-                <th>SubCategory</th>
-                <th>Date</th>
-                <th class="has-text-centered">Actions</th>
-              </tr>
-            </thead>
+        <%= render "table_tablet_up", redirect_url: transactions_path(month: @month) %>
+        <%= render "table_phone_only", redirect_url: transactions_path(month: @month) %>
 
-            <tbody>
-              <% @transactions.each do |transaction| %>
-                <tr>
-                  <td><%= transaction.user.email %></td>
-                  <td><%= transaction.name %></td>
-                  <td><%= number_to_currency transaction.amount %></td>
-                  <td><%= link_to transaction.category.name, category_path(transaction.category, month: @month) %></td>
-                  <td><%= transaction.sub_category.name %></td>
-                  <td><%= transaction.date %></td>
-                  <td class="has-text-centered">
-                    <%= link_to edit_transaction_path(transaction, redirect_url: transactions_path(month: @month)),
-                          remote: true do %>
-                      <span class="icon">
-                        <i class="far fa-edit"></i>
-                      </span>
-                    <% end %>
-                    <%= link_to transaction_path(transaction), method: :delete, data: {
-                          controller: "link", action: "link#confirm",
-                          "link-confirm-message" => "Are you sure you wish to delete this transaction?"
-                        } do %>
-                      <span class="icon">
-                        <i class="far fa-trash-alt"></i>
-                      </span>
-                    <% end %>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
       <% else %>
         <h1 class="subtitle is-size-4">
           No Transactions found for this month.
