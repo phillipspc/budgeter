@@ -1,18 +1,13 @@
 <section class="section p-t-md">
   <div class="container">
 
-    <div class="level">
-      <div class="level-left">
-        <div class="level-item">
-          <%= link_to "All Transactions", transactions_path, class: "is-size-4" %>
-        </div>
-        <div class="level-item">
-          -
-        </div>
-        <div class="level-item">
-          <span class="is-size-4">Recurring</span>
-        </div>
-      </div>
+    <div class="breadcrumb-wrapper m-b-lg">
+      <nav class="breadcrumb has-bullet-separator">
+        <ul>
+          <li><%= link_to "All Transactions", transactions_path(month: @month) %></li>
+          <li class="is-active"><a href="#">Recurring</a></li>
+        </ul>
+      </nav>
     </div>
 
     <div class="box">
