@@ -43,3 +43,13 @@ canvas {
     font-size: .75rem;
   }
 }
+
+.breadcrumb-wrapper {
+  display: flex;
+  justify-content: space-between;
+
+  .right-of-breadcrumb {
+    display: flex;
+    align-items: flex-start;
+  }
+}

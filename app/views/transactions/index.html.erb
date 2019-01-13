@@ -1,24 +1,22 @@
 <section class="section p-t-md">
   <div class="container">
 
-    <div class="level">
-      <div class="level-left">
-        <div class="level-item">
-          <span class="is-size-4">All Transactions</span>
-        </div>
-      </div>
+    <div class="breadcrumb-wrapper">
+      <nav class="breadcrumb has-bullet-separator">
+        <ul>
+          <li class="is-active"><a href="#">All Transactions</a></li>
+        </ul>
+      </nav>
 
-      <div class="level-right">
-        <div class="level-item">
-          <%= link_to new_transaction_path(redirect_url: transactions_path(month: @month)),
-                remote: true, class: "button is-primary" do %>
-            <span class="icon">
-              <i class="fas fa-plus"></i>
-            </span>
-            <span>New Transaction</span>
-          <% end %>
-        </div>
-      </div>
+      <nav class="right-of-breadcrumb">
+        <%= link_to new_transaction_path(redirect_url: transactions_path(month: @month)),
+              remote: true, class: "button is-primary" do %>
+          <span class="icon">
+            <i class="fas fa-plus"></i>
+          </span>
+          <span>New Transaction</span>
+        <% end %>
+      </nav>
     </div>
 
     <div id="month_picker">
