@@ -32,3 +32,24 @@ canvas {
   width: 100%;
   height: auto;
 }
+
+.overflowable {
+  overflow-x: auto;
+}
+
+.button {
+  @include for-phone-only {
+    border-radius: 2px;
+    font-size: .75rem;
+  }
+}
+
+.breadcrumb-wrapper {
+  display: flex;
+  justify-content: space-between;
+
+  .right-of-breadcrumb {
+    display: flex;
+    align-items: flex-start;
+  }
+}

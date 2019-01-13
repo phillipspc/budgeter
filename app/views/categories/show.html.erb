@@ -1,30 +1,23 @@
 <section class="section p-t-md">
   <div class="container">
 
-    <div class="level">
-      <div class="level-left">
-        <div class="level-item">
-          <%= link_to "All Transactions", transactions_path(month: @month), class: "is-size-4" %>
-        </div>
-        <div class="level-item">
-          -
-        </div>
-        <div class="level-item">
-          <span class="is-size-4"><%= @category.name %></span>
-        </div>
-      </div>
+    <div class="breadcrumb-wrapper">
+      <nav class="breadcrumb has-bullet-separator">
+        <ul>
+          <li><%= link_to "All Transactions", transactions_path(month: @month) %></li>
+          <li class="is-active"><a href="#"><%= @category.name %></a></li>
+        </ul>
+      </nav>
 
-      <div class="level-right">
-        <div class="level-item">
-          <%= link_to new_transaction_path(category: @category, redirect_url: category_path(@category, month: @month)),
-                remote: true, class: "button is-primary" do %>
-            <span class="icon">
-              <i class="fas fa-plus"></i>
-            </span>
-            <span>New Transaction</span>
-          <% end %>
-        </div>
-      </div>
+      <nav class="right-of-breadcrumb visible-tablet-portrait-up">
+        <%= link_to new_transaction_path(category: @category, redirect_url: category_path(@category, month: @month)),
+              remote: true, class: "button is-primary" do %>
+          <span class="icon">
+            <i class="fas fa-plus"></i>
+          </span>
+          <span>New Transaction</span>
+        <% end %>
+      </nav>
     </div>
 
     <div id="month_picker">
@@ -78,46 +71,12 @@
             <span>New Transaction</span>
           <% end %>
         </h1>
-        <table class="table is-fullwidth is-narrow">
-          <thead>
-            <tr>
-              <th>User</th>
-              <th>Name</th>
-              <th>Amount</th>
-              <th>SubCategory</th>
-              <th>Date</th>
-              <th class="has-text-centered">Actions</th>
-            </tr>
-          </thead>
 
-          <tbody>
-            <% @transactions.each do |transaction| %>
-              <tr>
-                <td><%= transaction.user.email %></td>
-                <td><%= transaction.name %></td>
-                <td><%= number_to_currency transaction.amount %></td>
-                <td><%= transaction.sub_category&.name %></td>
-                <td><%= transaction.date %></td>
-                <td class="has-text-centered">
-                  <%= link_to edit_transaction_path(transaction, redirect_url: category_path(@category, month: @month)),
-                        remote: true do %>
-                    <span class="icon">
-                      <i class="far fa-edit"></i>
-                    </span>
-                  <% end %>
-                  <%= link_to transaction_path(transaction), method: :delete, data: {
-                        controller: "link", action: "link#confirm",
-                        "link-confirm-message" => "Are you sure you wish to delete this transaction?"
-                      } do %>
-                    <span class="icon">
-                      <i class="far fa-trash-alt"></i>
-                    </span>
-                  <% end %>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
+        <%= render partial: "transactions/table_tablet_up",
+              locals: { hide_category: true, redirect_url: category_path(@category, month: @month) } %>
+        <%= render partial: "transactions/table_phone_only",
+              locals: { hide_category: true, redirect_url: category_path(@category, month: @month) } %>
+
       <% else %>
         <h1 class="subtitle is-size-4">
           No Transactions found for this month.

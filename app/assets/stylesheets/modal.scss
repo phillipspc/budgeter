@@ -1,0 +1,8 @@
+.modal {
+  @include for-phone-only {
+    .input, .select {
+      border-radius: 2px;
+      font-size: .75rem;
+    }
+  }
+}
