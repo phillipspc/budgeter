@@ -20,9 +20,11 @@
             <% end %>
             <%= transaction.sub_category.name %>
           </div>
-          <div class="is-size-7 has-text-grey">
-            <%= transaction.date %>
-          </div>
+          <% unless local_assigns[:hide_date] %>
+            <div class="is-size-7 has-text-grey">
+              <%= transaction.date %>
+            </div>
+          <% end %>
         </td>
         <td class="is-size-6"><%= number_to_currency transaction.amount %></td>
         <td class="has-text-centered">

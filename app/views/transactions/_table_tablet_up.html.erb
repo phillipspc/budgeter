@@ -1,5 +1,5 @@
-<div class="overflowable">
-  <table class="table is-fullwidth is-narrow visible-tablet-portrait-up">
+<div class="overflowable visible-tablet-portrait-up">
+  <table class="table is-fullwidth is-narrow">
     <thead>
       <tr>
         <th>Name</th>
@@ -7,7 +7,9 @@
           <th>Category</th>
         <% end %>
         <th>SubCategory</th>
-        <th>Date</th>
+        <% unless local_assigns[:hide_date] %>
+          <th>Date</th>
+        <% end %>
         <th>Amount</th>
         <th class="has-text-centered">Actions</th>
       </tr>
@@ -21,7 +23,9 @@
             <td><%= link_to transaction.category.name, category_path(transaction.category, month: @month) %></td>
           <% end %>
           <td><%= transaction.sub_category.name %></td>
-          <td><%= transaction.date %></td>
+          <% unless local_assigns[:hide_date] %>
+            <td><%= transaction.date %></td>
+          <% end %>
           <td><%= number_to_currency transaction.amount %></td>
           <td class="has-text-centered">
             <%= link_to edit_transaction_path(transaction, redirect_url: redirect_url),
