@@ -13,3 +13,15 @@
 @mixin for-big-desktop-up {
   @media (min-width: 1800px) { @content; }
 }
+
+.visible-phone-only {
+  @include for-tablet-portrait-up {
+    display: none;
+  }
+}
+
+.visible-tablet-portrait-up {
+  @include for-phone-only {
+    display: none;
+  }
+}

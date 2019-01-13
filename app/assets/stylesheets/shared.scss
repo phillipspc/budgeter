@@ -36,3 +36,10 @@ canvas {
 .overflowable {
   overflow-x: auto;
 }
+
+.button {
+  @include for-phone-only {
+    border-radius: 2px;
+    font-size: .75rem;
+  }
+}
