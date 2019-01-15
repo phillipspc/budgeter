@@ -1,7 +1,7 @@
 (function() {
   <% if @category_id %>
-    let div = document.querySelector("[data-category-id='<%= @category_id %>']").parentNode
-    div.parentNode.removeChild(div)
+    let table = document.querySelector("[data-category-id='<%= @category_id %>']")
+    table.parentNode.removeChild(table)
   <% end %>
 })()
 

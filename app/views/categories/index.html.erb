@@ -6,12 +6,10 @@
     </h1>
 
     <% @categories.each_with_index do |category, i| %>
-      <div class="box">
-        <table class="table is-fullwidth" data-controller="accordion"
-          data-category-id="<%= category.id %>">
-          <%= render category, collapsed: (i != 0) %>
-        </table>
-      </div>
+      <table class="category table is-striped is-bordered is-fullwidth" data-controller="accordion"
+        data-category-id="<%= category.id %>">
+        <%= render category, collapsed: (i != 0) %>
+      </table>
     <% end %>
 
   </div>

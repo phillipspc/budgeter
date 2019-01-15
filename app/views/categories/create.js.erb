@@ -4,13 +4,9 @@
   let newCategory = document.createElement("table")
   newCategory.dataset["categoryId"] = "<%= @category.id %>"
   newCategory.dataset["controller"] = "accordion"
-  newCategory.classList.add("table", "is-hoverable", "is-fullwidth")
+  newCategory.classList.add("category", "table", "is-striped", "is-bordered", "is-fullwidth")
 
-  let box = document.createElement("div")
-  box.classList.add("box")
-
-  document.querySelector(".container").appendChild(box)
-  document.querySelector(".container .box:last-child").appendChild(newCategory)
+  document.querySelector(".container").appendChild(newCategory)
 
   newCategory.innerHTML = "<%= j render @category, collapsed: false %>"
 })()

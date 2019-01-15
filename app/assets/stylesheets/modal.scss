@@ -1,8 +1,16 @@
-.modal {
+.modal.responsive {
   @include for-phone-only {
-    .input, .select {
+    .input, .select, .label {
       border-radius: 2px;
       font-size: .75rem;
+    }
+  }
+}
+
+.modal {
+  @include for-phone-only {
+    .modal-card-title {
+      font-size: 1rem;
     }
   }
 }
