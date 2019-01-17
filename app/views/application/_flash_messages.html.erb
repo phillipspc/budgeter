@@ -14,7 +14,9 @@
           </div>
         </div>
       </div>
-      <div class="progress-bar <%= key == 'notice' ? 'is-success' : 'is-link' %>"></div>
+      <div class="progress-bar <%= key == 'notice' ? 'is-success' : 'is-link' %>"
+        data-target='flash.progressBar'>
+      </div>
     </div>
   </div>
 <% end %>

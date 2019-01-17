@@ -27,9 +27,22 @@
     &.is-success {
       background-color: $green;
     }
+    -webkit-animation-name: fill;
+    -webkit-animation-duration: 4s;
+    animation-name: fill;
+    animation-duration: 4s;
   }
 }
 
+@-webkit-keyframes fill {
+  from { width: 0% }
+  to { width: 100% }
+}
+
+@keyframes fill {
+  from { width: 0% }
+  to { width: 100% }
+}
 
 tbody.collapsed {
   display: none;
