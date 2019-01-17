@@ -1,3 +1,36 @@
+.column.flash {
+  .level {
+    background-color: $grey-darker;
+    color: white;
+    border-radius: 5px;
+    .level-right a {
+      &:hover {
+        text-decoration: underline;
+        &.is-link {
+          color: $pink;
+        }
+        &.is-success {
+          color: $green;
+        }
+      }
+    }
+  }
+
+  .progress-bar {
+    margin-top: -4px;
+    height: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    &.is-link {
+      background-color: $pink;
+    }
+    &.is-success {
+      background-color: $green;
+    }
+  }
+}
+
+
 tbody.collapsed {
   display: none;
 }
