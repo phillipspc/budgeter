@@ -6,12 +6,6 @@
     .level-right a {
       &:hover {
         text-decoration: underline;
-        &.is-link {
-          color: $pink;
-        }
-        &.is-success {
-          color: $green;
-        }
       }
     }
   }
@@ -21,16 +15,8 @@
     height: 5px;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    &.is-link {
-      background-color: $pink;
-    }
-    &.is-success {
-      background-color: $green;
-    }
     -webkit-animation-name: fill;
-    -webkit-animation-duration: 4s;
     animation-name: fill;
-    animation-duration: 4s;
   }
 }
 

@@ -9,12 +9,12 @@
         </div>
         <div class="level-right">
           <div class="level-item">
-            <%= link_to "Close", "javascript:void(0)", class: (key == 'notice' ? 'is-success' : 'is-link'),
+            <%= link_to "Close", "javascript:void(0)", class: (key == 'notice' ? 'has-text-success' : 'has-text-link'),
                   data: { action: "flash#close" } %>
           </div>
         </div>
       </div>
-      <div class="progress-bar <%= key == 'notice' ? 'is-success' : 'is-link' %>"
+      <div class="progress-bar <%= key == 'notice' ? 'has-background-success' : 'has-background-link' %>"
         data-target='flash.progressBar'>
       </div>
     </div>
