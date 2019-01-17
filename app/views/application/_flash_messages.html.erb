@@ -1,21 +1,23 @@
 <% flash.each do |key, value| %>
-  <div class="columns m-t-sm" data-controller='flash'>
-    <div class="column is-8 is-offset-2 flash">
-      <div class="level p-md has-text-weight-bold m-b-none">
-        <div class="level-left">
-          <div class="level-item">
-            <%= simple_format(value, class: 'text') %>
+  <div class="flash-wrapper m-t-xs">
+    <div class="columns" data-controller='flash'>
+      <div class="column is-8 is-offset-2 flash">
+        <div class="level p-md has-text-weight-bold m-b-none">
+          <div class="level-left">
+            <div class="level-item">
+              <%= simple_format(value, class: 'text') %>
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="level-item">
+              <%= link_to "Close", "javascript:void(0)", class: (key == 'notice' ? 'has-text-success' : 'has-text-link'),
+                    data: { action: "flash#close" } %>
+            </div>
           </div>
         </div>
-        <div class="level-right">
-          <div class="level-item">
-            <%= link_to "Close", "javascript:void(0)", class: (key == 'notice' ? 'has-text-success' : 'has-text-link'),
-                  data: { action: "flash#close" } %>
-          </div>
+        <div class="progress-bar <%= key == 'notice' ? 'has-background-success' : 'has-background-link' %>"
+          data-target='flash.progressBar'>
         </div>
-      </div>
-      <div class="progress-bar <%= key == 'notice' ? 'has-background-success' : 'has-background-link' %>"
-        data-target='flash.progressBar'>
       </div>
     </div>
   </div>
