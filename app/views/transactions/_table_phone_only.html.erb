@@ -18,7 +18,9 @@
             <% unless local_assigns[:hide_category] %>
               <%= link_to transaction.category.name, category_path(transaction.category, month: @month) %> -
             <% end %>
-            <%= transaction.sub_category.name %>
+            <% unless local_assigns[:hide_sub_category] %>
+              <%= link_to transaction.sub_category.name, sub_category_path(transaction.sub_category, month: @month) %>
+            <% end %>
           </div>
           <% unless local_assigns[:hide_date] %>
             <div class="is-size-7 has-text-grey">

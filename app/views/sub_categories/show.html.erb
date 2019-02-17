@@ -1,0 +1,87 @@
+<section class="section p-t-md">
+  <div class="container">
+
+    <div class="breadcrumb-wrapper">
+      <nav class="breadcrumb has-bullet-separator">
+        <ul>
+          <li><%= link_to "All Transactions", transactions_path(month: @month) %></li>
+          <li><%= link_to @sub_category.category.name, category_path(@sub_category.category, month: @month) %></li>
+          <li class="is-active"><a href="#"><%= @sub_category.name %></a></li>
+        </ul>
+      </nav>
+
+      <nav class="right-of-breadcrumb visible-tablet-portrait-up">
+        <%= link_to new_transaction_path(sub_category: @sub_category,
+              redirect_url: sub_category_path(@sub_category, month: @month)),
+              remote: true, class: "button is-primary" do %>
+          <span class="icon">
+            <i class="fas fa-plus"></i>
+          </span>
+          <span>New Transaction</span>
+        <% end %>
+      </nav>
+    </div>
+
+    <div id="month_picker">
+      <span class="p-sm">
+        <%= link_to sub_category_path(@sub_category, month: previous_month_for(@month)) do  %>
+          <span class="icon">
+            <i class="fas fa-arrow-circle-left"></i>
+          </span>
+        <% end %>
+      </span>
+      <span class="has-text-weight-bold is-size-5 p-sm"><%= @month %></span>
+      <span class="p-sm">
+        <%= link_to sub_category_path(@sub_category, month: next_month_for(@month)) do  %>
+          <span class="icon">
+            <i class="fas fa-arrow-circle-right"></i>
+          </span>
+        <% end %>
+      </span>
+    </div>
+
+    <div class="box">
+      <canvas data-controller="chart"
+        data-chart-type="line"
+        data-chart-data="<%= @chart_service.spending_history_data %>"
+        data-chart-labels="<%= @chart_service.spending_history_labels %>"
+        height="300">
+      </canvas>
+    </div>
+
+
+    <div class="box">
+      <% if @transactions.any? %>
+        <h1 class="title is-size-4">
+          Transactions
+          <%= link_to new_transaction_path(sub_category: @sub_category,
+                redirect_url: sub_category_path(@sub_category, month: @month)),
+                remote: true, class: "button is-primary is-pulled-right" do %>
+            <span class="icon">
+              <i class="fas fa-plus"></i>
+            </span>
+            <span>New Transaction</span>
+          <% end %>
+        </h1>
+
+        <%= render partial: "transactions/table_tablet_up",
+              locals: { hide_sub_category: true, redirect_url: sub_category_path(@sub_category, month: @month) } %>
+        <%= render partial: "transactions/table_phone_only",
+              locals: { hide_sub_category: true, redirect_url: sub_category_path(@sub_category, month: @month) } %>
+
+      <% else %>
+        <h1 class="subtitle is-size-4">
+          No Transactions found for this month.
+          <%= link_to new_transaction_path(sub_category: @sub_category,
+                redirect_url: sub_category_path(@sub_category, month: @month)),
+                remote: true, class: "button is-primary is-pulled-right" do %>
+            <span class="icon">
+              <i class="fas fa-plus"></i>
+            </span>
+            <span>New Transaction</span>
+          <% end %>
+        </h1>
+      <% end %>
+    </div>
+  </div>
+</section>

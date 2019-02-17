@@ -1,14 +1,14 @@
-<td><%= sub_category.name %></td>
+<td><%= link_to sub_category.name, sub_category_path(sub_category) %></td>
 <td><%= number_to_currency sub_category.budget %></td>
 <td class="has-text-right">
-  <%= link_to edit_category_sub_category_path(sub_category.category, sub_category), remote: true,
+  <%= link_to edit_sub_category_path(sub_category), remote: true,
         class: "hoverable-action" do %>
     <span class="icon">
       <i class="far fa-edit"></i>
     </span>
   <% end %>
-  <%= link_to category_sub_category_path(sub_category.category, sub_category),
-        method: :delete, remote: true, class: "hoverable-action indented",
+  <%= link_to sub_category_path(sub_category), method: :delete, remote: true,
+        class: "hoverable-action indented",
         data: { controller: "link", action: "link#confirm",
                 "link-confirm-message" => "Are you sure you wish to delete this Sub Category?" } do %>
     <span class="icon">
