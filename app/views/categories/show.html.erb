@@ -10,7 +10,7 @@
       </nav>
 
       <nav class="right-of-breadcrumb visible-tablet-portrait-up">
-        <%= link_to new_transaction_path(category: @category, redirect_url: category_path(@category, month: @month)),
+        <%= link_to new_transaction_path(category_id: @category, redirect_url: category_path(@category, month: @month)),
               remote: true, class: "button is-primary" do %>
           <span class="icon">
             <i class="fas fa-plus"></i>
@@ -63,7 +63,7 @@
       <% if @transactions.any? %>
         <h1 class="title is-size-4">
           Transactions
-          <%= link_to new_transaction_path(category: @category, redirect_url: category_path(@category, month: @month)),
+          <%= link_to new_transaction_path(category_id: @category, redirect_url: category_path(@category, month: @month)),
                 remote: true, class: "button is-primary is-pulled-right" do %>
             <span class="icon">
               <i class="fas fa-plus"></i>
@@ -80,7 +80,7 @@
       <% else %>
         <h1 class="subtitle is-size-4">
           No Transactions found for this month.
-          <%= link_to new_transaction_path(category: @category, redirect_url: category_path(@category, month: @month)),
+          <%= link_to new_transaction_path(category_id: @category, redirect_url: category_path(@category, month: @month)),
                 remote: true, class: "button is-primary is-pulled-right" do %>
             <span class="icon">
               <i class="fas fa-plus"></i>

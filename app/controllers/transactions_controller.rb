@@ -26,8 +26,8 @@ class TransactionsController < ApplicationController
     # keep track of redirect url so that we can go to the proper place after saving
     @redirect_url = params[:redirect_url]
     # if we're coming from a category/sub_category page, we'll pre-select them in the form
-    @category = params[:category]
-    @sub_category = params[:sub_category]
+    @category = Category.find_by_id(params[:category_id])
+    @sub_category = SubCategory.find_by_id(params[:sub_category_id])
     @category = @sub_category.category if @sub_category && !@category
   end
 
