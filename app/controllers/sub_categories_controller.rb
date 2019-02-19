@@ -56,7 +56,7 @@ class SubCategoriesController < ApplicationController
   end
 
   def update_transactions_and_destroy
-    original_sub_category = SubCategory.find_by_id(params[:id])
+    original_sub_category = @manager.sub_categories&.find_by_id(params[:id])
     new_category = @manager.categories&.find_by_id(params[:category_id])
     new_sub_category = new_category&.sub_categories&.find_by_id(params[:sub_category_id])
 

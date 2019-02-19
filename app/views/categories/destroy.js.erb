@@ -1,4 +1,7 @@
 (function() {
+  // in case we came here from `update_transactions_and_destroy`, close the modal
+  document.querySelector("[data-container-for='modal'] .modal").classList.remove("is-active")
+
   <% if @category_id %>
     let table = document.querySelector("[data-category-id='<%= @category_id %>']")
     table.parentNode.removeChild(table)
