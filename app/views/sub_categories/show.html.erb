@@ -49,39 +49,8 @@
       </canvas>
     </div>
 
+    <%= render "transactions/transactions_table", redirect_url: sub_category_path(@sub_category, month: @month),
+          hidden_columns: ["sub_category"] %>
 
-    <div class="box">
-      <% if @transactions.any? %>
-        <h1 class="title is-size-4">
-          Transactions
-          <%= link_to new_transaction_path(sub_category_id: @sub_category,
-                redirect_url: sub_category_path(@sub_category, month: @month)),
-                remote: true, class: "button is-primary is-pulled-right" do %>
-            <span class="icon">
-              <i class="fas fa-plus"></i>
-            </span>
-            <span>New Transaction</span>
-          <% end %>
-        </h1>
-
-        <%= render partial: "transactions/table_tablet_up",
-              locals: { hide_sub_category: true, redirect_url: sub_category_path(@sub_category, month: @month) } %>
-        <%= render partial: "transactions/table_phone_only",
-              locals: { hide_sub_category: true, redirect_url: sub_category_path(@sub_category, month: @month) } %>
-
-      <% else %>
-        <h1 class="subtitle is-size-4">
-          No Transactions found for this month.
-          <%= link_to new_transaction_path(sub_category_id: @sub_category,
-                redirect_url: sub_category_path(@sub_category, month: @month)),
-                remote: true, class: "button is-primary is-pulled-right" do %>
-            <span class="icon">
-              <i class="fas fa-plus"></i>
-            </span>
-            <span>New Transaction</span>
-          <% end %>
-        </h1>
-      <% end %>
-    </div>
   </div>
 </section>

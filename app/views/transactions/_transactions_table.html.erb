@@ -1,0 +1,36 @@
+<div class="box">
+  <% if @transactions.any? %>
+    <h1 class="title is-size-4 is-clearfix">
+      Transactions
+      <span class="has-text-weight-normal">
+        (<%= number_to_currency @transactions.sum(:amount) %>)
+      </span>
+      <%= link_to new_transaction_path(redirect_url: redirect_url),
+            remote: true, class: "button is-primary is-pulled-right" do %>
+        <span class="icon">
+          <i class="fas fa-plus"></i>
+        </span>
+        <span class="visible-phone-only">New</span>
+        <span class="visible-tablet-portrait-up">New Transaction</span>
+      <% end %>
+    </h1>
+
+    <%= render "transactions/table_tablet_up", redirect_url: local_assigns[:redirect_url],
+          hidden_columns: local_assigns[:hidden_columns] %>
+    <%= render "transactions/table_phone_only", redirect_url: local_assigns[:redirect_url],
+          hidden_columns: local_assigns[:hidden_columns] %>
+
+  <% else %>
+    <h1 class="subtitle is-size-4">
+      No Transactions found for this month.
+      <%= link_to new_transaction_path(redirect_url: redirect_url),
+            remote: true, class: "button is-primary is-pulled-right" do %>
+        <span class="icon">
+          <i class="fas fa-plus"></i>
+        </span>
+        <span class="visible-phone-only">New</span>
+        <span class="visible-tablet-portrait-up">New Transaction</span>
+      <% end %>
+    </h1>
+  <% end %>
+</div>
