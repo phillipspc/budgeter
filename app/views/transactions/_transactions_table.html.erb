@@ -5,8 +5,8 @@
       <span class="has-text-weight-normal">
         (<%= number_to_currency @transactions.sum(:amount) %>)
       </span>
-      <%= link_to new_transaction_path(redirect_url: redirect_url),
-            remote: true, class: "button is-primary is-pulled-right" do %>
+      <%= link_to new_transaction_path(redirect_url: redirect_url, category_id: @category&.id,
+            sub_category_id: @sub_category&.id), remote: true, class: "button is-primary is-pulled-right" do %>
         <span class="icon">
           <i class="fas fa-plus"></i>
         </span>
@@ -23,8 +23,8 @@
   <% else %>
     <h1 class="subtitle is-size-4">
       No Transactions found for this month.
-      <%= link_to new_transaction_path(redirect_url: redirect_url),
-            remote: true, class: "button is-primary is-pulled-right" do %>
+      <%= link_to new_transaction_path(redirect_url: redirect_url, category_id: @category&.id,
+            sub_category_id: @sub_category&.id), remote: true, class: "button is-primary is-pulled-right" do %>
         <span class="icon">
           <i class="fas fa-plus"></i>
         </span>
