@@ -1,0 +1,58 @@
+<div class="modal" data-controller="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">
+        <%= sub_category.name %>
+      </p>
+      <button class="delete" data-action="modal#close"></button>
+    </header>
+    <%= form_with url: update_transactions_and_destroy_sub_category_path(sub_category),
+          data: { controller: "categories" } do |f| %>
+      <section class="modal-card-body">
+        <p>
+          This Sub Category has <strong><%= pluralize(sub_category.transactions.size, 'transaction') %></strong>
+          that must be re-assigned before it can be deleted. You can do this manually and try again,
+          or you can automatically update the Category/Sub Category of these transactions now.
+        </p>
+        <br>
+
+        <div class="field">
+          <div class="control">
+            <%= f.label :category_id, class: 'label' %>
+            <div class="select is-fullwidth">
+              <%# pre-select category from transaction when editing. preselect category if provided (category page) %>
+              <%= f.select :category_id,
+                    options_for_select(@manager.categories.pluck(:name, :id), category.id),
+                    { include_blank: true },
+                    { data: { action: "categories#updateOptions", target: "categories.category" } } %>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <%= f.label :sub_category_id, class: 'label' %>
+            <div class="select is-fullwidth">
+              <%= f.select :sub_category_id,
+                    options_for_select(category.sub_categories.pluck(:name, :id), sub_category.id),
+                    {}, { data: { target: "categories.subCategory" } } %>
+            </div>
+          </div>
+        </div>
+
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-link is-outlined" data-action="modal#close">
+          <span class="icon">
+            <i class="fas fa-ban"></i>
+          </span>
+          <span>Cancel</span>
+        </button>
+
+        <%= f.submit "Update Transactions and Delete", class: "button is-primary is-pulled-right" %>
+      </footer>
+    <% end %>
+  </div>
+  <button class="modal-close is-large" data-action="modal#close"></button>
+</div>

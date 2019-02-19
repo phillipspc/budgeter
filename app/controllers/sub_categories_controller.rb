@@ -42,11 +42,40 @@ class SubCategoriesController < ApplicationController
   end
 
   def destroy
-    sub_category = SubCategory.find_by_id(params[:id])
-    @sub_category_id = sub_category&.id
-    @category = sub_category&.category
-    unless sub_category && sub_category.destroy
-      flash.now[:alert] = "Unable to delete the requested Sub Category"
+    @sub_category = SubCategory.find_by_id(params[:id])
+    @sub_category_id = @sub_category&.id
+    @category = @sub_category&.category
+
+    if @sub_category
+      if @sub_category.transactions.any?
+        render :destroy_modal
+      else
+        @sub_category.destroy
+      end
+    end
+  end
+
+  def update_transactions_and_destroy
+    original_sub_category = @manager.sub_categories&.find_by_id(params[:id])
+    new_category = @manager.categories&.find_by_id(params[:category_id])
+    new_sub_category = new_category&.sub_categories&.find_by_id(params[:sub_category_id])
+
+    if original_sub_category && new_category && new_sub_category
+      # prevent re-assigning to same sub category
+      if original_sub_category == new_sub_category
+        redirect_to categories_path, alert: "You must select a new Sub Category to assign transactions to."
+      else
+        # update transactions to new category and sub category
+        original_sub_category.transactions.
+          update_all(category_id: new_category.id, sub_category_id: new_sub_category.id)
+
+        @category = original_sub_category.category
+        original_sub_category.destroy
+        flash.now[:notice] = "Successfully updated Transactions and deleted Sub Category."
+        render :destroy
+      end
+    else
+      redirect_to categories_path, alert: "Unable to perform requested action."
     end
   end
 

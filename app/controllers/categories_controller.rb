@@ -49,8 +49,34 @@ class CategoriesController < ApplicationController
 
   def destroy
     @category_id = @category.id
-    unless @category.destroy
-      flash.now[:alert] = "Unable to delete the requested Category"
+    if @category.transactions.any?
+      render :destroy_modal
+    else
+      @category.destroy
+    end
+  end
+
+  def update_transactions_and_destroy
+    original_category = @manager.categories&.find_by_id(params[:id])
+    new_category = @manager.categories&.find_by_id(params[:category_id])
+    new_sub_category = new_category&.sub_categories&.find_by_id(params[:sub_category_id])
+
+    if original_category && new_category && new_sub_category
+      # prevent re-assigning to same category
+      if original_category == new_category
+        redirect_to categories_path, alert: "You must select a new Category to assign transactions to."
+      else
+        # update transactions to new category and sub category
+        original_category.transactions.
+          update_all(category_id: new_category.id, sub_category_id: new_sub_category.id)
+
+        @category_id = original_category.id
+        original_category.destroy
+        flash.now[:notice] = "Successfully updated Transactions and deleted Category."
+        render :destroy
+      end
+    else
+      redirect_to categories_path, alert: "Unable to perform requested action."
     end
   end
 
