@@ -25,8 +25,10 @@ class TransactionsController < ApplicationController
     @transaction = current_user.transactions.build
     # keep track of redirect url so that we can go to the proper place after saving
     @redirect_url = params[:redirect_url]
-    # if we're coming from a category page, we'll pre-select that category in the form
-    @category = params[:category]
+    # if we're coming from a category/sub_category page, we'll pre-select them in the form
+    @category = Category.find_by_id(params[:category_id])
+    @sub_category = SubCategory.find_by_id(params[:sub_category_id])
+    @category = @sub_category.category if @sub_category && !@category
   end
 
   def create
@@ -62,7 +64,7 @@ class TransactionsController < ApplicationController
   def destroy
     transaction = Transaction.find(params[:id])
     transaction.destroy!
-    redirect_to transactions_path, notice: "Successfully deleted Transaction"
+    redirect_to (params[:redirect_url] || transactions_path), notice: "Successfully deleted Transaction"
   end
 
   private

@@ -110,34 +110,7 @@
       <% end %>
     </div>
 
-    <div class="box">
-      <% if @transactions.any? %>
-        <h1 class="title is-size-4 is-clearfix">
-          Transactions
-          <%= link_to new_transaction_path(redirect_url: transactions_path(month: @month)),
-                remote: true, class: "button is-primary is-pulled-right" do %>
-            <span class="icon">
-              <i class="fas fa-plus"></i>
-            </span>
-            <span>New Transaction</span>
-          <% end %>
-        </h1>
+    <%= render "transactions_table", redirect_url: transactions_path(month: @month) %>
 
-        <%= render "table_tablet_up", redirect_url: transactions_path(month: @month) %>
-        <%= render "table_phone_only", redirect_url: transactions_path(month: @month) %>
-
-      <% else %>
-        <h1 class="subtitle is-size-4">
-          No Transactions found for this month.
-          <%= link_to new_transaction_path(redirect_url: transactions_path(month: @month)),
-                remote: true, class: "button is-primary is-pulled-right" do %>
-            <span class="icon">
-              <i class="fas fa-plus"></i>
-            </span>
-            <span>New Transaction</span>
-          <% end %>
-        </h1>
-      <% end %>
-    </div>
   </div>
 </section>

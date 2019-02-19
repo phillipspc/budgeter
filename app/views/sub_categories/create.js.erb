@@ -1,17 +1,8 @@
 (function() {
   document.querySelector("[data-container-for='modal'] .modal").classList.remove("is-active")
 
-  let newSubCategory = document.createElement("tr")
-  newSubCategory.dataset["subCategoryId"] = "<%= @sub_category.id %>"
-
-  let referenceNode = document.querySelector("[data-category-id='<%= @category.id %>'] tbody tr:last-child")
-  referenceNode.parentNode.insertBefore(newSubCategory, referenceNode)
-
-  newSubCategory.innerHTML = "<%= j render @sub_category %>"
-
-  document.querySelector("[data-category-id='<%= @category.id %>'] .category-budget").
-    innerHTML = "<%= number_to_currency @category.sub_categories.sum(:budget) %>"
+  document.querySelector("[data-category-id='<%= @category.id %>']").
+    innerHTML = "<%= j render @category, collapsed: false %>"
 })()
-
 
 <%= render 'application/flash_messages', format: :js %>

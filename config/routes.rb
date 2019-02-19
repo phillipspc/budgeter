@@ -11,7 +11,6 @@ Rails.application.routes.draw do
 
   resources :transactions
   get "/recurring", to: "transactions#recurring", as: :recurring
-  resources :categories do
-    resources :sub_categories
-  end
+  resources :categories
+  resources :sub_categories
 end

@@ -1,13 +1,19 @@
+<% hide_category = local_assigns[:hidden_columns]&.include?("category") %>
+<% hide_sub_category = local_assigns[:hidden_columns]&.include?("sub_category") %>
+<% hide_date = local_assigns[:hidden_columns]&.include?("date") %>
+
 <div class="overflowable visible-tablet-portrait-up">
   <table class="table is-fullwidth is-narrow">
     <thead>
       <tr>
         <th>Name</th>
-        <% unless local_assigns[:hide_category] %>
+        <% unless hide_category %>
           <th>Category</th>
         <% end %>
-        <th>SubCategory</th>
-        <% unless local_assigns[:hide_date] %>
+        <% unless hide_sub_category %>
+          <th>Sub Category</th>
+        <% end %>
+        <% unless hide_date %>
           <th>Date</th>
         <% end %>
         <th>Amount</th>
@@ -19,11 +25,13 @@
       <% @transactions.each do |transaction| %>
         <tr>
           <td><%= transaction.name %></td>
-          <% unless local_assigns[:hide_category] %>
+          <% unless hide_category %>
             <td><%= link_to transaction.category.name, category_path(transaction.category, month: @month) %></td>
           <% end %>
-          <td><%= transaction.sub_category.name %></td>
-          <% unless local_assigns[:hide_date] %>
+          <% unless hide_sub_category %>
+            <td><%= link_to transaction.sub_category.name, sub_category_path(transaction.sub_category, month: @month) %></td>
+          <% end %>
+          <% unless hide_date %>
             <td><%= transaction.date %></td>
           <% end %>
           <td><%= number_to_currency transaction.amount %></td>
@@ -34,10 +42,9 @@
                 <i class="far fa-edit"></i>
               </span>
             <% end %>
-            <%= link_to transaction_path(transaction), method: :delete, data: {
-                  controller: "link", action: "link#confirm",
-                  "link-confirm-message" => "Are you sure you wish to delete this transaction?"
-                } do %>
+            <%= link_to transaction_path(transaction, redirect_url: redirect_url), method: :delete,
+                  data: { controller: "link", action: "link#confirm",
+                          "link-confirm-message" => "Are you sure you wish to delete this transaction?" } do %>
               <span class="icon">
                 <i class="far fa-trash-alt"></i>
               </span>

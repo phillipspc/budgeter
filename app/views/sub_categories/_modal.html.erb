@@ -12,6 +12,8 @@
       <button class="delete" data-action="modal#close"></button>
     </header>
     <%= form_with model: sub_category, url: url do |f| %>
+      <%= f.hidden_field :category_id, value: f.object.category_id %>
+      
       <section class="modal-card-body">
         <div class="columns">
           <div class="column is-8">

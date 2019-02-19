@@ -1,9 +1,8 @@
 <thead>
   <tr>
     <th>
-      <span data-action="click->accordion#toggle" class="is-clickable">
-        <%= "#{category.name} (#{category.sub_categories.size})" %>
-      </span>
+      <%= link_to category.name, category_path(category) %>
+      <span><%= "(#{category.sub_categories.size})" %></span>
     </th>
     <th class="category-budget">
       <%= number_to_currency category.sub_categories.sum(:budget) %>
@@ -46,7 +45,7 @@
 
   <tr>
     <td colspan="3" class="has-text-centered">
-      <%= link_to new_category_sub_category_path(category),
+      <%= link_to new_sub_category_path(category_id: category.id),
             class: "button is-primary is-small", remote: true do %>
         <span class="icon">
           <i class="fas fa-plus"></i>
