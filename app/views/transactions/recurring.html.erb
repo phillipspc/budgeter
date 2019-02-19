@@ -10,38 +10,7 @@
       </nav>
     </div>
 
-    <div class="box">
-      <% if @transactions.any? %>
-        <h1 class="title is-size-4 is-clearfix">
-          Recurring Transactions
-          <%= link_to new_transaction_path(redirect_url: recurring_path),
-                remote: true, class: "button is-primary is-pulled-right" do %>
-            <span class="icon">
-              <i class="fas fa-plus"></i>
-            </span>
-            <span>New Transaction</span>
-          <% end %>
-        </h1>
-        <p>
-          These transactions will automatically be included in each month's spending and budget data.
-        </p>
-        <br>
-
-        <%= render "table_tablet_up", hide_date: true, redirect_url: recurring_path %>
-        <%= render "table_phone_only", hide_date: true, redirect_url: recurring_path %>
-
-      <% else %>
-        <h1 class="subtitle is-size-4">
-          You have no Recurring Transactions.
-          <%= link_to new_transaction_path(redirect_url: recurring_path),
-                remote: true, class: "button is-primary is-pulled-right" do %>
-            <span class="icon">
-              <i class="fas fa-plus"></i>
-            </span>
-            <span>New Transaction</span>
-          <% end %>
-        </h1>
-      <% end %>
-    </div>
+    <%= render "transactions/transactions_table", redirect_url: recurring_path,
+          hidden_columns: ['date'] %>
   </div>
 </section>
