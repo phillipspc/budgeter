@@ -64,7 +64,7 @@ class TransactionsController < ApplicationController
   def destroy
     transaction = Transaction.find(params[:id])
     transaction.destroy!
-    redirect_to transactions_path, notice: "Successfully deleted Transaction"
+    redirect_to (params[:redirect_url] || transactions_path), notice: "Successfully deleted Transaction"
   end
 
   private
