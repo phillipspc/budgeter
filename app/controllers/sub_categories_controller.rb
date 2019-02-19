@@ -35,6 +35,7 @@ class SubCategoriesController < ApplicationController
 
   def update
     @sub_category = SubCategory.find_by_id(params[:id])
+    @category = @sub_category.category
     unless @sub_category.update_attributes(sub_category_params)
       flash.now[:alert] = @sub_category.errors.full_messages.join(", ")
     end
