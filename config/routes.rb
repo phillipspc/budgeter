@@ -12,5 +12,7 @@ Rails.application.routes.draw do
   resources :transactions
   get "/recurring", to: "transactions#recurring", as: :recurring
   resources :categories
-  resources :sub_categories
+  resources :sub_categories do
+    post "update_transactions_and_destroy", to: "sub_categories#update_transactions_and_destroy", on: :member
+  end
 end
