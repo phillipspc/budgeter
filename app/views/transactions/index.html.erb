@@ -71,7 +71,7 @@
       <div class="column is-6">
         <div class="box">
           <div>
-            <strong>Total Spent:</strong> <%= number_to_currency @transactions.sum(:amount) %>
+            <strong>Total Spent:</strong> <%= number_to_currency @categories.sum(&:spending) %>
           </div>
           <div>
             <strong>Largest Category:</strong>

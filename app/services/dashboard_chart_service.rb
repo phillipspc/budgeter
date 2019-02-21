@@ -1,4 +1,5 @@
 class DashboardChartService
+  include ActionView::Helpers::NumberHelper
   attr_accessor :transactions, :categories, :sub_categories
 
   def initialize(transactions:, categories:, sub_categories:)
@@ -20,7 +21,7 @@ class DashboardChartService
   end
 
   def largest_category
-    sorted_categories.first&.name
+    "#{sorted_categories.first&.name} - #{number_to_currency sorted_categories.first&.spending}"
   end
 
   def sorted_sub_categories
@@ -36,6 +37,6 @@ class DashboardChartService
   end
 
   def largest_sub_category
-    sorted_sub_categories.first&.name
+    "#{sorted_sub_categories.first&.name} - #{number_to_currency sorted_sub_categories.first&.spending}"
   end
 end
