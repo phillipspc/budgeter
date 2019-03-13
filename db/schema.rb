@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_03_195143) do
+ActiveRecord::Schema.define(version: 2019_03_13_193507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,13 @@ ActiveRecord::Schema.define(version: 2019_01_03_195143) do
     t.datetime "updated_at", null: false
     t.index ["user_id", "name"], name: "index_categories_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_categories_on_user_id"
+  end
+
+  create_table "plaid_items", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "item_id"
+    t.string "access_token"
+    t.index ["user_id"], name: "index_plaid_items_on_user_id"
   end
 
   create_table "sub_categories", force: :cascade do |t|
