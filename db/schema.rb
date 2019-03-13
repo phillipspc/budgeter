@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 2019_03_13_193507) do
 
   create_table "plaid_items", force: :cascade do |t|
     t.bigint "user_id"
-    t.bigint "item_id"
+    t.string "item_id"
     t.string "access_token"
     t.index ["user_id"], name: "index_plaid_items_on_user_id"
   end
