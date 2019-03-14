@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     post "update_transactions_and_destroy", to: "sub_categories#update_transactions_and_destroy", on: :member
   end
 
-  get "/plaid", to: "plaid#link"
-  post "/plaid/get_access_token", to: "plaid#get_access_token"
+  resources :imported_transactions
+
+  post "/plaid/create_item", to: "plaid#create_item"
+  get "/plaid/transactions", to: "plaid#transactions"
 end
