@@ -1,9 +1,8 @@
-require 'plaid'
-
 class PlaidItemsController < ApplicationController
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token
   before_action :set_client
+  before_action :set_month
 
   def create
     begin
@@ -27,9 +26,9 @@ class PlaidItemsController < ApplicationController
       message = "One or more of the requested accounts was not saved because it has no " \
                 "associated transactions." if skipped
 
-      redirect_to root_path, notice: message
+      redirect_to plaid_transactions_path(month: @month), notice: message
     rescue Plaid::PlaidAPIError => e
-      redirect_to root_path, alert: e.inspect
+      redirect_to transactions_path(month: @month), alert: e.inspect
     end
   end
 

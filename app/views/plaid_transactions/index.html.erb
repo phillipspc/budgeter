@@ -1,0 +1,58 @@
+<section class="section p-t-md">
+  <div class="container">
+
+    <div class="breadcrumb-wrapper">
+      <nav class="breadcrumb has-bullet-separator">
+        <ul>
+          <li><%= link_to "All Transactions", transactions_path(month: @month) %></li>
+          <li class="is-active"><a href="#">Imported Transactions</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div id="month_picker">
+      <span class="p-sm">
+        <%= link_to plaid_transactions_path(month: previous_month_for(@month)) do  %>
+          <span class="icon">
+            <i class="fas fa-arrow-circle-left"></i>
+          </span>
+        <% end %>
+      </span>
+      <span class="has-text-weight-bold is-size-5 p-sm"><%= @month %></span>
+      <span class="p-sm">
+        <%= link_to plaid_transactions_path(month: next_month_for(@month)) do  %>
+          <span class="icon">
+            <i class="fas fa-arrow-circle-right"></i>
+          </span>
+        <% end %>
+      </span>
+    </div>
+
+    <% @items_and_transactions.each do |item_name, transactions| %>
+      <div class="box">
+        <h1 class="subtitle"><%= item_name %></h1>
+
+        <table class="table is-fullwidth is-narrow">
+          <thead>
+            <tr>
+              <th>Amount</th>
+              <th>Category Data</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% transactions.each do |transaction| %>
+              <tr>
+                <td><%= number_to_currency transaction["amount"] %></td>
+                <td><%= transaction["category"].join(", ") %></td>
+                <td><%= transaction["date"] %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+
+  </div>
+</section>

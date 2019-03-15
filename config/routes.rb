@@ -19,4 +19,5 @@ Rails.application.routes.draw do
   end
 
   resources :plaid_items, only: :create
+  resources :plaid_transactions, only: :index
 end

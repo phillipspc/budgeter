@@ -6,13 +6,15 @@ export default class extends Controller {
   }
 
   get handler() {
+    const controller = this
+
     return Plaid.create({
       clientName: 'Plaid Quickstart',
       // Optional, specify an array of country codes to localize Link
       countryCodes: ['US'],
-      env: this.data.get("env"),
+      env: controller.data.get("env"),
       // Replace with your public_key from the Dashboard
-      key: this.data.get("publicKey"),
+      key: controller.data.get("publicKey"),
       product: ['transactions'],
       // Optional, use webhooks to get transaction and error updates
       // webhook: 'https://requestb.in',
@@ -31,7 +33,7 @@ export default class extends Controller {
         // The metadata object contains info about the institution the
         // user selected and the account ID or IDs, if the
         // Select Account view is enabled.
-        $.post(this.data.get("createItemUrl"), {
+        $.post(controller.data.get("createItemUrl"), {
           public_token: public_token,
           metadata: metadata
         });
