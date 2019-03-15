@@ -5,7 +5,7 @@
       <nav class="breadcrumb has-bullet-separator">
         <ul>
           <li><%= link_to "All Transactions", transactions_path(month: @month) %></li>
-          <li class="is-active"><a href="#">Imported Transactions</a></li>
+          <li class="is-active"><a href="#">Import Transactions</a></li>
         </ul>
       </nav>
     </div>
@@ -28,30 +28,43 @@
       </span>
     </div>
 
-    <% @items_and_transactions.each do |item_name, transactions| %>
+    <% @items_and_transactions.each do |item_id, transactions| %>
+      <% item = PlaidItem.includes(:plaid_accounts).find(item_id) %>
       <div class="box">
-        <h1 class="subtitle"><%= item_name %></h1>
+        <h1 class="subtitle"><%= item.name %></h1>
 
-        <table class="table is-fullwidth is-narrow">
+        <table class="table is-fullwidth is-narrow plaid-transactions">
           <thead>
             <tr>
               <th>Amount</th>
+              <th>Name</th>
+              <th>Account Name</th>
               <th>Category Data</th>
               <th>Date</th>
+              <th>Actions</th>
             </tr>
           </thead>
 
           <tbody>
             <% transactions.each do |transaction| %>
-              <tr>
+              <% imported = transaction["imported"] %>
+              <tr class="<%= 'imported' if imported %>">
                 <td><%= number_to_currency transaction["amount"] %></td>
+                <td><%= transaction["name"] %></td>
+                <td><%= transaction["account_name"] %></td>
                 <td><%= transaction["category"].join(", ") %></td>
                 <td><%= transaction["date"] %></td>
+                <td>
+                  <% unless imported %>
+                    <%= link_to "Import", new_plaid_transaction_path(plaid_transaction: transaction), remote: true %>
+                  <% end %>
+                </td>
               </tr>
             <% end %>
           </tbody>
         </table>
       </div>
+      <br>
     <% end %>
 
   </div>

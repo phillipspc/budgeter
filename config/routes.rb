@@ -19,5 +19,5 @@ Rails.application.routes.draw do
   end
 
   resources :plaid_items, only: :create
-  resources :plaid_transactions, only: :index
+  resources :plaid_transactions, only: [:index, :new, :create]
 end

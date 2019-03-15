@@ -66,3 +66,10 @@ table.category {
     }
   }
 }
+
+table.plaid-transactions tbody {
+  tr.imported {
+    border-left: 1px solid $green;
+    color: $grey-light;
+  }
+}
