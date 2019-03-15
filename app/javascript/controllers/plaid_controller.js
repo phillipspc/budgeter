@@ -31,7 +31,7 @@ export default class extends Controller {
         // The metadata object contains info about the institution the
         // user selected and the account ID or IDs, if the
         // Select Account view is enabled.
-        $.post('/plaid/create_item', {
+        $.post(this.data.get("createItemUrl"), {
           public_token: public_token,
           metadata: metadata
         });

@@ -28,7 +28,8 @@
           <%= link_to "javascript:void(0)", class: "button is-success", data: {
                 controller: "plaid", action: "plaid#open",
                 "plaid-env" => Rails.application.credentials.plaid_env ,
-                "plaid-public-key" => Rails.application.credentials.plaid_public_key
+                "plaid-public-key" => Rails.application.credentials.plaid_public_key,
+                "plaid-create-item-url" => plaid_items_path
             } do %>
             <span class="icon">
               <i class="fas fa-sync"></i>

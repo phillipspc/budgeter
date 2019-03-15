@@ -1,11 +1,11 @@
 require 'plaid'
 
-class PlaidController < ApplicationController
+class PlaidItemsController < ApplicationController
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token
   before_action :set_client
 
-  def create_item
+  def create
     begin
       # first perform the exchange to get our access_token
       exchange_token_response = @client.item.public_token.exchange(params[:public_token])
@@ -22,7 +22,6 @@ class PlaidController < ApplicationController
                                      name: institution_name,
                                      plaid_accounts_attributes: accounts_attributes)
 
-      # redirect_to plaid_item_path(plaid_item)
 
       message = "Success"
       message = "One or more of the requested accounts was not saved because it has no " \
