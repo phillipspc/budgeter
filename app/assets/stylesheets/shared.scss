@@ -81,7 +81,7 @@ table.plaid-transactions tbody {
     }
   }
   tr.ignored {
-    border-left: 2px solid $pink;
+    border-left: 2px solid $grey-light;
     color: $grey-light;
     a.import, a.ignore, a.edit {
       display: none;
