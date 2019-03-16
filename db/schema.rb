@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_16_165446) do
+ActiveRecord::Schema.define(version: 2019_03_16_193815) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,8 @@ ActiveRecord::Schema.define(version: 2019_03_16_165446) do
     t.bigint "plaid_item_id"
     t.string "account_id"
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["plaid_item_id"], name: "index_plaid_accounts_on_plaid_item_id"
   end
 
@@ -45,6 +47,8 @@ ActiveRecord::Schema.define(version: 2019_03_16_165446) do
     t.string "item_id"
     t.string "access_token"
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_plaid_items_on_user_id"
   end
 

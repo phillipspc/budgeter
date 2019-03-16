@@ -74,14 +74,14 @@ table.plaid-transactions tbody {
     }
   }
   tr.imported {
-    border-left: 2px solid $green;
+    border-left: 3px solid $green;
     color: $grey-light;
     a.import, a.ignore, a.unignore {
       display: none;
     }
   }
   tr.ignored {
-    border-left: 2px solid $grey-light;
+    border-left: 3px solid $grey-light;
     color: $grey-light;
     a.import, a.ignore, a.edit {
       display: none;
