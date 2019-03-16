@@ -48,15 +48,39 @@
           <tbody>
             <% transactions.each do |transaction| %>
               <% imported = transaction["imported"] %>
-              <tr class="<%= 'imported' if imported %>">
+              <% ignored = transaction["ignored"] %>
+              <tr class="<%= 'imported' if imported %> <%= 'ignored' if ignored %>"
+                  data-plaid-transaction-id="<%= transaction[:transaction_id] %>">
                 <td><%= number_to_currency transaction["amount"] %></td>
                 <td><%= transaction["name"] %></td>
                 <td><%= transaction["account_name"] %></td>
                 <td><%= transaction["category"].join(", ") %></td>
                 <td><%= transaction["date"] %></td>
                 <td>
-                  <% unless imported %>
-                    <%= link_to "Import", new_plaid_transaction_path(plaid_transaction: transaction), remote: true %>
+                  <%= link_to new_plaid_transaction_path(plaid_transaction: transaction),
+                        remote: true, class: "import" do %>
+                    <span class="icon has-text-success">
+                      <i class="fas fa-arrow-circle-down"></i>
+                    </span>
+                  <% end %>
+                  <%= link_to ignored_transactions_path(
+                        plaid_transaction_id: transaction[:transaction_id], date: transaction[:date]
+                      ), method: :post, remote: true, class: "ignore" do %>
+                    <span class="icon has-text-link">
+                      <i class="fas fa-eye-slash"></i>
+                    </span>
+                  <% end %>
+                  <%= link_to edit_plaid_transaction_path(transaction[:transaction_id]),
+                        remote: true, class: "edit" do %>
+                    <span class="icon has-text-link">
+                      <i class="far fa-edit"></i>
+                    </span>
+                  <% end %>
+                  <%= link_to ignored_transaction_path(transaction[:transaction_id]),
+                        method: :delete, remote: true, class: "unignore" do %>
+                    <span class="icon has-text-success">
+                      <i class="far fa-eye"></i>
+                    </span>
                   <% end %>
                 </td>
               </tr>

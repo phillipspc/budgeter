@@ -68,8 +68,23 @@ table.category {
 }
 
 table.plaid-transactions tbody {
+  tr:not(.imported):not(.ignored) {
+    a.edit, a.unignore {
+      display: none;
+    }
+  }
   tr.imported {
-    border-left: 1px solid $green;
+    border-left: 2px solid $green;
     color: $grey-light;
+    a.import, a.ignore, a.unignore {
+      display: none;
+    }
+  }
+  tr.ignored {
+    border-left: 2px solid $pink;
+    color: $grey-light;
+    a.import, a.ignore, a.edit {
+      display: none;
+    }
   }
 }

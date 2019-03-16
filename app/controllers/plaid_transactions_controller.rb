@@ -9,9 +9,10 @@ class PlaidTransactionsController < ApplicationController
       return redirect_to transactions_path, alert: "You have no accounts setup for importing transactions."
     end
 
-    @plaid_transaction_ids = Transaction.includes(:user).by_month(@month).
-                               where(user: @manager.group_users).
-                               pluck(:plaid_transaction_id)
+    @imported_ids = Transaction.includes(:user).by_month(@month).
+                      where(user: @manager.group_users).
+                      pluck(:plaid_transaction_id)
+    @ignored_ids = IgnoredTransaction.by_month(@month).where(user: @manager.group_users).pluck(:plaid_transaction_id)
     @items_and_transactions = transactions_for_items
   end
 
@@ -19,8 +20,9 @@ class PlaidTransactionsController < ApplicationController
     plaid_transaction = params[:plaid_transaction]
     @transaction = current_user.transactions.build(name: plaid_transaction[:name],
                                                    amount: plaid_transaction[:amount],
-                                                   date: plaid_transaction[:date])
-                                                   
+                                                   date: plaid_transaction[:date],
+                                                   plaid_transaction_id: plaid_transaction[:transaction_id])
+
     category_query = plaid_transaction[:category].map do |category|
       "name ILIKE '%#{category}%'"
     end.join(" OR ")
@@ -28,9 +30,32 @@ class PlaidTransactionsController < ApplicationController
   end
 
   def create
+    @transaction = current_user.transactions.build
+
+    if @transaction.update_attributes(transaction_params)
+      flash.now[:notice] = "Successfully saved Transaction."
+    else @transaction.errors.any?
+      flash.now[:alert] = @transaction.errors.full_messages.join(", ")
+      render partial: 'application/flash_messages', formats: [:js]
+    end
+  end
+
+  def edit
+    @transaction = Transaction.where(plaid_transaction_id: params[:id], user: @manager.group_users).first
+  end
+
+  def update
+  end
+
+  def destroy
   end
 
   private
+
+    def transaction_params
+      params.require(:transaction).permit(:plaid_transaction_id, :name, :amount, :category_id,
+        :sub_category_id, :date)
+    end
 
     def set_client
       @client = Plaid::Client.new(env: Rails.application.credentials.plaid_env,
@@ -51,7 +76,8 @@ class PlaidTransactionsController < ApplicationController
           map do |transaction|
             next unless account_ids_and_names.keys.include?(transaction["account_id"])
             transaction["account_name"] = account_ids_and_names[transaction["account_id"]]
-            transaction["imported"] = @plaid_transaction_ids.include?(transaction["transaction_id"])
+            transaction["imported"] = @imported_ids.include?(transaction["transaction_id"])
+            transaction["ignored"] = @ignored_ids.include?(transaction["transaction_id"])
             transaction
           end.compact
 

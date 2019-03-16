@@ -8,6 +8,7 @@ class User < ApplicationRecord
   belongs_to :manager, class_name: "User", optional: true
   has_many :users, class_name: "User", foreign_key: "manager_id", inverse_of: :manager
   has_many :plaid_items
+  has_many :ignored_transactions
 
   def group_users
     if is_manager?
