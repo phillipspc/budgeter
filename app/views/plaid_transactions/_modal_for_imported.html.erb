@@ -6,7 +6,7 @@
       <button class="delete" data-action="modal#close"></button>
     </header>
 
-    <%= form_with model: transaction,
+    <%= form_with model: transaction, url: plaid_transaction_path(transaction.plaid_transaction_id),
           data: { controller: "categories", "categories-update-on-connect" => false } do |f| %>
 
       <section class="modal-card-body">
