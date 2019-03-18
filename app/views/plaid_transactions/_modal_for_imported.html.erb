@@ -65,6 +65,15 @@
         </button>
 
         <%= f.submit "Save", class: "button is-primary is-pulled-right" %>
+        <%= link_to plaid_transaction_path(transaction.plaid_transaction_id), method: :delete,
+              remote: true, class: "button is-pulled-right is-link m-r-sm",
+              data: { controller: "link", action: "link#confirm",
+                      "link-confirm-message" => "Are you sure you wish to delete this Transaction?" } do %>
+          <span class="icon">
+            <i class="far fa-trash-alt"></i>
+          </span>
+          <span>Delete</span>
+        <% end %>
       </footer>
     <% end %>
   </div>

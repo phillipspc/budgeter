@@ -51,6 +51,9 @@ class PlaidTransactionsController < ApplicationController
   end
 
   def destroy
+    Transaction.where(plaid_transaction_id: params[:id], user: @manager.group_users).first.destroy
+    @plaid_transaction_id = params[:id]
+    flash.now[:notice] = "Successfully deleted Transaction"
   end
 
   private
