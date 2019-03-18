@@ -78,8 +78,10 @@
         </div>
 
         <%= f.check_box :recurring, checked: redirect_url == recurring_path,
+              disabled: ("disabled" if transaction.imported?),
               data: { action: "recurring#update", target: "recurring.checkbox" } %>
-        <%= f.label :recurring, "Make this a recurring (monthly) transaction", class: "has-text-weight-bold" %>
+        <%= f.label :recurring, "Make this a recurring (monthly) transaction",
+              class: "has-text-weight-bold #{'has-text-grey' if transaction.imported?}" %>
       </section>
 
       <footer class="modal-card-foot">
