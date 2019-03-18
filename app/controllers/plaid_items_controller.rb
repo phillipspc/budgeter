@@ -15,18 +15,21 @@ class PlaidItemsController < ApplicationController
 
       accounts_attributes, skipped = accounts_attributes_from_metadata(params[:metadata])
 
-      plaid_item = PlaidItem.create!(user: @manager,
-                                     access_token: access_token,
-                                     item_id: item_id,
-                                     name: institution_name,
-                                     plaid_accounts_attributes: accounts_attributes)
+      plaid_item = PlaidItem.new(user: @manager,
+                                 access_token: access_token,
+                                 item_id: item_id,
+                                 name: institution_name,
+                                 plaid_accounts_attributes: accounts_attributes)
+      if plaid_item.save
+        message = "Success"
+        message = "One or more of the requested accounts was not saved because it has no " \
+                 "associated transactions." if skipped
 
-
-      message = "Success"
-      message = "One or more of the requested accounts was not saved because it has no " \
-                "associated transactions." if skipped
-
-      redirect_to plaid_transactions_path(month: @month), notice: message
+        redirect_to plaid_transactions_path(month: @month), notice: message
+      else
+        redirect_to transactions_path(month: @month),
+          alert: "Failed to add Account: #{plaid_item.errors.full_messages.join(", ")}"
+      end
     rescue Plaid::PlaidAPIError => e
       redirect_to transactions_path(month: @month), alert: e.inspect
     end

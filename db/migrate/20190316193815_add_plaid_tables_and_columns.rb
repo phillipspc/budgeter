@@ -26,5 +26,6 @@ class AddPlaidTablesAndColumns < ActiveRecord::Migration[5.2]
     end
 
     add_column :transactions, :plaid_transaction_id, :string
+    add_index :transactions, [:user_id, :plaid_transaction_id], unique: true
   end
 end

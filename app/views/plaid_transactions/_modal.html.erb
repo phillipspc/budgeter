@@ -9,7 +9,7 @@
     <% update_on_connect = local_assigns[:category] && !local_assigns[:sub_category] %>
 
     <%= form_with model: transaction, url: plaid_transactions_path, data: {
-          controller: "categories recurring", "categories-update-on-connect" => update_on_connect
+          controller: "categories", "categories-update-on-connect" => update_on_connect
         } do |f| %>
 
       <%= f.hidden_field :plaid_transaction_id %>

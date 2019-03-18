@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 2019_03_16_193815) do
     t.string "plaid_transaction_id"
     t.index ["category_id"], name: "index_transactions_on_category_id"
     t.index ["sub_category_id"], name: "index_transactions_on_sub_category_id"
+    t.index ["user_id", "plaid_transaction_id"], name: "index_transactions_on_user_id_and_plaid_transaction_id", unique: true
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
