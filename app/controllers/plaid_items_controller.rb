@@ -38,10 +38,10 @@ class PlaidItemsController < ApplicationController
   private
 
     def set_client
-      @client = Plaid::Client.new(env: Rails.application.credentials.plaid_env,
-                                  client_id: Rails.application.credentials.plaid_client_id,
-                                  secret: Rails.application.credentials.plaid_secret,
-                                  public_key: Rails.application.credentials.plaid_public_key)
+      @client = Plaid::Client.new(env: Rails.application.credentials[Rails.env.to_sym][:plaid_env],
+                                  client_id: Rails.application.credentials[Rails.env.to_sym][:plaid_client_id],
+                                  secret: Rails.application.credentials[Rails.env.to_sym][:plaid_secret],
+                                  public_key: Rails.application.credentials[Rails.env.to_sym][:plaid_public_key])
     end
 
     def accounts_attributes_from_metadata(metadata)
