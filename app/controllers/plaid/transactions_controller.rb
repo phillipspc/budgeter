@@ -48,6 +48,7 @@ class Plaid::TransactionsController < Plaid::BaseController
     @transaction = Transaction.where(plaid_transaction_id: params[:id], user: @manager.group_users).first
 
     @transaction.update_attributes(transaction_params)
+    flash.now[:notice] = "Successfully updated Transaction"
   end
 
   def destroy
