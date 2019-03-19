@@ -1,4 +1,4 @@
-class PlaidItemsController < ApplicationController
+class Plaid::ItemsController < Plaid::BaseController
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token
   before_action :set_client
@@ -36,13 +36,6 @@ class PlaidItemsController < ApplicationController
   end
 
   private
-
-    def set_client
-      @client = Plaid::Client.new(env: Rails.application.credentials[Rails.env.to_sym][:plaid_env],
-                                  client_id: Rails.application.credentials[Rails.env.to_sym][:plaid_client_id],
-                                  secret: Rails.application.credentials[Rails.env.to_sym][:plaid_secret],
-                                  public_key: Rails.application.credentials[Rails.env.to_sym][:plaid_public_key])
-    end
 
     def accounts_attributes_from_metadata(metadata)
       skipped = false

@@ -1,4 +1,4 @@
-class PlaidTransactionsController < ApplicationController
+class Plaid::TransactionsController < Plaid::BaseController
   before_action :authenticate_user!
   before_action :set_client, only: :index
   before_action :set_month, only: :index
@@ -61,13 +61,6 @@ class PlaidTransactionsController < ApplicationController
     def transaction_params
       params.require(:transaction).permit(:plaid_transaction_id, :name, :amount, :category_id,
         :sub_category_id, :date)
-    end
-
-    def set_client
-      @client = Plaid::Client.new(env: Rails.application.credentials[Rails.env.to_sym][:plaid_env],
-                                  client_id: Rails.application.credentials[Rails.env.to_sym][:plaid_client_id],
-                                  secret: Rails.application.credentials[Rails.env.to_sym][:plaid_secret],
-                                  public_key: Rails.application.credentials[Rails.env.to_sym][:plaid_public_key])
     end
 
     def transactions_for_items

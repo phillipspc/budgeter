@@ -18,7 +18,9 @@ Rails.application.routes.draw do
     post "update_transactions_and_destroy", to: "sub_categories#update_transactions_and_destroy", on: :member
   end
 
-  resources :plaid_items, only: :create
-  resources :plaid_transactions, only: [:index, :new, :create, :edit, :update, :destroy]
+  namespace :plaid do
+    resources :items, only: :create
+    resources :transactions, only: [:index, :new, :create, :edit, :update, :destroy]
+  end
   resources :ignored_transactions, only: [:create, :destroy]
 end
