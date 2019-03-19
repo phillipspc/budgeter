@@ -9,7 +9,7 @@ export default class extends Controller {
     const controller = this
 
     return Plaid.create({
-      clientName: 'Plaid Quickstart',
+      clientName: 'Budgeter',
       // Optional, specify an array of country codes to localize Link
       countryCodes: ['US'],
       env: controller.data.get("env"),
