@@ -4,16 +4,23 @@ class Plaid::TransactionsController < Plaid::BaseController
   before_action :set_month, only: :index
 
   def index
-    @items = @manager.plaid_items.includes(:plaid_accounts)
-    unless @items
+    items = @manager.plaid_items.includes(:plaid_accounts, :plaid_imports)
+    unless items
       return redirect_to transactions_path, alert: "You have no accounts setup for importing transactions."
     end
 
-    @imported_ids = Transaction.includes(:user).by_month(@month).
-                      where(user: @manager.group_users).
-                      pluck(:plaid_transaction_id)
-    @ignored_ids = IgnoredTransaction.by_month(@month).where(user: @manager.group_users).pluck(:plaid_transaction_id)
-    @items_and_transactions = transactions_for_items
+    @items_and_transactions = PlaidImporterService.new(user: @manager,
+                                                       client: @client,
+                                                       month: @month,
+                                                       items: items).run
+
+                                                       binding.pry
+
+    # @imported_ids = Transaction.includes(:user).by_month(@month).
+    #                   where(user: @manager.group_users).
+    #                   pluck(:plaid_transaction_id)
+    # @ignored_ids = IgnoredTransaction.by_month(@month).where(user: @manager.group_users).pluck(:plaid_transaction_id)
+    # @items_and_transactions = transactions_for_items
   end
 
   def new
