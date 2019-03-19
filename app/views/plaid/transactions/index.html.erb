@@ -1,0 +1,109 @@
+<section class="section p-t-md">
+  <div class="container">
+
+    <div class="breadcrumb-wrapper">
+      <nav class="breadcrumb has-bullet-separator">
+        <ul>
+          <li><%= link_to "All Transactions", transactions_path(month: @month) %></li>
+          <li class="is-active"><a href="#">Import Transactions</a></li>
+        </ul>
+      </nav>
+
+      <nav class="right-of-breadcrumb">
+        <%= link_to "javascript:void(0)", class: "button is-primary", data: {
+              controller: "plaid", action: "plaid#open",
+              "plaid-env" => Rails.application.credentials[Rails.env.to_sym][:plaid_env] ,
+              "plaid-public-key" => Rails.application.credentials[Rails.env.to_sym][:plaid_public_key],
+              "plaid-create-item-url" => plaid_items_path(month: @month)
+          } do %>
+          <span class="icon">
+            <i class="fas fa-sync"></i>
+          </span>
+          <span>Add Accounts</span>
+        <% end %>
+      </nav>
+    </div>
+
+    <div id="month_picker">
+      <span class="p-sm">
+        <%= link_to plaid_transactions_path(month: previous_month_for(@month)) do  %>
+          <span class="icon">
+            <i class="fas fa-arrow-circle-left"></i>
+          </span>
+        <% end %>
+      </span>
+      <span class="has-text-weight-bold is-size-5 p-sm"><%= @month %></span>
+      <span class="p-sm">
+        <%= link_to plaid_transactions_path(month: next_month_for(@month)) do  %>
+          <span class="icon">
+            <i class="fas fa-arrow-circle-right"></i>
+          </span>
+        <% end %>
+      </span>
+    </div>
+
+    <% @items_and_transactions.each do |item_id, transactions| %>
+      <% item = PlaidItem.includes(:plaid_accounts).find(item_id) %>
+      <div class="box">
+        <h1 class="subtitle"><%= item.name %></h1>
+
+        <table class="table is-fullwidth is-narrow plaid-transactions">
+          <thead>
+            <tr>
+              <th>Amount</th>
+              <th>Name</th>
+              <th>Account Name</th>
+              <th>Category Data</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% transactions.each do |transaction| %>
+              <% imported = transaction["imported"] %>
+              <% ignored = transaction["ignored"] %>
+              <tr class="<%= 'imported' if imported %> <%= 'ignored' if ignored %>"
+                  data-plaid-transaction-id="<%= transaction[:transaction_id] %>">
+                <td><%= number_to_currency transaction["amount"] %></td>
+                <td><%= transaction["name"] %></td>
+                <td><%= transaction["account_name"] %></td>
+                <td><%= transaction["category"].join(", ") %></td>
+                <td><%= transaction["date"] %></td>
+                <td>
+                  <%= link_to new_plaid_transaction_path(plaid_transaction: transaction),
+                        remote: true, class: "import" do %>
+                    <span class="icon has-text-success">
+                      <i class="fas fa-arrow-circle-down"></i>
+                    </span>
+                  <% end %>
+                  <%= link_to ignored_transactions_path(
+                        plaid_transaction_id: transaction[:transaction_id], date: transaction[:date]
+                      ), method: :post, remote: true, class: "ignore" do %>
+                    <span class="icon has-text-link">
+                      <i class="fas fa-eye-slash"></i>
+                    </span>
+                  <% end %>
+                  <%= link_to edit_plaid_transaction_path(transaction[:transaction_id]),
+                        remote: true, class: "edit" do %>
+                    <span class="icon has-text-link">
+                      <i class="far fa-edit"></i>
+                    </span>
+                  <% end %>
+                  <%= link_to ignored_transaction_path(transaction[:transaction_id]),
+                        method: :delete, remote: true, class: "unignore" do %>
+                    <span class="icon has-text-grey-light">
+                      <i class="far fa-eye"></i>
+                    </span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <br>
+    <% end %>
+
+  </div>
+</section>

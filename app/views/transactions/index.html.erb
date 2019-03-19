@@ -10,11 +10,32 @@
 
       <nav class="right-of-breadcrumb">
         <%= link_to new_transaction_path(redirect_url: transactions_path(month: @month)),
-              remote: true, class: "button is-primary" do %>
+              remote: true, class: "button is-primary m-r-sm" do %>
           <span class="icon">
             <i class="fas fa-plus"></i>
           </span>
           <span>New Transaction</span>
+        <% end %>
+
+        <% if @manager.plaid_items.any? %>
+          <%= link_to plaid_transactions_path(month: @month), class: "button is-success" do %>
+            <span class="icon">
+              <i class="fas fa-sync"></i>
+            </span>
+            <span>Import Transactions</span>
+          <% end %>
+        <% else %>
+          <%= link_to "javascript:void(0)", class: "button is-success", data: {
+                controller: "plaid", action: "plaid#open",
+                "plaid-env" => Rails.application.credentials[Rails.env.to_sym][:plaid_env] ,
+                "plaid-public-key" => Rails.application.credentials[Rails.env.to_sym][:plaid_public_key],
+                "plaid-create-item-url" => plaid_items_path(month: @month)
+            } do %>
+            <span class="icon">
+              <i class="fas fa-sync"></i>
+            </span>
+            <span>Import Transactions</span>
+          <% end %>
         <% end %>
       </nav>
     </div>

@@ -66,3 +66,25 @@ table.category {
     }
   }
 }
+
+table.plaid-transactions tbody {
+  tr:not(.imported):not(.ignored) {
+    a.edit, a.unignore {
+      display: none;
+    }
+  }
+  tr.imported {
+    border-left: 3px solid $green;
+    color: $grey-light;
+    a.import, a.ignore, a.unignore {
+      display: none;
+    }
+  }
+  tr.ignored {
+    border-left: 3px solid $grey-light;
+    color: $grey-light;
+    a.import, a.ignore, a.edit {
+      display: none;
+    }
+  }
+}

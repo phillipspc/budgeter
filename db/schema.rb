@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_03_195143) do
+ActiveRecord::Schema.define(version: 2019_03_16_193815) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,34 @@ ActiveRecord::Schema.define(version: 2019_01_03_195143) do
     t.datetime "updated_at", null: false
     t.index ["user_id", "name"], name: "index_categories_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_categories_on_user_id"
+  end
+
+  create_table "ignored_transactions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "plaid_transaction_id"
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_ignored_transactions_on_user_id"
+  end
+
+  create_table "plaid_accounts", force: :cascade do |t|
+    t.bigint "plaid_item_id"
+    t.string "account_id"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["plaid_item_id"], name: "index_plaid_accounts_on_plaid_item_id"
+  end
+
+  create_table "plaid_items", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "item_id"
+    t.string "access_token"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_plaid_items_on_user_id"
   end
 
   create_table "sub_categories", force: :cascade do |t|
@@ -44,8 +72,10 @@ ActiveRecord::Schema.define(version: 2019_01_03_195143) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "recurring", default: false
+    t.string "plaid_transaction_id"
     t.index ["category_id"], name: "index_transactions_on_category_id"
     t.index ["sub_category_id"], name: "index_transactions_on_sub_category_id"
+    t.index ["user_id", "plaid_transaction_id"], name: "index_transactions_on_user_id_and_plaid_transaction_id", unique: true
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 

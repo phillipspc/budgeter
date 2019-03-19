@@ -1,0 +1,4 @@
+document.querySelector("[data-container-for='modal']").
+  innerHTML = "<%= j render 'modal_for_imported', transaction: @transaction %>"
+
+document.querySelector("[data-container-for='modal'] .modal").classList.add("is-active")

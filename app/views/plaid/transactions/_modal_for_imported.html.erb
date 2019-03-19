@@ -1,0 +1,81 @@
+<div class="modal responsive" data-controller="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Edit Imported Transaction</p>
+      <button class="delete" data-action="modal#close"></button>
+    </header>
+
+    <%= form_with model: transaction, url: plaid_transaction_path(transaction.plaid_transaction_id),
+          data: { controller: "categories", "categories-update-on-connect" => false } do |f| %>
+
+      <section class="modal-card-body">
+        <div class="field">
+          <div class="control">
+            <%= f.label :name, class: "label" %>
+            <%= f.text_field :name, class: "input" %>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <%= f.label :amount, class: "label" %>
+            <%= f.number_field :amount, class: "input", step: 0.01 %>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <%= f.label :category_id, class: 'label' %>
+            <div class="select is-fullwidth">
+              <%= f.select :category_id,
+                    options_for_select(@manager.categories.pluck(:name, :id), transaction.category_id),
+                    { include_blank: true },
+                    { data: { action: "categories#updateOptions", target: "categories.category" } } %>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <%= f.label :sub_category_id, class: 'label' %>
+            <div class="select is-fullwidth">
+              <%= f.select :sub_category_id,
+                    options_for_select(transaction.category.sub_categories.pluck(:name, :id), transaction.sub_category.id),
+                    {}, { data: { target: "categories.subCategory" } } %>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <%= f.label :date, class: "label" %>
+            <%= f.text_field :date, class: "input", value: transaction.date || Date.today,
+                  data: { controller: "datepicker", target: "recurring.dateInput" } %>
+          </div>
+        </div>
+      </section>
+
+      <footer class="modal-card-foot">
+        <button class="button is-link is-outlined" data-action="modal#close">
+          <span class="icon">
+            <i class="fas fa-ban"></i>
+          </span>
+          <span>Cancel</span>
+        </button>
+
+        <%= f.submit "Save", class: "button is-primary is-pulled-right" %>
+        <%= link_to plaid_transaction_path(transaction.plaid_transaction_id), method: :delete,
+              remote: true, class: "button is-pulled-right is-link m-r-sm",
+              data: { controller: "link", action: "link#confirm",
+                      "link-confirm-message" => "Are you sure you wish to delete this Transaction?" } do %>
+          <span class="icon">
+            <i class="far fa-trash-alt"></i>
+          </span>
+          <span>Delete</span>
+        <% end %>
+      </footer>
+    <% end %>
+  </div>
+  <button class="modal-close is-large" data-action="modal#close"></button>
+</div>
