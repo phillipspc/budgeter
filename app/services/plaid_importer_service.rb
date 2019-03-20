@@ -1,11 +1,10 @@
 class PlaidImporterService
   attr_accessor :client, :month, :items, :imported_transaction_ids, :ignored_transaction_ids
 
-  def initialize(client:, month:, items:)
-    self.client = client
+  def initialize(month:, user:)
+    self.client = build_client
     self.month = month
-    self.items = items
-    user = items.first.user
+    self.items = user.plaid_items
     self.imported_transaction_ids = Transaction.includes(:user).by_month(month).
                                       where(user: user.group_users).
                                       pluck(:plaid_transaction_id)
@@ -14,26 +13,26 @@ class PlaidImporterService
                                      pluck(:plaid_transaction_id)
   end
 
-  def run(force_sync: false)
+  def run(force_update: false)
     result = ActiveSupport::HashWithIndifferentAccess.new
 
     items.each do |item|
-      create_or_update_import(item) if force_sync || needs_import?(item)
-    end
-
-    items.each do |item|
-      transactions = transactions_for(item)
-      result[item.name] = { transactions: transactions }.merge(imported_at: item.import_for_month(month).updated_at)
+      create_or_update_import(item) if force_update || needs_import?(item)
+      result[item.name] = { transactions: transactions_for(item) }.
+        merge(imported_at: item.import_for_month(month).updated_at)
     end
 
     result
   end
 
-  def sync
-    items.each { |item| create_or_update_import(item) }
-  end
-
   private
+
+    def build_client
+      Plaid::Client.new(env: Rails.application.credentials[Rails.env.to_sym][:plaid_env],
+                        client_id: Rails.application.credentials[Rails.env.to_sym][:plaid_client_id],
+                        secret: Rails.application.credentials[Rails.env.to_sym][:plaid_secret],
+                        public_key: Rails.application.credentials[Rails.env.to_sym][:plaid_public_key])
+    end
 
     def create_or_update_import(item)
       data = client.transactions.get(item.access_token, beginning_of_month, end_of_month)

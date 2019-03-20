@@ -2,20 +2,16 @@ class Plaid::TransactionsController < Plaid::BaseController
   before_action :authenticate_user!
   before_action :set_client, only: :index
   before_action :set_month, only: :index
+  before_action :ensure_plaid_items_present, only: :index
   before_action :restrict_future_months, only: :index
 
   def index
-    items = @manager.plaid_items.includes(:plaid_accounts, :plaid_imports)
-    unless items
-      return redirect_to transactions_path, alert: "You have no accounts setup for importing transactions."
-    end
-
-    importer = PlaidImporterService.new(client: @client, month: @month, items: items)
+    importer = PlaidImporterService.new(month: @month, user: @manager)
 
     respond_to do |format|
       format.html { @items_and_data = importer.run }
       format.js do
-        @items_and_data = importer.run(force_sync: true)
+        @items_and_data = importer.run(force_update: true)
         flash.now[:notice] = "Successfully synced Transaction data."
       end
     end
@@ -67,6 +63,12 @@ class Plaid::TransactionsController < Plaid::BaseController
     def transaction_params
       params.require(:transaction).permit(:plaid_transaction_id, :name, :amount, :category_id,
         :sub_category_id, :date)
+    end
+
+    def ensure_plaid_items_present
+      unless @manager.plaid_items.any?
+        redirect_to transactions_path, alert: "You have no accounts setup for importing transactions."
+      end
     end
 
     def restrict_future_months
