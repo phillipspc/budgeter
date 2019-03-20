@@ -19,10 +19,10 @@ module ApplicationHelper
   end
 
   def import_time(datetime)
-    if datetime.to_date == Date.today
+    if datetime.localtime.to_date == Date.today
       datetime.localtime.strftime("%I:%M %p")
     else
-      datetime.to_date
+      datetime.localtime.to_date
     end
   end
 end

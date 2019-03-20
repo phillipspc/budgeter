@@ -48,12 +48,12 @@ class PlaidImporterService
 
     def viewing_current_month_and_import_outdated?(item)
       (Time.now.strftime("%B %Y") == month) &&
-        (Time.now - item.import_for_month(month).created_at.localtime) > 24.hours
+        (Time.now - item.import_for_month(month).updated_at.localtime) > 24.hours
     end
 
     def viewing_previous_month_and_import_outdated?(item)
       (Time.now.strftime("%B %Y") != month) &&
-        (item.import_for_month(month).created_at.localtime.end_of_month - item.import_for_month(month).created_at.localtime) > 24.hours
+        (month.to_time.localtime.end_of_month > item.import_for_month(month).updated_at.localtime)
     end
 
     def beginning_of_month

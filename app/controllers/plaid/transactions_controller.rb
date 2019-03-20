@@ -70,7 +70,7 @@ class Plaid::TransactionsController < Plaid::BaseController
     end
 
     def restrict_future_months
-      if @month.to_date.month > Time.now.to_date.month
+      if @month.to_date > Date.today.beginning_of_month
         redirect_to plaid_transactions_path, alert: "No import available for future months."
       end
     end
