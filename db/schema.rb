@@ -43,13 +43,11 @@ ActiveRecord::Schema.define(version: 2019_03_19_163116) do
   end
 
   create_table "plaid_imports", force: :cascade do |t|
-    t.bigint "user_id"
     t.string "plaid_item_id"
     t.jsonb "data"
     t.string "month"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_plaid_imports_on_user_id"
   end
 
   create_table "plaid_items", force: :cascade do |t|

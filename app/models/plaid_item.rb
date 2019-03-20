@@ -10,4 +10,8 @@ class PlaidItem < ApplicationRecord
       hash
     end
   end
+
+  def import_for_month(month)
+    plaid_imports.find_by_month(month)
+  end
 end

@@ -2,6 +2,7 @@ class Plaid::TransactionsController < Plaid::BaseController
   before_action :authenticate_user!
   before_action :set_client, only: :index
   before_action :set_month, only: :index
+  before_action :restrict_future_months, only: :index
 
   def index
     items = @manager.plaid_items.includes(:plaid_accounts, :plaid_imports)
@@ -9,18 +10,15 @@ class Plaid::TransactionsController < Plaid::BaseController
       return redirect_to transactions_path, alert: "You have no accounts setup for importing transactions."
     end
 
-    @items_and_transactions = PlaidImporterService.new(user: @manager,
-                                                       client: @client,
-                                                       month: @month,
-                                                       items: items).run
+    importer = PlaidImporterService.new(client: @client, month: @month, items: items)
 
-                                                       binding.pry
-
-    # @imported_ids = Transaction.includes(:user).by_month(@month).
-    #                   where(user: @manager.group_users).
-    #                   pluck(:plaid_transaction_id)
-    # @ignored_ids = IgnoredTransaction.by_month(@month).where(user: @manager.group_users).pluck(:plaid_transaction_id)
-    # @items_and_transactions = transactions_for_items
+    respond_to do |format|
+      format.html { @items_and_data = importer.run }
+      format.js do
+        @items_and_data = importer.run(force_sync: true)
+        flash.now[:notice] = "Successfully synced Transaction data."
+      end
+    end
   end
 
   def new
@@ -71,25 +69,9 @@ class Plaid::TransactionsController < Plaid::BaseController
         :sub_category_id, :date)
     end
 
-    def transactions_for_items
-      result = {}
-      beginning_of_month = @month.to_date
-      end_of_month = @month.to_date.end_of_month
-
-      @items.each do |item|
-        account_ids_and_names = item.account_ids_and_names
-        transactions = @client.transactions.
-          get(item.access_token, beginning_of_month, end_of_month)["transactions"].
-          map do |transaction|
-            next unless account_ids_and_names.keys.include?(transaction["account_id"])
-            transaction["account_name"] = account_ids_and_names[transaction["account_id"]]
-            transaction["imported"] = @imported_ids.include?(transaction["transaction_id"])
-            transaction["ignored"] = @ignored_ids.include?(transaction["transaction_id"])
-            transaction
-          end.compact
-
-        result[item.id] = transactions
+    def restrict_future_months
+      if @month.to_date.month > Time.now.to_date.month
+        redirect_to plaid_transactions_path, alert: "No import available for future months."
       end
-      result
     end
 end
