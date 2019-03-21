@@ -2,7 +2,22 @@
   <div class="container">
     <h1 class="title">
       Categories
-      <%= link_to "New Category", new_category_path, class: "button is-primary is-pulled-right", remote: true %>
+
+      <%= link_to new_category_path, class: "button is-primary is-pulled-right", remote: true do %>
+        <span class="icon">
+          <i class="fas fa-plus"></i>
+        </span>
+        <span>New Category</span>
+      <% end %>
+
+      <% if @manager.can_import? %>
+        <%= link_to plaid_categories_path, class: "button is-success is-pulled-right m-r-sm" do %>
+          <span class="icon">
+            <i class="fas fa-sitemap"></i>
+          </span>
+          <span>Map Imported Categories</span>
+        <% end %>
+      <% end %>
     </h1>
 
     <% @categories.each_with_index do |category, i| %>

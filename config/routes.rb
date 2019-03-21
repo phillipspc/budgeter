@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   namespace :plaid do
     resources :items, only: :create
     resources :transactions, only: [:index, :new, :create, :edit, :update, :destroy]
+    resources :categories
   end
   resources :ignored_transactions, only: [:create, :destroy]
 end

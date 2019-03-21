@@ -1,5 +1,4 @@
 class Plaid::TransactionsController < Plaid::BaseController
-  before_action :authenticate_user!
   before_action :set_client, only: :index
   before_action :set_month, only: :index
   before_action :ensure_plaid_items_present, only: :index
@@ -66,7 +65,7 @@ class Plaid::TransactionsController < Plaid::BaseController
     end
 
     def ensure_plaid_items_present
-      unless @manager.plaid_items.any?
+      unless @manager.can_import?
         redirect_to transactions_path, alert: "You have no accounts setup for importing transactions."
       end
     end

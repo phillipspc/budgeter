@@ -1,0 +1,30 @@
+<section class="section p-t-md">
+  <div class="container">
+
+    <div class="breadcrumb-wrapper m-b-md">
+      <nav class="breadcrumb has-bullet-separator">
+        <ul>
+          <li><%= link_to "All Categories", categories_path %></li>
+          <li class="is-active"><a href="#">Map Imported Categories</a></li>
+        </ul>
+      </nav>
+
+      <nav class="right-of-breadcrumb">
+        <%= link_to new_plaid_category_path, class: "button is-primary is-pulled-right", remote: true do %>
+          <span class="icon">
+            <i class="fas fa-plus"></i>
+          </span>
+          <span>New Mapping</span>
+        <% end %>
+      </nav>
+    </div>
+
+    <div class="box">
+      <h1 class="title is-size-4">
+        Mapped Categories
+      </h1>
+
+
+    </div>
+  </div>
+</section>

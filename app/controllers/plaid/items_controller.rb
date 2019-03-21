@@ -1,6 +1,5 @@
 class Plaid::ItemsController < Plaid::BaseController
-  before_action :authenticate_user!
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, only: :create
   before_action :set_client
   before_action :set_month
 
