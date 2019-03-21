@@ -43,9 +43,10 @@ ActiveRecord::Schema.define(version: 2019_03_21_175331) do
   end
 
   create_table "plaid_categories", force: :cascade do |t|
-    t.string "category_id"
-    t.bigint "sub_category_id"
     t.text "hierarchy"
+    t.bigint "category_id"
+    t.bigint "sub_category_id"
+    t.string "plaid_category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_plaid_categories_on_category_id"

@@ -20,10 +20,52 @@
     </div>
 
     <div class="box">
+      <p>
+        By mapping Imported Category Data to your own Categories/Sub Categories, you can speed up the
+        import process for common types of transactions. When adding the transaction, Budgeter will
+        look for a saved mapping and automatically select that categorization if available.
+      </p>
+      <br>
       <h1 class="title is-size-4">
         Mapped Categories
       </h1>
 
+      <table class="table is-fullwidth is-narrow">
+        <thead>
+          <tr>
+            <th>Imported Category hierarchy</th>
+            <th><span class="icon has-text-link"><i class="fas fa-arrow-right"></span></th>
+            <th>Category</th>
+            <th>Sub Category</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @plaid_categories.each do |plaid_category| %>
+            <tr>
+              <td><%= plaid_category.hierarchy %></td>
+              <td></td>
+              <td><%= plaid_category.category.name %></td>
+              <td><%= plaid_category.sub_category&.name %></td>
+              <td class="has-text-centered">
+                <%= link_to edit_plaid_category_path(plaid_category), remote: true do %>
+                  <span class="icon">
+                    <i class="far fa-edit"></i>
+                  </span>
+                <% end %>
+                <%= link_to plaid_category_path(plaid_category), method: :delete,
+                      data: { controller: "link", action: "link#confirm",
+                              "link-confirm-message" => "Are you sure you wish to delete this Category Mapping?" } do %>
+                  <span class="icon">
+                    <i class="far fa-trash-alt"></i>
+                  </span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
 
     </div>
   </div>
