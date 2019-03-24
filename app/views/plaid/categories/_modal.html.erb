@@ -9,6 +9,7 @@
     </header>
     <%= form_with model: plaid_category,
           data: { controller: "categories", "categories-include-blank-sub-category" => true } do |f| %>
+      <%= hidden_field_tag :redirect_url, redirect_url %>
       <section class="modal-card-body">
         <div class="field">
           <div class="control">

@@ -1,6 +1,6 @@
 class Plaid::CategoriesController < Plaid::BaseController
-  before_action :set_client, only: [:new, :edit]
-  before_action :set_category_data, only: [:new, :edit]
+  before_action :set_client, only: [:new, :edit, :new_or_edit]
+  before_action :set_category_data, only: [:new, :edit, :new_or_edit]
 
   def index
     @plaid_categories = @manager.plaid_categories.includes(:category, :sub_category).order(:hierarchy)
@@ -22,9 +22,17 @@ class Plaid::CategoriesController < Plaid::BaseController
     end
   end
 
+  def new_or_edit
+    @plaid_category = @manager.plaid_categories.find_or_initialize_by(hierarchy: params[:hierarchy])
+    if @plaid_category.persisted?
+      render :edit
+    else
+      render :new
+    end
+  end
+
   def edit
     @plaid_category = PlaidCategory.find(params[:id])
-    @redirect_url = params[:redirect_url] || plaid_categories_path
   end
 
   def update

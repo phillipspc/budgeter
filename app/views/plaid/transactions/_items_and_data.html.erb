@@ -32,10 +32,9 @@
             <td><%= transaction["name"] %></td>
             <td><%= transaction["account_name"] %></td>
             <td>
-              <% plaid_category = @manager.plaid_categories.find_by_hierarchy(transaction["hierarchy"]) %>
-              <%= link_to transaction["hierarchy"], plaid_category ?
-                    edit_plaid_category_path(plaid_category) :
-                     new_plaid_category_path(hierarchy: transaction["hierarchy"]), remote: true %>
+              <%= link_to transaction["hierarchy"], new_or_edit_plaid_categories_path(
+                  hierarchy: transaction["hierarchy"], redirect_url: plaid_transactions_path(month: @month)
+                ), remote: true %>
             </td>
             <td><%= transaction["date"] %></td>
             <td>

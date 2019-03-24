@@ -21,7 +21,9 @@ Rails.application.routes.draw do
   namespace :plaid do
     resources :items, only: :create
     resources :transactions, only: [:index, :new, :create, :edit, :update, :destroy]
-    resources :categories
+    resources :categories do
+      get "/new_or_edit", to: "categories#new_or_edit", on: :collection
+    end
   end
   resources :ignored_transactions, only: [:create, :destroy]
 end
