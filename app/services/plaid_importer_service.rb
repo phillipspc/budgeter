@@ -70,6 +70,7 @@ class PlaidImporterService
         next unless account_ids_and_names.keys.include?(transaction["account_id"])
 
         transaction["account_name"] = account_ids_and_names[transaction["account_id"]]
+        transaction["hierarchy"] = transaction["category"].join(", ")
         transaction["imported"] = imported_transaction_ids.include?(transaction["transaction_id"])
         transaction["ignored"] = ignored_transaction_ids.include?(transaction["transaction_id"])
 

@@ -31,7 +31,12 @@
             <td><%= number_to_currency transaction["amount"] %></td>
             <td><%= transaction["name"] %></td>
             <td><%= transaction["account_name"] %></td>
-            <td><%= transaction["category"].join(", ") %></td>
+            <td>
+              <% plaid_category = @manager.plaid_categories.find_by_hierarchy(transaction["hierarchy"]) %>
+              <%= link_to transaction["hierarchy"], plaid_category ?
+                    edit_plaid_category_path(plaid_category) :
+                     new_plaid_category_path(hierarchy: transaction["hierarchy"]), remote: true %>
+            </td>
             <td><%= transaction["date"] %></td>
             <td>
               <%= link_to new_plaid_transaction_path(plaid_transaction: transaction),

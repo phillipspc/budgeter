@@ -7,7 +7,7 @@ class Plaid::CategoriesController < Plaid::BaseController
   end
 
   def new
-    @plaid_category = PlaidCategory.new
+    @plaid_category = PlaidCategory.new(hierarchy: params[:hierarchy].presence)
   end
 
   def create
