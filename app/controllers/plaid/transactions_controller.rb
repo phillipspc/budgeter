@@ -23,10 +23,17 @@ class Plaid::TransactionsController < Plaid::BaseController
                                                    date: plaid_transaction[:date],
                                                    plaid_transaction_id: plaid_transaction[:transaction_id])
 
-    category_query = plaid_transaction[:category].map do |category|
-      "name ILIKE '%#{category}%'"
-    end.join(" OR ")
-    @category = @manager.categories.where(category_query).first
+    matching_service = CategoryMatchingService.new(user: @manager,
+                                                   category_data: plaid_transaction["category"]).run
+    if matching_service.matched_plaid_category
+      @category = matching_service.matched_plaid_category.category
+      @sub_category = matching_service.matched_plaid_category.sub_category
+    elsif matching_service.matched_sub_category
+      @sub_category = matching_service.matched_sub_category
+      @category = @sub_category.category
+    elsif matching_service.matched_category
+      @category = matching_service.matched_category
+    end
   end
 
   def create
