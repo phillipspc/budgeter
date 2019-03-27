@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
 
-  def authenticate_user!
+  def authenticate_user!(opts = {})
     super
 
     @manager = current_user.is_manager? ? current_user : current_user.manager
