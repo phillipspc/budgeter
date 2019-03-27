@@ -19,9 +19,9 @@ class Plaid::TransactionsController < Plaid::BaseController
   def new
     plaid_transaction = params[:plaid_transaction]
     @transaction = @manager.transactions.build(name: plaid_transaction[:name],
-                                                   amount: plaid_transaction[:amount],
-                                                   date: plaid_transaction[:date],
-                                                   plaid_transaction_id: plaid_transaction[:transaction_id])
+                                               amount: plaid_transaction[:amount],
+                                               date: plaid_transaction[:date],
+                                               plaid_transaction_id: plaid_transaction[:transaction_id])
 
     matching_service = CategoryMatchingService.new(user: @manager,
                                                    category_data: plaid_transaction["category"]).run
