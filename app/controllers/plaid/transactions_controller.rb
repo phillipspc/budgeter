@@ -18,7 +18,7 @@ class Plaid::TransactionsController < Plaid::BaseController
 
   def new
     plaid_transaction = params[:plaid_transaction]
-    @transaction = current_user.transactions.build(name: plaid_transaction[:name],
+    @transaction = @manager.transactions.build(name: plaid_transaction[:name],
                                                    amount: plaid_transaction[:amount],
                                                    date: plaid_transaction[:date],
                                                    plaid_transaction_id: plaid_transaction[:transaction_id])
@@ -37,7 +37,7 @@ class Plaid::TransactionsController < Plaid::BaseController
   end
 
   def create
-    @transaction = current_user.transactions.build
+    @transaction = @manager.transactions.build
 
     if @transaction.update_attributes(transaction_params)
       flash.now[:notice] = "Successfully saved Transaction."
@@ -48,18 +48,17 @@ class Plaid::TransactionsController < Plaid::BaseController
   end
 
   def edit
-    @transaction = Transaction.where(plaid_transaction_id: params[:id], user: @manager.group_users).first
+    @transaction = @manager.transactions.find_by_plaid_transaction_id(params[:id])
   end
 
   def update
-    @transaction = Transaction.where(plaid_transaction_id: params[:id], user: @manager.group_users).first
-
+    @transaction = @manager.transactions.find_by_plaid_transaction_id(params[:id])
     @transaction.update_attributes(transaction_params)
     flash.now[:notice] = "Successfully updated Transaction"
   end
 
   def destroy
-    Transaction.where(plaid_transaction_id: params[:id], user: @manager.group_users).first.destroy
+    @manager.transactions.find_by_plaid_transaction_id(params[:id]).destroy
     @plaid_transaction_id = params[:id]
     flash.now[:notice] = "Successfully deleted Transaction"
   end

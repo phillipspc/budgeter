@@ -5,12 +5,8 @@ class PlaidImporterService
     self.client = build_client
     self.month = month
     self.items = user.plaid_items
-    self.imported_transaction_ids = Transaction.includes(:user).by_month(month).
-                                      where(user: user.group_users).
-                                      pluck(:plaid_transaction_id)
-    self.ignored_transaction_ids = IgnoredTransaction.by_month(month).
-                                     where(user: user.group_users).
-                                     pluck(:plaid_transaction_id)
+    self.imported_transaction_ids = user.transactions.by_month(month).pluck(:plaid_transaction_id)
+    self.ignored_transaction_ids = user.ignored_transactions.by_month(month).pluck(:plaid_transaction_id)
   end
 
   def run(force_update: false)
