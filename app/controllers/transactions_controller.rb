@@ -3,9 +3,8 @@ class TransactionsController < ApplicationController
   before_action :set_month, only: :index
 
   def index
-    @transactions = Transaction.includes(:user, :category, :sub_category).by_month(@month).
-      where(user: @manager.group_users).
-      order("date desc")
+    @transactions = @manager.transactions.includes(:user, :category, :sub_category).
+                      by_month(@month).order("date desc")
 
     @categories = @manager.categories.with_budget_and_spending_for_month(@month)
     @sub_categories = @manager.sub_categories.with_spending_for_month(@month)
@@ -16,13 +15,11 @@ class TransactionsController < ApplicationController
   end
 
   def recurring
-    @transactions = Transaction.recurring.includes(:user, :category, :sub_category).
-      where(user: @manager.group_users).
-      order("date desc")
+    @transactions = @manager.transactions.recurring.includes(:user, :category, :sub_category).order("date desc")
   end
 
   def new
-    @transaction = current_user.transactions.build
+    @transaction = @manager.transactions.build
     # keep track of redirect url so that we can go to the proper place after saving
     @redirect_url = params[:redirect_url]
     # if we're coming from a category/sub_category page, we'll pre-select them in the form
@@ -32,7 +29,7 @@ class TransactionsController < ApplicationController
   end
 
   def create
-    @transaction = current_user.transactions.build
+    @transaction = @manager.transactions.build
 
     if @transaction.update_attributes(transaction_params)
       redirect_to @transaction.recurring? ? recurring_path : params[:redirect_url],
