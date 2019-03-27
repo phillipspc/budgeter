@@ -1,0 +1,78 @@
+<div class="modal" data-controller="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">
+        <%= plaid_category.persisted? ? "Edit Mapping" : "New Mapping" %>
+      </p>
+      <button class="delete" data-action="modal#close"></button>
+    </header>
+    <%= form_with model: plaid_category,
+          data: { controller: "categories", "categories-include-blank-sub-category" => true } do |f| %>
+      <%= hidden_field_tag :redirect_url, redirect_url %>
+      <section class="modal-card-body">
+        <div class="field">
+          <div class="control">
+            <%= f.label :hierarchy, "Imported Category Hierarchy", class: 'label' %>
+            <div class="select is-fullwidth">
+              <%= f.select :hierarchy, options_for_select(@category_data.values, plaid_category.hierarchy),
+                    { include_blank: true }, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <div class="has-text-centered">
+          <div>
+            <span class="icon has-text-link"><i class="fas fa-arrow-up"></i></span>
+          </div>
+          <div>
+            Maps To
+          </div>
+          <div>
+            <span class="icon has-text-link"><i class="fas fa-arrow-down"></i></span>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <%= f.label :category_id, "Category", class: 'label' %>
+            <div class="select is-fullwidth">
+              <%= f.select :category_id,
+                    options_for_select(@manager.categories.pluck(:name, :id), plaid_category.category_id),
+                    { include_blank: true },
+                    { required: true, data: { action: "categories#updateOptions", target: "categories.category" } } %>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <%= f.label :sub_category_id, "SubCategory (Optional)", class: 'label' %>
+            <div class="select is-fullwidth">
+              <% if plaid_category.persisted? %>
+                <%= f.select :sub_category_id,
+                      options_for_select(plaid_category.category.sub_categories.pluck(:name, :id), plaid_category.sub_category_id),
+                      { include_blank: true }, { data: { target: "categories.subCategory" } } %>
+              <% else %>
+                <%= f.select :sub_category_id, [], { include_blank: true },
+                      { disabled: true, data: { target: "categories.subCategory" } } %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+      </section>
+      <footer class="modal-card-foot">
+        <a class="button is-link is-outlined" data-action="modal#close">
+          <span class="icon">
+            <i class="fas fa-ban"></i>
+          </span>
+          <span>Cancel</span>
+        </a>
+
+        <%= f.submit "Save", class: "button is-primary is-pulled-right" %>
+      </footer>
+    <% end %>
+  </div>
+  <button class="modal-close is-large" data-action="modal#close"></button>
+</div>

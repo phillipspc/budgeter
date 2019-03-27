@@ -1,0 +1,74 @@
+<section class="section p-t-md">
+  <div class="container">
+
+    <div class="breadcrumb-wrapper m-b-md">
+      <nav class="breadcrumb has-bullet-separator">
+        <ul>
+          <li><%= link_to "All Categories", categories_path %></li>
+          <li class="is-active"><a href="#">Map Imported Categories</a></li>
+        </ul>
+      </nav>
+
+      <nav class="right-of-breadcrumb">
+        <%= link_to new_plaid_category_path, class: "button is-primary is-pulled-right", remote: true do %>
+          <span class="icon">
+            <i class="fas fa-plus"></i>
+          </span>
+          <span>New Mapping</span>
+        <% end %>
+      </nav>
+    </div>
+
+    <div class="box">
+      <p>
+        By mapping imported category data to your own Categories/Sub Categories, you can speed up the
+        import process for common types of transactions. When adding the transaction, Budgeter will
+        look for a saved mapping and automatically select that categorization, using the most specific
+        mapping available. If no mapping is found, Budgeter will pre-select any Categories/Sub Categories
+        with names matching that of the imported category data.
+      </p>
+      <br>
+      <h1 class="title is-size-4">
+        Mapped Categories
+      </h1>
+
+      <table class="table is-fullwidth is-narrow">
+        <thead>
+          <tr>
+            <th>Imported Category hierarchy</th>
+            <th><span class="icon has-text-link"><i class="fas fa-arrow-right"></span></th>
+            <th>Category</th>
+            <th>Sub Category</th>
+            <th class="has-text-centered">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @plaid_categories.each do |plaid_category| %>
+            <tr>
+              <td><%= plaid_category.hierarchy %></td>
+              <td></td>
+              <td><%= plaid_category.category.name %></td>
+              <td><%= plaid_category.sub_category&.name %></td>
+              <td class="has-text-centered">
+                <%= link_to edit_plaid_category_path(plaid_category), remote: true do %>
+                  <span class="icon">
+                    <i class="far fa-edit"></i>
+                  </span>
+                <% end %>
+                <%= link_to plaid_category_path(plaid_category), method: :delete,
+                      data: { controller: "link", action: "link#confirm",
+                              "link-confirm-message" => "Are you sure you wish to delete this Category Mapping?" } do %>
+                  <span class="icon">
+                    <i class="far fa-trash-alt"></i>
+                  </span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</section>

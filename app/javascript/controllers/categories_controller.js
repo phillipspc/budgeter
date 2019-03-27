@@ -12,6 +12,7 @@ export default class extends Controller {
   updateOptions() {
     const controller = this
     const id = this.categoryTarget.value
+    const includeBlankSubCategory = this.data.get("includeBlankSubCategory")
 
     if (id) {
       fetch(`/categories/${id}.json`)
@@ -22,6 +23,9 @@ export default class extends Controller {
         let mapped = json.map(el => {
           return `<option value='${el.id}'>${el.name}</option>`
         })
+        if (includeBlankSubCategory) {
+          mapped.unshift("<option value></option>")
+        }
         controller.subCategoryTarget.innerHTML = mapped.join('')
         controller.subCategoryTarget.disabled = false
       })

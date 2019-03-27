@@ -18,7 +18,7 @@
         <% end %>
 
         <% if @month.to_date <= Date.today.beginning_of_month %>
-          <% if @manager.plaid_items.any? %>
+          <% if @manager.can_import? %>
             <%= link_to plaid_transactions_path(month: @month), class: "button is-success" do %>
               <span class="icon">
                 <i class="fas fa-sync"></i>

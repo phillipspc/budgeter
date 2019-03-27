@@ -4,6 +4,7 @@ class User < ApplicationRecord
 
   has_many :categories
   has_many :sub_categories, through: :categories
+  has_many :plaid_categories, through: :categories
   has_many :transactions
   belongs_to :manager, class_name: "User", optional: true
   has_many :users, class_name: "User", foreign_key: "manager_id", inverse_of: :manager
@@ -16,5 +17,9 @@ class User < ApplicationRecord
     else
       manager.group_users
     end
+  end
+
+  def can_import?
+    plaid_items.any?
   end
 end
