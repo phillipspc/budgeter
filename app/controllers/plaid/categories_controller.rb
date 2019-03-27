@@ -1,6 +1,7 @@
 class Plaid::CategoriesController < Plaid::BaseController
   before_action :set_client, only: [:new, :edit, :new_or_edit]
   before_action :set_category_data, only: [:new, :edit, :new_or_edit]
+  before_action :set_plaid_category, only: [:edit, :update, :destroy]
 
   def index
     @plaid_categories = @manager.plaid_categories.includes(:category, :sub_category).order(:hierarchy)
@@ -32,12 +33,9 @@ class Plaid::CategoriesController < Plaid::BaseController
   end
 
   def edit
-    @plaid_category = PlaidCategory.find(params[:id])
   end
 
   def update
-    @plaid_category = PlaidCategory.find(params[:id])
-
     if @plaid_category.update_attributes(plaid_category_params)
       redirect_to params[:redirect_url].presence || plaid_categories_path,
         notice: "Successfully updated Category Mapping"
@@ -48,10 +46,12 @@ class Plaid::CategoriesController < Plaid::BaseController
   end
 
   def destroy
-    PlaidCategory.find(params[:id]).destroy
-    redirect_to plaid_categories_path, notice: "Successfully deleted Mapping"
+    if @plaid_category.destroy
+      redirect_to plaid_categories_path, notice: "Successfully deleted Mapping"
+    else
+      redirect_to plaid_categories_path, alert: "Unable to delete requested Mapping"
+    end
   end
-
 
   private
 
@@ -63,6 +63,14 @@ class Plaid::CategoriesController < Plaid::BaseController
       @category_data = {}
       @client.categories.get()['categories'].each do |data|
         @category_data[data["category_id"]] = data["hierarchy"].join(", ")
+      end
+    end
+
+    def set_plaid_category
+      @plaid_category = @manager.plaid_categories.find_by_id(params[:id])
+
+      unless @plaid_category
+        redirect_to plaid_categories_path, alert: "Unable to find requested Mapping"
       end
     end
 end
