@@ -64,6 +64,7 @@ class PlaidImporterService
 
       item.import_for_month(month).data["transactions"].map do |transaction|
         next unless account_ids_and_names.keys.include?(transaction["account_id"])
+        next if transaction["pending"]
 
         transaction["account_name"] = account_ids_and_names[transaction["account_id"]]
         transaction["hierarchy"] = transaction["category"].join(", ")
