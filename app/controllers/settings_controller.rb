@@ -5,15 +5,4 @@ class SettingsController < ApplicationController
   def edit
     @users = current_user.users.order("email")
   end
-
-  def update
-  end
-
-  private
-
-    def confirm_manager
-      unless current_user.is_manager?
-        redirect_to transactions_path, alert: "Only the account manager can edit account settings."
-      end
-    end
 end

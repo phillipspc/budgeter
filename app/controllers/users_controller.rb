@@ -1,14 +1,14 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
+  before_action :confirm_manager
 
   def destroy
-    user = User.find(params[:id])
+    user = current_user.users.find_by_id(params[:id])
 
-    unless current_user.is_manager? && current_user.users.include?(user)
-      redirect_to transactions_path, notice: "You do not have permission to delete this User."
+    if user&.destroy
+      redirect_to edit_settings_path, notice: "Successfully deleted User."
+    else
+      redirect_to edit_settings_path, alert: "Unable to delete User."
     end
-
-    user.destroy
-    redirect_to edit_settings_path, notice: "Successfully deleted User."
   end
 end
