@@ -9,6 +9,7 @@ class User < ApplicationRecord
   belongs_to :manager, class_name: "User", optional: true, foreign_key: "invited_by_id"
   has_many :users, class_name: "User", foreign_key: "invited_by_id", inverse_of: :manager
   has_many :plaid_items, dependent: :destroy
+  has_many :plaid_imports, through: :plaid_items
   has_many :ignored_transactions, dependent: :destroy
 
   alias_method :manager, :invited_by

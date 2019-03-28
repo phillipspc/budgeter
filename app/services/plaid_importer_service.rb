@@ -33,7 +33,7 @@ class PlaidImporterService
     def create_or_update_import(item)
       data = client.transactions.get(item.access_token, beginning_of_month, end_of_month)
       import = item.plaid_imports.find_or_initialize_by(month: month)
-      import.update_attributes(data: data)
+      import.update_attributes(data: data["transactions"])
     end
 
     def needs_import?(item)
@@ -62,7 +62,7 @@ class PlaidImporterService
     def transactions_for(item)
       account_ids_and_names = item.account_ids_and_names
 
-      item.import_for_month(month).data["transactions"].map do |transaction|
+      item.import_for_month(month).data.map do |transaction|
         next unless account_ids_and_names.keys.include?(transaction["account_id"])
         next if transaction["pending"]
 

@@ -14,4 +14,10 @@ class Transaction < ApplicationRecord
   def imported?
     !!plaid_transaction_id
   end
+
+  def plaid_import
+    user.plaid_imports.where(
+      "data::jsonb @> ?", [{ transaction_id: plaid_transaction_id }].to_json
+    ).first if plaid_transaction_id
+  end
 end
