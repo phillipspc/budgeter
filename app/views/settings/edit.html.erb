@@ -33,19 +33,34 @@
                   <%= user.invitation_accepted? ? "Accepted" : "Pending" %>
                 </td>
                 <td>
-                  <% unless user.invitation_accepted? %>
-                    <%= form_with model: user, url: user_invitation_path, method: :post,
-                          data: { controller: "form" } do |f| %>
-                      <%= f.hidden_field :email, value: user.email %>
-                      <%= link_to "javascript:void(0)", class: "button is-small is-link",
-                            data: { action: "form#submit" } do %>
-                        <span class="icon">
-                          <i class="far fa-paper-plane"></i>
-                        </span>
-                        <span>Resend</span>
+                  <div class="level">
+                    <div class="level-left">
+                      <% unless user.invitation_accepted? %>
+                        <%= form_with model: user, url: user_invitation_path, method: :post,
+                              data: { controller: "form" }, class: "level-item" do |f| %>
+                          <%= f.hidden_field :email, value: user.email %>
+                          <%= link_to "javascript:void(0)", class: "button is-small is-primary",
+                                data: { action: "form#submit" } do %>
+                            <span class="icon">
+                              <i class="far fa-paper-plane"></i>
+                            </span>
+                            <span>Resend</span>
+                          <% end %>
+                        <% end %>
                       <% end %>
-                    <% end %>
-                  <% end %>
+
+                      <%= link_to user_path(user), method: :delete, remote: true,
+                            class: "button is-link is-small",
+                            data: { controller: "link", action: "link#confirm",
+                                    "link-confirm-message" => "Are you sure you wish to delete this User?" } do %>
+                        <span class="icon">
+                          <i class="far fa-trash-alt"></i>
+                        </span>
+                        <span>Delete</span>
+                      <% end %>
+                    </div>
+
+                  </div>
                 </td>
               </tr>
             <% end %>

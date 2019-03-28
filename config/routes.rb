@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   resource :settings, only: [:edit, :update]
 
+  resources :users, only: :destroy
   resources :transactions
   get "/recurring", to: "transactions#recurring", as: :recurring
   resources :categories do
