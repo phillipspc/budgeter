@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { invitations: 'users/invitations' }
 
   authenticated :user do
     root to: "transactions#index"
@@ -9,6 +9,9 @@ Rails.application.routes.draw do
     root to: 'devise/sessions#new'
   end
 
+  resource :settings, only: :edit
+
+  resources :users, only: :destroy
   resources :transactions
   get "/recurring", to: "transactions#recurring", as: :recurring
   resources :categories do

@@ -1,0 +1,77 @@
+<section class="section p-t-md">
+  <div class="container">
+
+    <div class="box">
+      <h1 class="title">
+        Users
+        <%= link_to new_user_invitation_path, remote: true,
+              class: "button is-primary is-pulled-right" do %>
+          <span class="icon">
+            <i class="fas fa-plus"></i>
+          </span>
+          <span>Invite User</span>
+        <% end %>
+      </h1>
+
+      <% if @users.any? %>
+        <table class="table is-fullwidth">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Date Invited</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td><%= user.email %></td>
+                <td><%= user.invitation_sent_at.to_date %></td>
+                <td>
+                  <%= user.invitation_accepted? ? "Accepted" : "Pending" %>
+                </td>
+                <td>
+                  <div class="level">
+                    <div class="level-left">
+                      <% unless user.invitation_accepted? %>
+                        <%= form_with model: user, url: user_invitation_path, method: :post,
+                              data: { controller: "form" }, class: "level-item" do |f| %>
+                          <%= f.hidden_field :email, value: user.email %>
+                          <%= link_to "javascript:void(0)", class: "button is-small is-primary",
+                                data: { action: "form#submit" } do %>
+                            <span class="icon">
+                              <i class="far fa-paper-plane"></i>
+                            </span>
+                            <span>Resend</span>
+                          <% end %>
+                        <% end %>
+                      <% end %>
+
+                      <%= link_to user_path(user), method: :delete, remote: true,
+                            class: "button is-link is-small",
+                            data: { controller: "link", action: "link#confirm",
+                                    "link-confirm-message" => "Are you sure you wish to delete this User?" } do %>
+                        <span class="icon">
+                          <i class="far fa-trash-alt"></i>
+                        </span>
+                        <span>Delete</span>
+                      <% end %>
+                    </div>
+
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+
+        </table>
+      <% else %>
+        <span>You have not yet invited anyone to join your group.</span>
+      <% end %>
+    </div>
+
+  </div>
+
+</section>
