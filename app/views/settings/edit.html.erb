@@ -20,6 +20,7 @@
               <th>Email</th>
               <th>Date Invited</th>
               <th>Status</th>
+              <th>Actions</th>
             </tr>
           </thead>
 
@@ -28,7 +29,24 @@
               <tr>
                 <td><%= user.email %></td>
                 <td><%= user.invitation_sent_at.to_date %></td>
-                <td><%= user.invitation_accepted? ? "Accepted Invite" : "Pending" %></td>
+                <td>
+                  <%= user.invitation_accepted? ? "Accepted" : "Pending" %>
+                </td>
+                <td>
+                  <% unless user.invitation_accepted? %>
+                    <%= form_with model: user, url: user_invitation_path, method: :post,
+                          data: { controller: "form" } do |f| %>
+                      <%= f.hidden_field :email, value: user.email %>
+                      <%= link_to "javascript:void(0)", class: "button is-small is-link",
+                            data: { action: "form#submit" } do %>
+                        <span class="icon">
+                          <i class="far fa-paper-plane"></i>
+                        </span>
+                        <span>Resend</span>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </td>
               </tr>
             <% end %>
           </tbody>
