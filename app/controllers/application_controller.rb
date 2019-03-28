@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   def confirm_manager
     unless current_user.is_manager?
-      redirect_to root_path, alert: "You do not have permission to take this action."
+      redirect_to root_path, alert: "Your account does not have the required permissions."
     end
   end
 
