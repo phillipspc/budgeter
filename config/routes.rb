@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     root to: 'devise/sessions#new'
   end
 
+  resource :settings, only: [:edit, :update]
+
   resources :transactions
   get "/recurring", to: "transactions#recurring", as: :recurring
   resources :categories do

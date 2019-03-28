@@ -1,0 +1,44 @@
+<section class="section p-t-md">
+  <div class="container">
+
+    <div class="box">
+      <h1 class="title">
+        Users
+        <%= link_to new_user_invitation_path, remote: true,
+              class: "button is-primary is-pulled-right" do %>
+          <span class="icon">
+            <i class="fas fa-plus"></i>
+          </span>
+          <span>Invite User</span>
+        <% end %>
+      </h1>
+
+      <% if @users.any? %>
+        <table class="table is-fullwidth">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Date Invited</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td><%= user.email %></td>
+                <td><%= user.invitation_sent_at.to_date %></td>
+                <td><%= user.invitation_accepted? ? "Accepted Invite" : "Pending" %></td>
+              </tr>
+            <% end %>
+          </tbody>
+
+        </table>
+      <% else %>
+        <span>You have not yet invited anyone to join your group.</span>
+      <% end %>
+    </div>
+
+  </div>
+
+</section>
