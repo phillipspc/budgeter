@@ -49,6 +49,18 @@
       </canvas>
     </div>
 
+    <div class="box">
+      <% progress = @transactions_including_recurring.sum(&:amount) %>
+      <% total = @sub_category.budget %>
+      <h3 class='is-size-5'>Budget -
+        <span class='is-size-6'>
+          <strong><%= number_to_currency(progress) %></strong> of <strong><%= number_to_currency(total) %></strong>
+        </span>
+      </h3>
+      <progress class='progress <%= budget_bar_klass(progress: progress, total: total) %>'
+        value='<%= progress %>' max='<%= total %>'></progress>
+    </div>
+
     <%= render "transactions/transactions_table", redirect_url: sub_category_path(@sub_category, month: @month),
           hidden_columns: ["sub_category"] %>
 

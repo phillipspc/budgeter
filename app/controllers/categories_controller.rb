@@ -27,6 +27,7 @@ class CategoriesController < ApplicationController
           redirect_to categories_path, alert: "You do not have permission to access this page."
         end
         @transactions = @category.transactions.by_month(@month).order("date desc")
+        @transactions_including_recurring = @category.transactions.by_month(@month).or(@category.transactions.recurring)
         @chart_service = CategoryChartService.new(category: @category, month: @month)
       end
       format.json do

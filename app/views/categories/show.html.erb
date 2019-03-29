@@ -59,6 +59,32 @@
       </div>
     </div>
 
+    <h1 class="title is-size-4">
+      Budgets
+    </h1>
+    <div class="box">
+      <% progress = @transactions_including_recurring.sum(:amount) %>
+      <% total = @category.sub_categories.sum(:budget) %>
+      <h3 class='is-size-5'>Overall -
+        <span class='is-size-6'>
+          <strong><%= number_to_currency(progress) %></strong> of <strong><%= number_to_currency(total) %></strong>
+        </span>
+      </h3>
+      <progress class='progress <%= budget_bar_klass(progress: progress, total: total) %>'
+        value='<%= progress %>' max='<%= total %>'></progress>
+    </div>
+
+    <div class="columns is-multiline">
+      <% @category.sub_categories.each do |sub_category| %>
+        <div class="column is-4">
+          <div class="box">
+            <%= render "budget_bar", name: sub_category.name, path: sub_category_path(sub_category, month: @month),
+                  spending: @chart_service.sub_categories_hash[sub_category.name] || 0, budget: sub_category.budget %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
     <%= render "transactions/transactions_table", redirect_url: category_path(@category, month: @month),
           hidden_columns: ['category'] %>
 

@@ -99,3 +99,39 @@ table.is-responsive {
     }
   }
 }
+
+.progress {
+  &.is-danger {
+    &::-webkit-progress-value {
+      background: linear-gradient(90deg, $grey-light, $danger 65%) !important;
+    }
+    &::-moz-progress-bar {
+      background: linear-gradient(90deg, $grey-light, $danger 65%) !important;
+    }
+    &::-ms-fill {
+      background: linear-gradient(90deg, $grey-light, $danger 65%) !important;
+    }
+  }
+  &.is-warning {
+    &::-webkit-progress-value {
+      background: linear-gradient(90deg, $grey-light, $yellow 65%) !important;
+    }
+    &::-moz-progress-bar {
+      background: linear-gradient(90deg, $grey-light, $yellow 65%) !important;
+    }
+    &::-ms-fill {
+      background: linear-gradient(90deg, $grey-light, $yellow 65%) !important;
+    }
+  }
+  &.is-success {
+    &::-webkit-progress-value {
+      background: linear-gradient(90deg, $grey-light, $green 65%) !important;
+    }
+    &::-moz-progress-bar {
+      background: linear-gradient(90deg, $grey-light, $green 65%) !important;
+    }
+    &::-ms-fill {
+      background: linear-gradient(90deg, $grey-light, $green 65%) !important;
+    }
+  }
+}

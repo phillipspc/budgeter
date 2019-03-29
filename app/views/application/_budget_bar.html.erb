@@ -1,0 +1,9 @@
+<h3 class='is-size-5'><%= link_to name, path %> -
+  <span class='is-size-6'>
+    <strong><%= number_to_currency(spending) %></strong> of <strong><%= number_to_currency(budget) %></strong>
+  </span>
+</h3>
+<progress
+  class='progress is-small <%= budget_bar_klass(progress: spending, total: budget) %>'
+  value='<%= spending %>' max='<%= budget %>'>
+</progress>

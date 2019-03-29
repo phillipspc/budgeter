@@ -1,9 +1,0 @@
-<h3 class='is-size-5'><%= link_to category.name, category_path(category, month: @month) %> -
-  <span class='is-size-6'>
-    <strong><%= number_to_currency(category.spending) %></strong> of <strong><%= number_to_currency(category.budget) %></strong>
-  </span>
-</h3>
-<progress
-  class='progress <%= budget_bar_klass(progress: category.spending, total: category.budget) %>'
-  value='<%= category.spending %>' max='<%= category.budget %>'>
-</progress>

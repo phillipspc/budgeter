@@ -121,7 +121,8 @@
       <% @categories.each do |category| %>
         <div class="column is-4">
           <div class="box">
-            <%= render "category_budget_bar", category: category %>
+            <%= render "budget_bar", name: category.name, path: category_path(category, month: @month),
+                  spending: category.spending, budget: category.budget %>
           </div>
         </div>
       <% end %>

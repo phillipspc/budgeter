@@ -19,6 +19,16 @@ class CategoryChartService
     sorted_sub_categories.pluck(:name)
   end
 
+  def sub_categories_hash
+    @_sub_categories_hash ||= generate_sub_categories_hash
+  end
+
+  def generate_sub_categories_hash
+    hash = {}
+    sorted_sub_categories.each { |sub_category| hash[sub_category.name] = sub_category.spending }
+    hash
+  end
+
   def last_six_months
     @_last_six_months ||= Array.new(6).each_with_index.map do |_, i|
       (month.to_date - i.month).strftime("%B %Y")
