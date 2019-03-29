@@ -10,11 +10,20 @@
       </nav>
 
       <nav class="right-of-breadcrumb">
-        <%= link_to new_plaid_category_path, class: "button is-primary is-pulled-right", remote: true do %>
+        <%= link_to new_plaid_category_path, class: "button is-primary is-pulled-right visible-tablet-portrait-up",
+              remote: true do %>
           <span class="icon">
             <i class="fas fa-plus"></i>
           </span>
           <span>New Mapping</span>
+        <% end %>
+
+        <%= link_to new_plaid_category_path, class: "button is-primary is-pulled-right visible-phone-only",
+              remote: true do %>
+          <span class="icon">
+            <i class="fas fa-plus"></i>
+          </span>
+          <span>New</span>
         <% end %>
       </nav>
     </div>
