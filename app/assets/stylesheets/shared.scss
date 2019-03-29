@@ -88,3 +88,14 @@ table.plaid-transactions tbody {
     }
   }
 }
+
+table.is-responsive {
+  @include for-phone-only {
+    thead tr {
+      font-size: .9rem !important;
+    }
+    tbody tr {
+      font-size: .75rem !important;
+    }
+  }
+}

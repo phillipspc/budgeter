@@ -41,7 +41,7 @@
         Mapped Categories
       </h1>
 
-      <table class="table is-fullwidth is-narrow">
+      <table class="table is-fullwidth is-narrow visible-tablet-portrait-up">
         <thead>
           <tr>
             <th>Imported Category hierarchy</th>
@@ -76,6 +76,43 @@
             </tr>
           <% end %>
         </tbody>
+      </table>
+
+      <table class="table is-fullwidth is-narrow visible-phone-only">
+        <thead>
+          <tr>
+            <th>Hierarchy</th>
+            <th>Category / SubCategory</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @plaid_categories.each do |plaid_category| %>
+            <tr>
+              <td class="is-size-7"><%= plaid_category.hierarchy %></td>
+              <td class="is-size-7">
+                <div><%= plaid_category.category.name %></div>
+                <div><%= plaid_category.sub_category&.name %></div>
+              </td>
+              <td class="has-text-centered">
+                <%= link_to edit_plaid_category_path(plaid_category), remote: true do %>
+                  <span class="icon">
+                    <i class="far fa-edit"></i>
+                  </span>
+                <% end %>
+                <%= link_to plaid_category_path(plaid_category), method: :delete,
+                      data: { controller: "link", action: "link#confirm",
+                              "link-confirm-message" => "Are you sure you wish to delete this Category Mapping?" } do %>
+                  <span class="icon">
+                    <i class="far fa-trash-alt"></i>
+                  </span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+
       </table>
 
     </div>
