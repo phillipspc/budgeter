@@ -1,10 +1,12 @@
 <nav class="navbar is-dark" role="navigation" aria-label="main navigation" data-controller='burger'>
   <div class="navbar-brand">
     <%= link_to "Budgeter", root_path, class: "navbar-item is-size-4 has-text-weight-bold" %>
-    <%= link_to "javascript:void(0)", class: 'navbar-burger burger', data: { action: 'burger#toggle' } do %>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
+    <% if current_user %>
+      <%= link_to "javascript:void(0)", class: 'navbar-burger burger', data: { action: 'burger#toggle' } do %>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      <% end %>
     <% end %>
   </div>
 

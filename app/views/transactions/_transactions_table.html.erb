@@ -1,6 +1,6 @@
 <div class="box">
   <% if @transactions.any? %>
-    <h1 class="title is-size-4 is-clearfix">
+    <h1 class="title is-size-4 is-clearfix visible-tablet-portrait-up">
       Transactions
       <span class="has-text-weight-normal">
         (<%= number_to_currency @transactions.sum(:amount) %>)
@@ -10,8 +10,21 @@
         <span class="icon">
           <i class="fas fa-plus"></i>
         </span>
-        <span class="visible-phone-only">New</span>
-        <span class="visible-tablet-portrait-up">New Transaction</span>
+        <span>New Transaction</span>
+      <% end %>
+    </h1>
+
+    <h1 class="title is-size-5 is-clearfix visible-phone-only">
+      Transactions
+      <span class="has-text-weight-normal">
+        (<%= number_to_currency @transactions.sum(:amount) %>)
+      </span>
+      <%= link_to new_transaction_path(redirect_url: redirect_url, category_id: @category&.id,
+            sub_category_id: @sub_category&.id), remote: true, class: "button is-primary is-pulled-right" do %>
+        <span class="icon">
+          <i class="fas fa-plus"></i>
+        </span>
+        <span>New</span>
       <% end %>
     </h1>
 
@@ -21,7 +34,7 @@
           hidden_columns: local_assigns[:hidden_columns] %>
 
   <% else %>
-    <h1 class="subtitle is-size-4">
+    <h1 class="subtitle is-size-5">
       <%= "No Transactions found#{ @month ? ' for this month.' : '.' }" %>
       <%= link_to new_transaction_path(redirect_url: redirect_url, category_id: @category&.id,
             sub_category_id: @sub_category&.id), remote: true, class: "button is-primary is-pulled-right" do %>

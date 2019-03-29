@@ -1,2 +1,3 @@
-document.querySelector("[data-plaid-transaction-id='<%= @plaid_transaction_id %>']").
-  classList.add("ignored")
+document.querySelectorAll("[data-plaid-transaction-id='<%= @plaid_transaction_id %>']").forEach(el => {
+  el.classList.add("ignored")
+})
