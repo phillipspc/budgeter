@@ -27,7 +27,7 @@ class CategoryChartService
 
   def spending_history_data
     last_six_months.map do |month|
-      category.transactions.by_month(month).sum(:amount)
+      category.transactions.by_month(month).or(category.transactions.recurring).sum(:amount)
     end
   end
 

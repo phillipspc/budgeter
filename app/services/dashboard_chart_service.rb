@@ -1,11 +1,13 @@
 class DashboardChartService
   include ActionView::Helpers::NumberHelper
-  attr_accessor :transactions, :categories, :sub_categories
+  attr_accessor :user, :transactions, :categories, :sub_categories, :month
 
-  def initialize(transactions:, categories:, sub_categories:)
+  def initialize(user:, transactions:, categories:, sub_categories:, month:)
+    self.user = user
     self.transactions = transactions
     self.categories = categories
     self.sub_categories = sub_categories
+    self.month = month
   end
 
   def sorted_categories
@@ -20,10 +22,6 @@ class DashboardChartService
     sorted_categories.pluck(:name)
   end
 
-  def largest_category
-    "#{sorted_categories.first&.name} - #{number_to_currency sorted_categories.first&.spending}"
-  end
-
   def sorted_sub_categories
     @_sorted_sub_categories ||= sub_categories.having("SUM(transactions.amount) > 0").order("spending DESC")
   end
@@ -36,7 +34,19 @@ class DashboardChartService
     sorted_sub_categories.pluck(:name)
   end
 
-  def largest_sub_category
-    "#{sorted_sub_categories.first&.name} - #{number_to_currency sorted_sub_categories.first&.spending}"
+  def last_six_months
+    @_last_six_months ||= Array.new(6).each_with_index.map do |_, i|
+      (month.to_date - i.month).strftime("%B %Y")
+    end.reverse
+  end
+
+  def spending_history_data
+    last_six_months.map do |month|
+      user.transactions.by_month(month).or(user.transactions.recurring).sum(:amount)
+    end
+  end
+
+  def spending_history_labels
+    last_six_months.map { |month| month.split(" ").first }
   end
 end

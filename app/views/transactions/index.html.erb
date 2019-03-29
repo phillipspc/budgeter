@@ -93,17 +93,11 @@
 
       <div class="column is-6">
         <div class="box">
-          <div>
-            <strong>Total Spent:</strong> <%= number_to_currency @categories.sum(&:spending) %>
-          </div>
-          <div>
-            <strong>Largest Category:</strong>
-            <%= @chart_service.largest_category %>
-          </div>
-          <div>
-            <strong>Largest Sub Category:</strong>
-            <%= @chart_service.largest_sub_category %>
-          </div>
+          <canvas data-controller="chart"
+            data-chart-type="line"
+            data-chart-data="<%= @chart_service.spending_history_data %>"
+            data-chart-labels="<%= @chart_service.spending_history_labels %>">
+          </canvas>
         </div>
       </div>
     </div>

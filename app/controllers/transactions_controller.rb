@@ -9,9 +9,11 @@ class TransactionsController < ApplicationController
     @categories = @manager.categories.with_budget_and_spending_for_month(@month)
     @sub_categories = @manager.sub_categories.with_spending_for_month(@month)
 
-    @chart_service = DashboardChartService.new(transactions: @transactions,
+    @chart_service = DashboardChartService.new(user: @manager,
+                                               transactions: @transactions,
                                                categories: @categories,
-                                               sub_categories: @sub_categories)
+                                               sub_categories: @sub_categories,
+                                               month: @month)
   end
 
   def recurring
