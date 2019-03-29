@@ -1,6 +1,6 @@
 <section class="section">
   <div class="container">
-    <h1 class="title">
+    <h1 class="title visible-tablet-portrait-up">
       Categories
 
       <%= link_to new_category_path, class: "button is-primary is-pulled-right", remote: true do %>
@@ -16,6 +16,26 @@
             <i class="fas fa-sitemap"></i>
           </span>
           <span>Map Imported Categories</span>
+        <% end %>
+      <% end %>
+    </h1>
+
+    <h1 class="title visible-phone-only is-size-5">
+      Categories
+
+      <%= link_to new_category_path, class: "button is-primary is-pulled-right", remote: true do %>
+        <span class="icon">
+          <i class="fas fa-plus"></i>
+        </span>
+        <span>New</span>
+      <% end %>
+
+      <% if @manager.can_import? %>
+        <%= link_to plaid_categories_path, class: "button is-success is-pulled-right m-r-sm" do %>
+          <span class="icon">
+            <i class="fas fa-sitemap"></i>
+          </span>
+          <span>Map</span>
         <% end %>
       <% end %>
     </h1>
