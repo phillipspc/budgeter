@@ -1,6 +1,6 @@
 document.querySelector("[data-container-for='modal'] .modal").classList.remove("is-active")
 
-document.querySelector("[data-plaid-transaction-id='<%= @transaction.plaid_transaction_id %>']").
-  classList.add("imported")
+document.querySelectorAll("[data-plaid-transaction-id='<%= @transaction.plaid_transaction_id %>']").
+  forEach(el => { el.classList.add("imported") })
 
 <%= render 'application/flash_messages', format: :js %>
