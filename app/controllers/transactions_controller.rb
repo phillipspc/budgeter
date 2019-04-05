@@ -10,9 +10,6 @@ class TransactionsController < ApplicationController
     @sub_categories = @manager.sub_categories.with_spending_for_month(@month)
 
     @chart_service = DashboardChartService.new(user: @manager,
-                                               transactions: @transactions,
-                                               categories: @categories,
-                                               sub_categories: @sub_categories,
                                                month: @month)
   end
 

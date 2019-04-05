@@ -42,79 +42,82 @@
       </nav>
     </div>
 
-    <div class="controls">
-      <div class="empty"></div>
-      <div class="month-picker">
-        <span class="p-sm">
-          <%= link_to transactions_path(month: previous_month_for(@month)) do  %>
-            <span class="icon">
-              <i class="fas fa-arrow-circle-left"></i>
-            </span>
-          <% end %>
-        </span>
-        <span class="has-text-weight-bold is-size-5 p-sm visible-tablet-portrait-up"><%= @month %></span>
-        <span class="has-text-weight-bold is-size-6 p-sm visible-phone-only"><%= @month %></span>
-        <span class="p-sm">
-          <%= link_to transactions_path(month: next_month_for(@month)) do  %>
-            <span class="icon">
-              <i class="fas fa-arrow-circle-right"></i>
-            </span>
-          <% end %>
-        </span>
-      </div>
-
-      <div class="recurring-toggle">
-        <div class="field p-sm">
-          <%= content_tag :input, nil, name: "recurring_switch", id: "recurring_switch", type: "checkbox",
-                class: "switch is-rtl", checked: current_user.include_recurring ? "checked" : nil,
-                data: {
-                  controller: "switch", action: "switch#patch", "switch-url" => settings_path,
-                  "switch-patch-data" => "include_recurring=#{!current_user.include_recurring}&redirect_url=#{transactions_path(month: @month)}"
-                } %>
-          <label for="recurring_switch">Include Recurring</label>
-        </div>
-      </div>
+    <div id="month_picker">
+      <span class="p-sm">
+        <%= link_to transactions_path(month: previous_month_for(@month)) do  %>
+          <span class="icon">
+            <i class="fas fa-arrow-circle-left"></i>
+          </span>
+        <% end %>
+      </span>
+      <span class="has-text-weight-bold is-size-5 p-sm visible-tablet-portrait-up"><%= @month %></span>
+      <span class="has-text-weight-bold is-size-6 p-sm visible-phone-only"><%= @month %></span>
+      <span class="p-sm">
+        <%= link_to transactions_path(month: next_month_for(@month)) do  %>
+          <span class="icon">
+            <i class="fas fa-arrow-circle-right"></i>
+          </span>
+        <% end %>
+      </span>
     </div>
 
-    <div class="columns">
-      <div class="column is-6">
-        <div class="box" data-controller="tabs">
+    <div class="box is-clearfix">
+      <div class="columns">
+        <div class="column is-6">
+          <div data-controller="tabs">
+            <div class="tabs is-centered">
+              <ul>
+                <li class="is-active">
+                  <%= link_to "Categories", "javascript:void(0)",
+                        data: { target: "tabs.button", action: "tabs#update", tab_for: "categories" } %>
+                </li>
+                <li>
+                  <%= link_to "Sub Categories", "javascript:void(0)",
+                        data: { target: "tabs.button", action: "tabs#update", tab_for: "sub_categories" } %>
+                </li>
+              </ul>
+            </div>
+
+            <div data-target="tabs.content" data-content="categories">
+              <canvas data-controller="chart"
+                data-chart-data="<%= @chart_service.categories_data %>"
+                data-chart-labels="<%= @chart_service.categories_labels %>">
+              </canvas>
+            </div>
+            <div class="is-hidden" data-target="tabs.content" data-content="sub_categories">
+              <canvas data-controller="chart"
+                data-chart-data="<%= @chart_service.sub_categories_data %>"
+                data-chart-labels="<%= @chart_service.sub_categories_labels %>">
+              </canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-6">
           <div class="tabs is-centered">
             <ul>
               <li class="is-active">
-                <%= link_to "Categories", "javascript:void(0)",
-                      data: { target: "tabs.button", action: "tabs#update", tab_for: "categories" } %>
-              </li>
-              <li>
-                <%= link_to "Sub Categories", "javascript:void(0)",
-                      data: { target: "tabs.button", action: "tabs#update", tab_for: "sub_categories" } %>
+                <a href="javascript:void(0)">Total Spending</a>
               </li>
             </ul>
           </div>
-
-          <div data-target="tabs.content" data-content="categories">
-            <canvas data-controller="chart"
-              data-chart-data="<%= @chart_service.categories_data %>"
-              data-chart-labels="<%= @chart_service.categories_labels %>">
-            </canvas>
-          </div>
-          <div class="is-hidden" data-target="tabs.content" data-content="sub_categories">
-            <canvas data-controller="chart"
-              data-chart-data="<%= @chart_service.sub_categories_data %>"
-              data-chart-labels="<%= @chart_service.sub_categories_labels %>">
-            </canvas>
-          </div>
-        </div>
-      </div>
-
-      <div class="column is-6">
-        <div class="box">
           <canvas data-controller="chart"
             data-chart-type="line"
             data-chart-data="<%= @chart_service.spending_history_data %>"
             data-chart-labels="<%= @chart_service.spending_history_labels %>">
           </canvas>
         </div>
+      </div>
+      <br>
+
+      <div class="field p-sm is-pulled-right">
+        <%= content_tag :input, nil, name: "recurring_switch", id: "recurring_switch", type: "checkbox",
+              class: "switch is-rtl", checked: current_user.include_recurring ? "checked" : nil,
+              data: {
+                controller: "switch", action: "switch#patch", "switch-url" => settings_path,
+                "switch-patch-data" => "include_recurring=#{!current_user.include_recurring}&redirect_url=#{transactions_path(month: @month)}"
+              } %>
+        <label for="recurring_switch">Include Recurring Transactions in Chart Data</label>
       </div>
     </div>
 

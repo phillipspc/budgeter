@@ -14,29 +14,9 @@ tbody.collapsed {
   display: block;
 }
 
-.controls {
+#month_picker {
   display: flex;
-  .empty {
-    flex: 1;
-    display: flex;
-    justify-content: flex-start;
-  }
-  .month-picker {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-  }
-  .recurring-toggle {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    label::before {
-      top: 2px;
-    }
-    label::after {
-      top: 6px;
-    }
-  }
+  justify-content: center;
 }
 
 canvas {

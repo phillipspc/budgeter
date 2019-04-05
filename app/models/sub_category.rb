@@ -4,13 +4,13 @@ class SubCategory < ApplicationRecord
 
   validates_uniqueness_of :name, scope: :category_id
 
-  scope :with_spending_for_month, -> (month) do
+  scope :with_spending_for_month, -> (month, include_recurring: true) do
     joins(
       <<-SQL.squish
         LEFT JOIN transactions ON
           transactions.sub_category_id = sub_categories.id AND
-          ((transactions.date >= '#{month.to_date}' AND transactions.date <= '#{month.to_date.end_of_month}') OR
-           transactions.recurring = true)
+          ((transactions.date >= '#{month.to_date}' AND transactions.date <= '#{month.to_date.end_of_month}')
+          #{' OR transactions.recurring = true' if include_recurring})
       SQL
     ).select(
       <<-SQL.squish

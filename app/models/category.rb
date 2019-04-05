@@ -8,13 +8,13 @@ class Category < ApplicationRecord
 
   validate :belongs_to_manager
 
-  scope :with_budget_and_spending_for_month, -> (month) do
+  scope :with_budget_and_spending_for_month, -> (month, include_recurring: true) do
     joins(
       <<-SQL.squish
         LEFT JOIN transactions ON
           transactions.category_id = categories.id AND
-          ((transactions.date >= '#{month.to_date}' AND transactions.date <= '#{month.to_date.end_of_month}') OR
-           transactions.recurring = true)
+          ((transactions.date >= '#{month.to_date}' AND transactions.date <= '#{month.to_date.end_of_month}')
+          #{' OR transactions.recurring = true' if include_recurring})
       SQL
     ).joins(
       <<-SQL.squish
