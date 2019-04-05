@@ -65,7 +65,12 @@
 
       <div class="recurring-toggle">
         <div class="field p-sm">
-          <input id="recurring_switch" type="checkbox" name="recurring_switch" class="switch is-rtl" checked="checked">
+          <%= content_tag :input, nil, name: "recurring_switch", id: "recurring_switch", type: "checkbox",
+                class: "switch is-rtl", checked: current_user.include_recurring ? "checked" : nil,
+                data: {
+                  controller: "switch", action: "switch#patch", "switch-url" => settings_path,
+                  "switch-patch-data" => "include_recurring=#{!current_user.include_recurring}&redirect_url=#{transactions_path(month: @month)}"
+                } %>
           <label for="recurring_switch">Include Recurring</label>
         </div>
       </div>

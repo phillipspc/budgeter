@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     root to: 'devise/sessions#new'
   end
 
-  resource :settings, only: :edit
+  resource :settings, only: [:edit, :update]
 
   resources :users, only: :destroy
   resources :transactions
