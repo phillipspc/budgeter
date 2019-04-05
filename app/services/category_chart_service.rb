@@ -1,10 +1,13 @@
 class CategoryChartService
-  attr_accessor :category, :sub_categories, :month
+  attr_accessor :category, :sub_categories, :month, :include_recurring
 
-  def initialize(category:, month:)
+  def initialize(category:, month:, include_recurring:)
     self.category = category
-    self.sub_categories = category.sub_categories.with_spending_for_month(month)
+    self.sub_categories = category.sub_categories.with_spending_for_month(
+                            month, include_recurring: include_recurring
+                          )
     self.month = month
+    self.include_recurring = include_recurring
   end
 
   def sorted_sub_categories
@@ -37,7 +40,9 @@ class CategoryChartService
 
   def spending_history_data
     last_six_months.map do |month|
-      category.transactions.by_month(month).or(category.transactions.recurring).sum(:amount)
+      category.transactions.by_month(month).yield_self { |transactions|
+        include_recurring ? transactions.or(category.transactions.recurring) : transactions
+      }.sum(:amount)
     end
   end
 
