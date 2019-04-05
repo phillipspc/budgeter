@@ -1,15 +1,16 @@
 class DashboardChartService
   include ActionView::Helpers::NumberHelper
-  attr_accessor :user, :categories, :sub_categories, :month
+  attr_accessor :manager, :month, :include_recurring, :categories, :sub_categories
 
-  def initialize(user:, month:)
-    self.user = user
+  def initialize(manager:, month:, include_recurring:)
+    self.manager = manager
     self.month = month
-    self.categories = user.categories.with_budget_and_spending_for_month(
-                        month, include_recurring: user.include_recurring
+    self.include_recurring = include_recurring
+    self.categories = manager.categories.with_budget_and_spending_for_month(
+                        month, include_recurring: include_recurring
                       )
-    self.sub_categories = user.sub_categories.with_spending_for_month(
-                            month, include_recurring: user.include_recurring
+    self.sub_categories = manager.sub_categories.with_spending_for_month(
+                            month, include_recurring: include_recurring
                           )
   end
 
@@ -45,8 +46,8 @@ class DashboardChartService
 
   def spending_history_data
     last_six_months.map do |month|
-      user.transactions.by_month(month).yield_self { |transactions|
-        user.include_recurring ? transactions.or(user.transactions.recurring) : transactions
+      manager.transactions.by_month(month).yield_self { |transactions|
+        include_recurring ? transactions.or(manager.transactions.recurring) : transactions
       }.sum(:amount)
     end
   end

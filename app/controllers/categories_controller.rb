@@ -28,7 +28,9 @@ class CategoriesController < ApplicationController
         end
         @transactions = @category.transactions.by_month(@month).order("date desc")
         @transactions_including_recurring = @category.transactions.by_month(@month).or(@category.transactions.recurring)
-        @chart_service = CategoryChartService.new(category: @category, month: @month)
+        @chart_service = CategoryChartService.new(category: @category,
+                                                  month: @month,
+                                                  include_recurring: current_user.include_recurring)
       end
       format.json do
         if @category.user == @manager

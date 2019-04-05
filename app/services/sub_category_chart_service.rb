@@ -1,9 +1,10 @@
 class SubCategoryChartService
-  attr_accessor :sub_category, :month
+  attr_accessor :sub_category, :month, :include_recurring
 
-  def initialize(sub_category:, month:)
+  def initialize(sub_category:, month:, include_recurring:)
     self.sub_category = sub_category
     self.month = month
+    self.include_recurring = include_recurring
   end
 
   def last_six_months
@@ -14,7 +15,9 @@ class SubCategoryChartService
 
   def spending_history_data
     last_six_months.map do |month|
-      sub_category.transactions.by_month(month).or(sub_category.transactions.recurring).sum(:amount)
+      sub_category.transactions.by_month(month).yield_self { |transactions|
+        include_recurring ? transactions.or(sub_category.transactions.recurring) : transactions
+      }.sum(:amount)
     end
   end
 

@@ -25,7 +25,9 @@ class SubCategoriesController < ApplicationController
 
     @transactions = @sub_category.transactions.by_month(@month).order("date desc")
     @transactions_including_recurring = @sub_category.transactions.by_month(@month).or(@sub_category.transactions.recurring)
-    @chart_service = SubCategoryChartService.new(sub_category: @sub_category, month: @month)
+    @chart_service = SubCategoryChartService.new(sub_category: @sub_category,
+                                                 month: @month,
+                                                 include_recurring: current_user.include_recurring)
   end
 
   def edit
