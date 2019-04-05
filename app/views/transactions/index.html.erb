@@ -42,22 +42,33 @@
       </nav>
     </div>
 
-    <div id="month_picker">
-      <span class="p-sm">
-        <%= link_to transactions_path(month: previous_month_for(@month)) do  %>
-          <span class="icon">
-            <i class="fas fa-arrow-circle-left"></i>
-          </span>
-        <% end %>
-      </span>
-      <span class="has-text-weight-bold is-size-5 p-sm"><%= @month %></span>
-      <span class="p-sm">
-        <%= link_to transactions_path(month: next_month_for(@month)) do  %>
-          <span class="icon">
-            <i class="fas fa-arrow-circle-right"></i>
-          </span>
-        <% end %>
-      </span>
+    <div class="controls">
+      <div class="empty"></div>
+      <div class="month-picker">
+        <span class="p-sm">
+          <%= link_to transactions_path(month: previous_month_for(@month)) do  %>
+            <span class="icon">
+              <i class="fas fa-arrow-circle-left"></i>
+            </span>
+          <% end %>
+        </span>
+        <span class="has-text-weight-bold is-size-5 p-sm visible-tablet-portrait-up"><%= @month %></span>
+        <span class="has-text-weight-bold is-size-6 p-sm visible-phone-only"><%= @month %></span>
+        <span class="p-sm">
+          <%= link_to transactions_path(month: next_month_for(@month)) do  %>
+            <span class="icon">
+              <i class="fas fa-arrow-circle-right"></i>
+            </span>
+          <% end %>
+        </span>
+      </div>
+
+      <div class="recurring-toggle">
+        <div class="field p-sm">
+          <input id="recurring_switch" type="checkbox" name="recurring_switch" class="switch is-rtl" checked="checked">
+          <label for="recurring_switch">Include Recurring</label>
+        </div>
+      </div>
     </div>
 
     <div class="columns">
