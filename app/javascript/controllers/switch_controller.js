@@ -5,10 +5,7 @@ export default class extends Controller {
     Rails.ajax({
       url: this.data.get("url"),
       type: "PATCH",
-      data: this.data.get("patch-data"),
-      success: function(data) {
-        console.log(data);
-      }
+      data: this.data.get("patch-data")
     });
   }
 }
