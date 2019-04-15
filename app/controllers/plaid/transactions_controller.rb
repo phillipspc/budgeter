@@ -71,7 +71,7 @@ class Plaid::TransactionsController < Plaid::BaseController
     end
 
     def ensure_plaid_items_present
-      unless @manager.can_import?
+      unless @manager.has_linked_bank_account?
         redirect_to transactions_path, alert: "You have no accounts setup for importing transactions."
       end
     end

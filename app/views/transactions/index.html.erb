@@ -17,8 +17,8 @@
           <span>New Transaction</span>
         <% end %>
 
-        <% if @month.to_date <= Date.today.beginning_of_month %>
-          <% if @manager.can_import? %>
+        <% if @manager.has_plaid_access? && @month.to_date <= Date.today.beginning_of_month %>
+          <% if @manager.has_linked_bank_account? %>
             <%= link_to plaid_transactions_path(month: @month), class: "button is-success" do %>
               <span class="icon">
                 <i class="fas fa-sync"></i>

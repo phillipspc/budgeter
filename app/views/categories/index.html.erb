@@ -10,7 +10,7 @@
         <span>New Category</span>
       <% end %>
 
-      <% if @manager.can_import? %>
+      <% if @manager.has_plaid_access? && @manager.has_linked_bank_account? %>
         <%= link_to plaid_categories_path, class: "button is-success is-pulled-right m-r-sm" do %>
           <span class="icon">
             <i class="fas fa-sitemap"></i>
@@ -30,7 +30,7 @@
         <span>New</span>
       <% end %>
 
-      <% if @manager.can_import? %>
+      <% if @manager.has_plaid_access? && @manager.has_linked_bank_account? %>
         <%= link_to plaid_categories_path, class: "button is-success is-pulled-right m-r-sm" do %>
           <span class="icon">
             <i class="fas fa-sitemap"></i>

@@ -26,7 +26,7 @@ class User < ApplicationRecord
     end
   end
 
-  def can_import?
+  def has_linked_bank_account?
     plaid_items.any?
   end
 end
