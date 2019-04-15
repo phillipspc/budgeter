@@ -14,6 +14,8 @@ class User < ApplicationRecord
 
   alias_method :manager, :invited_by
 
+  after_create :send_new_user_email
+
   def is_manager?
     manager.nil?
   end
@@ -29,4 +31,10 @@ class User < ApplicationRecord
   def has_linked_bank_account?
     plaid_items.any?
   end
+
+  private
+
+    def send_new_user_email
+      NewUserMailer.with(user: self).send_email.deliver_now
+    end
 end
