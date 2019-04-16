@@ -4,7 +4,7 @@ ellwoods:
   category: food
   sub_category: groceries
   amount: 100.00
-  date: <%= Time.now.to_date %>
+  date: <%= Time.current.to_date %>
   user: stepha
 
 laura_lees:
@@ -12,7 +12,7 @@ laura_lees:
   category: food
   sub_category: eating_out
   amount: 75.00
-  date: <%= Time.now.to_date %>
+  date: <%= Time.current.to_date %>
   user: peter
 
 coat_rack:
@@ -20,7 +20,7 @@ coat_rack:
   category: purchases
   sub_category: household_supplies
   amount: 50.00
-  date: <%= Time.now.to_date %>
+  date: <%= Time.current.to_date %>
   user: peter
 
 shirt:
@@ -28,7 +28,7 @@ shirt:
   category: purchases
   sub_category: clothes
   amount: 30.00
-  date: <%= Time.now.to_date %>
+  date: <%= Time.current.to_date %>
   user: stepha
 
 # last month --------------------------------------------
@@ -38,7 +38,7 @@ publix:
   category: food
   sub_category: groceries
   amount: 100.00
-  date: <%= (Time.now - 1.month).to_date %>
+  date: <%= (Time.current - 1.month).to_date %>
   user: stepha
 
 
@@ -47,7 +47,7 @@ brenner_pass:
   category: food
   sub_category: eating_out
   amount: 70.00
-  date: <%= (Time.now - 1.month).to_date %>
+  date: <%= (Time.current - 1.month).to_date %>
   user: peter
 
 mouse_traps:
@@ -55,7 +55,7 @@ mouse_traps:
   category: purchases
   sub_category: household_supplies
   amount: 25.00
-  date: <%= (Time.now - 1.month).to_date %>
+  date: <%= (Time.current - 1.month).to_date %>
   user: peter
 
 shoes:
@@ -63,5 +63,5 @@ shoes:
   category: purchases
   sub_category: clothes
   amount: 40.00
-  date: <%= (Time.now - 1.month).to_date %>
+  date: <%= (Time.current - 1.month).to_date %>
   user: peter

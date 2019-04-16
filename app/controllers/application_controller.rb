@@ -13,6 +13,6 @@ class ApplicationController < ActionController::Base
   end
 
   def set_month
-    @month = params[:month] || Time.now.strftime("%B %Y")
+    @month = params[:month] || Time.current.strftime("%B %Y")
   end
 end

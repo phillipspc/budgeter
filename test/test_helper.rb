@@ -10,10 +10,10 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
 
   def this_month
-    Time.now.strftime("%B %Y")
+    Time.current.strftime("%B %Y")
   end
 
   def last_month
-    (Time.now. - 1.month).strftime("%B %Y")
+    (Time.current. - 1.month).strftime("%B %Y")
   end
 end

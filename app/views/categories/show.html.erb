@@ -64,7 +64,7 @@
                 controller: "switch", action: "switch#patch", "switch-url" => settings_path,
                 "switch-patch-data" => "include_recurring=#{!current_user.include_recurring}&redirect_url=#{category_path(@category, month: @month)}"
               } %>
-        <label for="recurring_switch">Include Recurring Transactions in Chart Data</label>
+        <label for="recurring_switch">Include Recurring Transactions</label>
       </div>
     </div>
 

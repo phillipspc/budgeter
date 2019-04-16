@@ -8,7 +8,7 @@ class Transaction < ApplicationRecord
   validates_uniqueness_of :plaid_transaction_id, scope: :user_id, if: :plaid_transaction_id
   validates_inclusion_of :recurring, in: [false], if: :imported?
 
-  scope :by_month, -> (month) { where(date: month.to_datetime..month.to_datetime.end_of_month) }
+  scope :by_month, -> (month) { where(date: month.to_date..month.to_date.end_of_month) }
   scope :recurring, -> { where(recurring: true) }
 
   def imported?
