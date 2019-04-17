@@ -1,0 +1,5 @@
+peter_item:
+  user: peter
+  item_id: "ABCDEFGH"
+  access_token: "IJKLMNOP"
+  name: "Chase"

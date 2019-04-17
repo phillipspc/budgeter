@@ -1,0 +1,7 @@
+current_month:
+  plaid_item_id: "ABCDEFGH"
+  month: <%= Time.current.strftime("%B %Y") %>
+
+last_month:
+  plaid_item_id: "ABCDEFGH"
+  month: <%= (Time.current.prev_month).strftime("%B %Y") %>

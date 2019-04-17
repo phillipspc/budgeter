@@ -13,7 +13,9 @@ class PlaidImporterService
     result = ActiveSupport::HashWithIndifferentAccess.new
 
     items.each do |item|
-      create_or_update_import(item) if force_update || needs_import?(item)
+      import = item.import_for_month(month)
+
+      create_or_update_import(item) if force_update || import.blank? || import.needs_update?
       result[item.name] = { transactions: transactions_for(item) }.
         merge(imported_at: item.import_for_month(month).updated_at)
     end
@@ -34,21 +36,6 @@ class PlaidImporterService
       data = client.transactions.get(item.access_token, beginning_of_month, end_of_month)
       import = item.plaid_imports.find_or_initialize_by(month: month)
       import.update_attributes(data: data["transactions"])
-    end
-
-    def needs_import?(item)
-      item.import_for_month(month).blank? || viewing_current_month_and_import_outdated?(item) ||
-        viewing_previous_month_and_import_outdated?(item)
-    end
-
-    def viewing_current_month_and_import_outdated?(item)
-      (Time.current.strftime("%B %Y") == month) &&
-        (Time.current - item.import_for_month(month).updated_at) > 24.hours
-    end
-
-    def viewing_previous_month_and_import_outdated?(item)
-      (Time.current.strftime("%B %Y") != month) &&
-        (month.to_time.end_of_month > item.import_for_month(month).updated_at)
     end
 
     def beginning_of_month
