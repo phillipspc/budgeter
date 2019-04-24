@@ -54,7 +54,7 @@ class PlaidImporterService
         next if transaction["pending"]
 
         transaction["account_name"] = account_ids_and_names[transaction["account_id"]]
-        transaction["hierarchy"] = transaction["category"].join(", ")
+        transaction["hierarchy"] = transaction["category"]&.join(", ")
         transaction["imported"] = imported_transaction_ids.include?(transaction["transaction_id"])
         transaction["ignored"] = ignored_transaction_ids.include?(transaction["transaction_id"])
 
