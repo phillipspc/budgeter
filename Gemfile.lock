@@ -197,6 +197,8 @@ GEM
     sendinblue (2.4)
       httparty
       json
+    sentry-raven (2.9.0)
+      faraday (>= 0.7.6, < 1.0)
     spring (2.0.2)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -257,6 +259,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   selenium-webdriver
   sendinblue
+  sentry-raven
   spring
   spring-watcher-listen (~> 2.0.0)
   turbolinks (~> 5)
