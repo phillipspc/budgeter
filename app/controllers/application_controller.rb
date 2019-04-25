@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
     @manager = current_user.is_manager? ? current_user : current_user.manager
     set_raven_context
+    raise "HEYO" if current_user.email == "phillipspc@gmail.com"
   end
 
   def confirm_manager
