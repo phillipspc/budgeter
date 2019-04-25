@@ -22,7 +22,7 @@
           <td>
             <%= link_to transaction["hierarchy"], new_or_edit_plaid_categories_path(
                 hierarchy: transaction["hierarchy"], redirect_url: plaid_transactions_path(month: @month)
-              ), remote: true %>
+              ), remote: true if transaction["hierarchy"].present? %>
           </td>
           <td><%= transaction["date"] %></td>
           <td><%= number_to_currency transaction["amount"] %></td>
