@@ -40,7 +40,11 @@ gem 'devise'
 gem 'devise_invitable'
 gem 'plaid'
 gem 'sendinblue'
-gem "sentry-raven"
+gem 'sentry-raven'
+gem 'rack-mini-profiler'
+gem 'flamegraph'
+gem 'stackprof'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
