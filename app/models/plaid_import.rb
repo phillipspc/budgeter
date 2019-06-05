@@ -1,12 +1,13 @@
 class PlaidImport < ApplicationRecord
   belongs_to :plaid_item, primary_key: :item_id
 
-  def needs_update?
+  # use a different set of logic for determining if an update is needed when performing a scheduled check
+  def needs_update?(scheduled = false)
     case
     when for_current_month?
-      not_updated_today?
+      scheduled ? not_updated_in_last?(3.days) : not_updated_in_last?(24.hours)
     when for_previous_month?
-      not_updated_today? && updated_less_than_a_week_after_months_end?
+      (scheduled ? not_updated_in_last?(3.days) : not_updated_in_last?(24.hours)) && updated_less_than_a_week_after_months_end?
     else
       # shouldn't get here, but we never need to update a future month's import
       false
@@ -23,6 +24,10 @@ class PlaidImport < ApplicationRecord
     plaid_item.user.ignored_transactions.where(plaid_transaction_id: data.map { |el| el["transaction_id"] })
   end
 
+  def pending_count
+    data.size - transactions.size - ignored_transactions.size
+  end
+
   private
 
     def for_current_month?
@@ -33,8 +38,8 @@ class PlaidImport < ApplicationRecord
       month.to_datetime < Time.current.beginning_of_month
     end
 
-    def not_updated_today?
-      Time.current - updated_at > 24.hours
+    def not_updated_in_last?(time)
+      Time.current - updated_at > time
     end
 
     # used when checking imports for previous months. we should continue to update that import for a

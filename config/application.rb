@@ -17,5 +17,6 @@ module Budgeter
     # the framework and any gems in your application.
 
     config.filter_parameters += [:password, :password_confirmation]
+    config.time_zone = 'Eastern Time (US & Canada)'
   end
 end
