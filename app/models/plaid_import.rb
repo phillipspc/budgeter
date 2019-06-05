@@ -13,6 +13,16 @@ class PlaidImport < ApplicationRecord
     end
   end
 
+  # not the items/transactions in the plaid import itself, but imported (into the app) transactions
+  def transactions
+    plaid_item.user.transactions.where(plaid_transaction_id: data.map { |el| el["transaction_id"] })
+  end
+
+  # items/transactions in the plaid import that have been ignored
+  def ignored_transactions
+    plaid_item.user.ignored_transactions.where(plaid_transaction_id: data.map { |el| el["transaction_id"] })
+  end
+
   private
 
     def for_current_month?

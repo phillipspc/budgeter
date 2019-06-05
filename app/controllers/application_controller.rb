@@ -5,9 +5,9 @@ class ApplicationController < ActionController::Base
 
     @manager = current_user.is_manager? ? current_user : current_user.manager
     set_raven_context
-    if current_user.email == Rails.application.credentials[Rails.env.to_sym][:admin_email]
-      Rack::MiniProfiler.authorize_request
-    end
+    # if current_user.email == Rails.application.credentials[Rails.env.to_sym][:admin_email]
+    #   Rack::MiniProfiler.authorize_request
+    # end
   end
 
   def confirm_manager
