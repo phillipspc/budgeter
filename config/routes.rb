@@ -29,6 +29,4 @@ Rails.application.routes.draw do
     end
   end
   resources :ignored_transactions, only: [:create, :destroy]
-
-  get "/error_test", to: "error_test#show"
 end
