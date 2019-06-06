@@ -16,6 +16,8 @@ class User < ApplicationRecord
 
   after_create :send_new_user_email
 
+  scope :manager, -> { where('invited_by_id IS NULL') }
+
   def is_manager?
     manager.nil?
   end

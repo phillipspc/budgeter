@@ -1,8 +1,25 @@
 class PlaidImport < ApplicationRecord
   belongs_to :plaid_item, primary_key: :item_id
+  has_one :user, through: :plaid_item
+
+  scope :stale, -> (month:, scheduled: false) do
+    if Time.zone.parse(month) == Time.current.beginning_of_month
+      if scheduled
+        where("month = ? AND updated_at < ?", month, 3.days.ago)
+      else
+        where("month = ? AND updated_at < ?", month, 1.day.ago)
+      end
+    elsif Time.zone.parse(month) < Time.current.beginning_of_month
+      if scheduled
+        where("month = ? AND updated_at < ? AND updated_at < ?", month, 3.days.ago, Time.zone.parse(month).end_of_month + 1.week)
+      else
+        where("month = ? AND updated_at < ? AND updated_at < ?", month, 1.day.ago, Time.zone.parse(month).end_of_month + 1.week)
+      end
+    end
+  end
 
   # use a different set of logic for determining if an update is needed when performing a scheduled check
-  def needs_update?(scheduled = false)
+  def needs_update?(scheduled: false)
     case
     when for_current_month?
       scheduled ? not_updated_in_last?(3.days) : not_updated_in_last?(24.hours)
@@ -45,6 +62,6 @@ class PlaidImport < ApplicationRecord
     # used when checking imports for previous months. we should continue to update that import for a
     # full week after the end of the month to ensure no pending transactions are missed
     def updated_less_than_a_week_after_months_end?
-      updated_at < month.to_datetime.end_of_month + 1.week
+      updated_at < Time.zone.parse(month).end_of_month + 1.week
     end
 end
