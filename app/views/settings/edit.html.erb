@@ -2,6 +2,26 @@
   <div class="container">
 
     <div class="box">
+      <% if @manager.has_plaid_access? %>
+        <h1 class="title is-clearfix">
+          Notifications
+          <div class="field p-sm is-pulled-right">
+            <%= content_tag :input, nil, name: "notifications_switch", id: "notifications_switch", type: "checkbox",
+                  class: "switch is-rtl", checked: current_user.notifications_enabled ? "checked" : nil,
+                  data: {
+                    controller: "switch", action: "switch#patch", "switch-url" => settings_path,
+                    "switch-patch-data" => "notifications_enabled=#{!current_user.notifications_enabled}&redirect_url=#{edit_settings_path}"
+                  } %>
+            <label for="notifications_switch">Send Notifications</label>
+          </div>
+        </h1>
+        <p>
+          If notifications are enabled, you'll get a reminder email if you've had transactions waiting to be
+          imported for more than three days. We'll also check on last month's import to make sure you
+          haven't missed anything.
+        </p>
+        <hr>
+      <% end %>
       <h1 class="title">
         Users
         <%= link_to new_user_invitation_path, remote: true,

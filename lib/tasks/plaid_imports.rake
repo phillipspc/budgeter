@@ -19,12 +19,16 @@ namespace :plaid_imports do
 
     # refresh these imports
     this_month_stale.map(&:user).uniq.each do |user|
-      users_to_notify << user
+      group_users_with_notifications = user.group_users.notifications_enabled
+      next unless group_users_with_notifications
+      users_to_notify += group_users_with_notifications
       PlaidImporterService.new(month: month, user: user).run(scheduled: true)
     end
 
     last_month_stale.map(&:user).uniq.each do |user|
-      users_to_notify << user
+      group_users_with_notifications = user.group_users.notifications_enabled
+      next unless group_users_with_notifications
+      users_to_notify += group_users_with_notifications
       PlaidImporterService.new(month: last_month, user: user).run(scheduled: true)
     end
 
