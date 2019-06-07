@@ -20,88 +20,92 @@
           imported for more than three days. We'll also check on last month's import to make sure you
           haven't missed anything.
         </p>
+      <% end %>
+
+      <% if current_user.is_manager? %>
         <hr>
-      <% end %>
-      <h1 class="title">
-        Users
-        <%= link_to new_user_invitation_path, remote: true,
-              class: "button is-primary is-pulled-right" do %>
-          <span class="icon">
-            <i class="fas fa-plus"></i>
-          </span>
-          <span>Invite User</span>
-        <% end %>
-      </h1>
+        <h1 class="title">
+          Users
+          <%= link_to new_user_invitation_path, remote: true,
+                class: "button is-primary is-pulled-right" do %>
+            <span class="icon">
+              <i class="fas fa-plus"></i>
+            </span>
+            <span>Invite User</span>
+          <% end %>
+        </h1>
 
-      <% if @users.any? %>
-        <table class="table is-fullwidth is-responsive">
-          <thead>
-            <tr>
-              <th>Email</th>
-              <th class="visible-tablet-portrait-up">Date Invited</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <% @users.each do |user| %>
+        <% if @users.any? %>
+          <table class="table is-fullwidth is-responsive">
+            <thead>
               <tr>
-                <td><%= user.email %></td>
-                <td class="visible-tablet-portrait-up"><%= user.invitation_sent_at.to_date %></td>
-                <td>
-                  <%= user.invitation_accepted? ? "Accepted" : "Pending" %>
-                </td>
-                <td>
-                  <% unless user.invitation_accepted? %>
-                    <%= link_to user_invitation_path("user[email]" => user.email), method: :post,
-                          remote: true, class: "visible-tablet-portrait-up button is-link is-small",
-                          data: { controller: "link", action: "link#confirm",
-                                  "link-confirm-message" => "Are you sure you wish to resend the email invitation?" } do %>
-                      <span class="icon">
-                        <i class="far fa-paper-plane"></i>
-                      </span>
-                      <span>Resend</span>
-                    <% end %>
-
-                    <%= link_to user_invitation_path("user[email]" => user.email), method: :post,
-                          remote: true, class: "visible-phone-only",
-                          data: { controller: "link", action: "link#confirm",
-                                  "link-confirm-message" => "Are you sure you wish to resend the email invitation?" } do %>
-                      <span class="icon">
-                        <i class="far fa-paper-plane"></i>
-                      </span>
-                    <% end %>
-                  <% end %>
-
-                  <%= link_to user_path(user), method: :delete, remote: true,
-                        class: "is-link visible-tablet-portrait-up button is-small",
-                        data: { controller: "link", action: "link#confirm",
-                                "link-confirm-message" => "Are you sure you wish to delete this User?" } do %>
-                    <span class="icon">
-                      <i class="far fa-trash-alt"></i>
-                    </span>
-                    <span>Delete</span>
-                  <% end %>
-
-                  <%= link_to user_path(user), method: :delete, remote: true,
-                        class: "is-link visible-phone-only",
-                        data: { controller: "link", action: "link#confirm",
-                                "link-confirm-message" => "Are you sure you wish to delete this User?" } do %>
-                    <span class="icon">
-                      <i class="far fa-trash-alt"></i>
-                    </span>
-                  <% end %>
-
-                </td>
+                <th>Email</th>
+                <th class="visible-tablet-portrait-up">Date Invited</th>
+                <th>Status</th>
+                <th>Actions</th>
               </tr>
-            <% end %>
-          </tbody>
+            </thead>
 
-        </table>
-      <% else %>
-        <span>You have not yet invited anyone to join your group.</span>
+            <tbody>
+              <% @users.each do |user| %>
+                <tr>
+                  <td><%= user.email %></td>
+                  <td class="visible-tablet-portrait-up"><%= user.invitation_sent_at.to_date %></td>
+                  <td>
+                    <%= user.invitation_accepted? ? "Accepted" : "Pending" %>
+                  </td>
+                  <td>
+                    <% unless user.invitation_accepted? %>
+                      <%= link_to user_invitation_path("user[email]" => user.email), method: :post,
+                            remote: true, class: "visible-tablet-portrait-up button is-link is-small",
+                            data: { controller: "link", action: "link#confirm",
+                                    "link-confirm-message" => "Are you sure you wish to resend the email invitation?" } do %>
+                        <span class="icon">
+                          <i class="far fa-paper-plane"></i>
+                        </span>
+                        <span>Resend</span>
+                      <% end %>
+
+                      <%= link_to user_invitation_path("user[email]" => user.email), method: :post,
+                            remote: true, class: "visible-phone-only",
+                            data: { controller: "link", action: "link#confirm",
+                                    "link-confirm-message" => "Are you sure you wish to resend the email invitation?" } do %>
+                        <span class="icon">
+                          <i class="far fa-paper-plane"></i>
+                        </span>
+                      <% end %>
+                    <% end %>
+
+                    <%= link_to user_path(user), method: :delete, remote: true,
+                          class: "is-link visible-tablet-portrait-up button is-small",
+                          data: { controller: "link", action: "link#confirm",
+                                  "link-confirm-message" => "Are you sure you wish to delete this User?" } do %>
+                      <span class="icon">
+                        <i class="far fa-trash-alt"></i>
+                      </span>
+                      <span>Delete</span>
+                    <% end %>
+
+                    <%= link_to user_path(user), method: :delete, remote: true,
+                          class: "is-link visible-phone-only",
+                          data: { controller: "link", action: "link#confirm",
+                                  "link-confirm-message" => "Are you sure you wish to delete this User?" } do %>
+                      <span class="icon">
+                        <i class="far fa-trash-alt"></i>
+                      </span>
+                    <% end %>
+
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+
+          </table>
+        <% else %>
+          <span>You have not yet invited anyone to join your group.</span>
+        <% end %>
       <% end %>
+
     </div>
 
   </div>

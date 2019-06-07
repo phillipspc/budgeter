@@ -25,7 +25,7 @@
           </a>
 
           <div class="navbar-dropdown">
-            <%= link_to "Settings", edit_settings_path, class: "navbar-item" if current_user.is_manager? %>
+            <%= link_to "Settings", edit_settings_path, class: "navbar-item" %>
             <%= link_to "Sign Out", destroy_user_session_path, method: :delete,
                   class: "navbar-item" %>
           </div>
