@@ -30,6 +30,7 @@ class PlaidImporterService
   private
 
     def build_client
+      # for admin only, use production Plaid client in development
       rails_env = user.email == Rails.application.credentials[Rails.env.to_sym][:admin_email] ? :production : Rails.env.to_sym
 
       Plaid::Client.new(env: Rails.application.credentials[rails_env][:plaid_env],
