@@ -1,5 +1,4 @@
 class CategoriesController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_category_and_confirm_ownership, only: [:edit, :update, :destroy]
   before_action :set_month, only: :show
 
