@@ -56,18 +56,6 @@ class PlaidImporterService
     end
 
     def transactions_for(item)
-      account_ids_and_names = item.account_ids_and_names
-
-      item.import_for_month(month).data.map do |transaction|
-        next unless account_ids_and_names.keys.include?(transaction["account_id"])
-        next if transaction["pending"]
-
-        transaction["account_name"] = account_ids_and_names[transaction["account_id"]]
-        transaction["hierarchy"] = transaction["category"]&.join(", ")
-        transaction["imported"] = imported_transaction_ids.include?(transaction["transaction_id"])
-        transaction["ignored"] = ignored_transaction_ids.include?(transaction["transaction_id"])
-
-        transaction
-      end.compact
+      item.import_for_month(month).transactions
     end
 end

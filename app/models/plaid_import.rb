@@ -31,18 +31,44 @@ class PlaidImport < ApplicationRecord
     end
   end
 
-  # not the items/transactions in the plaid import itself, but imported (into the app) transactions
+  # work through the raw data, filter out unwanted (pending) transactions. assign "imported" and
+  # "ignored" statuses as appropriate for use in view
   def transactions
-    plaid_item.user.transactions.where(plaid_transaction_id: data.map { |el| el["transaction_id"] })
+    @_transactions ||= begin
+      account_ids_and_names = plaid_item.account_ids_and_names
+
+      # we can't use `by month` for imported transactions, as its possible the date was changed to
+      # a different month
+      imported_transaction_ids = user.transactions.where("plaid_transaction_id IS NOT NULL").pluck(:plaid_transaction_id)
+      ignored_transaction_ids = user.ignored_transactions.by_month(month).pluck(:plaid_transaction_id)
+
+      data.map do |transaction|
+        next unless account_ids_and_names.keys.include?(transaction["account_id"])
+        next if transaction["pending"]
+
+        transaction["account_name"] = account_ids_and_names[transaction["account_id"]]
+        transaction["hierarchy"] = transaction["category"]&.join(", ")
+        transaction["imported"] = imported_transaction_ids.include?(transaction["transaction_id"])
+        transaction["ignored"] = ignored_transaction_ids.include?(transaction["transaction_id"])
+
+        transaction
+      end.compact
+    end
   end
 
-  # items/transactions in the plaid import that have been ignored
+  def imported_transactions
+    @_imported_transactions ||= plaid_item.user.transactions.
+                                  where(plaid_transaction_id: transactions.map { |t| t["transaction_id"] })
+  end
+
   def ignored_transactions
-    plaid_item.user.ignored_transactions.where(plaid_transaction_id: data.map { |el| el["transaction_id"] })
+    @_ignored_transactions ||= plaid_item.user.ignored_transactions.
+                                where(plaid_transaction_id: transactions.map { |t| t["transaction_id"] })
   end
 
+  # here pending means "awaiting action by user", ie. needing to be imported or ignored
   def pending_count
-    data.size - transactions.size - ignored_transactions.size
+    transactions.size - imported_transactions.size - ignored_transactions.size
   end
 
   private

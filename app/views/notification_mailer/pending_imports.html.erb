@@ -7,12 +7,12 @@
     <h1>Hey there</h1>
     <p>
       <% if @this_months_imports.any? %>
-        You have <%= @this_months_imports.map(&:pending_count) %> transactions waiting to be imported.
+        You have <%= @this_months_imports.map(&:pending_count).sum %> transactions waiting to be imported.
         You can find them <%= link_to "here", plaid_transactions_url %>.
       <% end %>
       <% if @previous_months_imports.any? %>
         <% intro = @this_months_imports.any? ? "Additionally, t" : "T" %>
-        <%= "#{intro}here are #{@previous_months_imports.map(&:pending_count)} pending transactions in" %>
+        <%= "#{intro}here are #{@previous_months_imports.map(&:pending_count).sum} pending transactions in" %>
         <%= link_to "last month's import", plaid_transactions_url(month: @previous_month) %>.
       <% end %>
 
