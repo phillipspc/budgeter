@@ -35,6 +35,10 @@ class User < ApplicationRecord
     plaid_items.any?
   end
 
+  def safe_manager
+    is_manager? ? self : manager
+  end
+
   private
 
     def send_new_user_email
