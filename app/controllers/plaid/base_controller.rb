@@ -10,7 +10,7 @@ class Plaid::BaseController < ApplicationController
 
     def set_client
       # for admin only, use production Plaid client in development
-      rails_env = user.email == Rails.application.credentials[Rails.env.to_sym][:admin_email] ? :production : Rails.env.to_sym
+      rails_env = current_user.email == Rails.application.credentials[Rails.env.to_sym][:admin_email] ? :production : Rails.env.to_sym
 
       @client = Plaid::Client.new(env: Rails.application.credentials[rails_env][:plaid_env],
                                   client_id: Rails.application.credentials[rails_env][:plaid_client_id],
