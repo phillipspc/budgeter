@@ -1,6 +1,4 @@
 class IgnoredTransactionsController < ApplicationController
-  before_action :authenticate_user!
-
   def create
     @plaid_transaction_id = params[:plaid_transaction_id]
     @manager.ignored_transactions.create(plaid_transaction_id: @plaid_transaction_id, date: params[:date])

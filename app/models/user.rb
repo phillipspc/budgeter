@@ -16,6 +16,9 @@ class User < ApplicationRecord
 
   after_create :send_new_user_email
 
+  scope :manager, -> { where('invited_by_id IS NULL') }
+  scope :notifications_enabled, -> { where(notifications_enabled: true) }
+
   def is_manager?
     manager.nil?
   end
@@ -30,6 +33,10 @@ class User < ApplicationRecord
 
   def has_linked_bank_account?
     plaid_items.any?
+  end
+
+  def safe_manager
+    is_manager? ? self : manager
   end
 
   private

@@ -1,5 +1,4 @@
 class SubCategoriesController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_month, only: :show
 
   def new

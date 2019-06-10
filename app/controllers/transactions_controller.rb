@@ -1,5 +1,4 @@
 class TransactionsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_month, only: :index
 
   def index
