@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { invitations: 'users/invitations' }
 
   authenticated :user do
-    root to: "transactions#index"
+    root to: "transactions#index", as: :authenticated_root
   end
 
   devise_scope :user do
