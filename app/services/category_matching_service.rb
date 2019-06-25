@@ -30,13 +30,19 @@ class CategoryMatchingService
     end
 
     def match_from_name
-      query = category_data.map { |category| "sub_categories.name ILIKE '%#{category}%'" }.join(" OR ")
+      query = [category_data.map { |category| "sub_categories.name ILIKE ?" }.join(" OR ")]
+      query << category_data.map { |category| "%#{category}%" }
+      query.flatten!
 
       self.matched_sub_category = user.sub_categories.where(query).first
 
       unless matched_sub_category
-        query = category_data.map { |category| "name ILIKE '%#{category}%'" }.join(" OR ")
+        query = category_data.map { |category| "name ILIKE '%#{remove_special_characters(category)}%'" }.join(" OR ")
         self.matched_category = user.categories.where(query).first
       end
+    end
+
+    def remove_special_characters(string)
+      string.gsub(/[^0-9A-Za-z]/, '')
     end
 end
