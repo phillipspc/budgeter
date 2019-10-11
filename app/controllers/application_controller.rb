@@ -2,7 +2,6 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :set_manager_and_raven_context
 
-
   def set_manager_and_raven_context
     if current_user
       @manager = current_user.is_manager? ? current_user : current_user.manager
@@ -24,5 +23,9 @@ class ApplicationController < ActionController::Base
 
   def set_month
     @month = params[:month] || Time.current.strftime("%B %Y")
+  end
+
+  def skip_turbolinks_preview
+    @skip_turbolinks_preview = true
   end
 end

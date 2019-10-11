@@ -1,5 +1,6 @@
 class SubCategoriesController < ApplicationController
   before_action :set_month, only: :show
+  before_action :skip_turbolinks_preview, only: :show
 
   def new
     @category = Category.find(params[:category_id])
