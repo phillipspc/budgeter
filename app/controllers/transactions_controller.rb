@@ -1,5 +1,6 @@
 class TransactionsController < ApplicationController
   before_action :set_month, only: :index
+  before_action :skip_turbolinks_preview, only: :index
 
   def index
     @transactions = @manager.transactions.includes(:user, :category, :sub_category).

@@ -1,6 +1,7 @@
 class CategoriesController < ApplicationController
   before_action :set_category_and_confirm_ownership, only: [:edit, :update, :destroy]
   before_action :set_month, only: :show
+  before_action :skip_turbolinks_preview, only: :show
 
   def index
     @categories = @manager.categories.includes(:sub_categories).order(:created_at)
